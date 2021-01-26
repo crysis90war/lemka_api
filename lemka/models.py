@@ -7,13 +7,10 @@ from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from lemka.manager import UserManager
-
-locale.setlocale(locale.LC_TIME,'')
-
 from lemka.utils import *
-from backend.utils import Utils
+from lemka_api.utils import Utils
 
-
+locale.setlocale(locale.LC_TIME, '')
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
                   'twitter': 'twitter', 'email': 'email'}
 
@@ -31,6 +28,7 @@ class Slug(models.Model):
 
     class Meta:
         abstract = True
+
 
 class Genre(models.Model):
     genre = models.CharField(max_length=255)
@@ -389,7 +387,8 @@ class Couleur(models.Model):
 class MercerieOption(models.Model):
     reference = models.CharField(max_length=255)
     taille = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
-    prix_u_ht = models.DecimalField(max_digits=10, decimal_places=3, validators=[MinValueValidator(0.0), MaxValueValidator(999999999.9)])
+    prix_u_ht = models.DecimalField(max_digits=10, decimal_places=3,
+                                    validators=[MinValueValidator(0.0), MaxValueValidator(999999999.9)])
     stock = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
 
     ref_mercerie = models.ForeignKey(Mercerie, on_delete=models.CASCADE)
@@ -533,7 +532,8 @@ class Devis(models.Model):
     est_soumis = models.BooleanField(default=False)
 
     ref_accompte = models.ForeignKey(AccompteDemande, on_delete=models.CASCADE, verbose_name='Accompte démandé')
-    ref_demande_devis = models.ForeignKey(DemandeDevis, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Demande de devis')
+    ref_demande_devis = models.ForeignKey(DemandeDevis, null=True, blank=True, on_delete=models.CASCADE,
+                                          verbose_name='Demande de devis')
 
     class Meta:
         ordering = ['-created_at']
@@ -658,7 +658,8 @@ class RendezVous(models.Model):
     est_annule = models.BooleanField(default=0)
 
     ref_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Utilisateur')
-    ref_type_service = models.ForeignKey(TypeService, null=False, blank=False, on_delete=models.CASCADE, verbose_name='Raison')
+    ref_type_service = models.ForeignKey(TypeService, null=False, blank=False, on_delete=models.CASCADE,
+                                         verbose_name='Raison')
 
     ref_devis = models.ManyToManyField(Devis, blank=True, related_name='devis')
 

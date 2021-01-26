@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from authentication.serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer
-from backend.utils import Utils
+from lemka_api.utils import Utils
 import jwt
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
