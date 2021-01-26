@@ -1,0 +1,1 @@
+[{"model": "lemka.ville", "pk": 2, "fields": {"ref_pays": 1, "ville": "Bruxelles", "code_postale": "1000"}}, {"model": "lemka.ville", "pk": 3, "fields": {"ref_pays": 1, "ville": "Lembeek", "code_postale": "1502"}}]

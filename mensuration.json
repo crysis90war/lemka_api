@@ -1,0 +1,156 @@
+[
+  {
+    "model": "lemka.mensuration",
+    "pk": 1,
+    "fields": {
+      "nom": "Hauteur"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 2,
+    "fields": {
+      "nom": "Tour de cou"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 3,
+    "fields": {
+      "nom": "Épaules à épaules"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 4,
+    "fields": {
+      "nom": "Tour de poitrine"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 5,
+    "fields": {
+      "nom": "Tour sous poitrine (femme)"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 6,
+    "fields": {
+      "nom": "Tour de taille"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 7,
+    "fields": {
+      "nom": "Longueur dos"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 8,
+    "fields": {
+      "nom": "Épaule au poignet"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 9,
+    "fields": {
+      "nom": "Épaule au coude"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 10,
+    "fields": {
+      "nom": "Poignet au coude"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 11,
+    "fields": {
+      "nom": "Biceps (tour)"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 12,
+    "fields": {
+      "nom": "Avant bras (tour)"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 13,
+    "fields": {
+      "nom": "Tour de poignet"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 14,
+    "fields": {
+      "nom": "Taille à la cheville"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 15,
+    "fields": {
+      "nom": "Tour de hanches"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 16,
+    "fields": {
+      "nom": "Tour de cuisse"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 17,
+    "fields": {
+      "nom": "Genoux (tour)"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 18,
+    "fields": {
+      "nom": "Mollet (tour)"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 19,
+    "fields": {
+      "nom": "Entrejambre à cheville"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 20,
+    "fields": {
+      "nom": "Genoux à cheville"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 21,
+    "fields": {
+      "nom": "Tour de cheville"
+    }
+  },
+  {
+    "model": "lemka.mensuration",
+    "pk": 22,
+    "fields": {
+      "nom": "Cou jusqu'à cheville"
+    }
+  }
+]

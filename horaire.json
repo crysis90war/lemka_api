@@ -1,0 +1,100 @@
+[
+  {
+    "model": "lemka.horaire",
+    "pk": 1,
+    "fields": {
+      "jour": "Lundi",
+      "jour_semaine": 0,
+      "heure_ouverture": "10:00:00",
+      "pause_debut": "12:00:00",
+      "pause_fin": "13:00:00",
+      "heure_fermeture": "18:00:00",
+      "sur_rdv": true,
+      "est_ferme": false
+    }
+  },
+  {
+    "model": "lemka.horaire",
+    "pk": 2,
+    "fields": {
+      "jour": "Mardi",
+      "jour_semaine": 1,
+      "heure_ouverture": "10:00:00",
+      "pause_debut": "12:00:00",
+      "pause_fin": "13:00:00",
+      "heure_fermeture": "18:00:00",
+      "sur_rdv": true,
+      "est_ferme": false
+    }
+  },
+  {
+    "model": "lemka.horaire",
+    "pk": 3,
+    "fields": {
+      "jour": "Mercredi",
+      "jour_semaine": 2,
+      "heure_ouverture": "10:00:00",
+      "pause_debut": "12:00:00",
+      "pause_fin": "13:00:00",
+      "heure_fermeture": "18:00:00",
+      "sur_rdv": true,
+      "est_ferme": false
+    }
+  },
+  {
+    "model": "lemka.horaire",
+    "pk": 4,
+    "fields": {
+      "jour": "Jeudi",
+      "jour_semaine": 3,
+      "heure_ouverture": "10:00:00",
+      "pause_debut": "12:00:00",
+      "pause_fin": "13:00:00",
+      "heure_fermeture": "18:00:00",
+      "sur_rdv": true,
+      "est_ferme": false
+    }
+  },
+  {
+    "model": "lemka.horaire",
+    "pk": 5,
+    "fields": {
+      "jour": "Vendredi",
+      "jour_semaine": 4,
+      "heure_ouverture": "10:00:00",
+      "pause_debut": "12:00:00",
+      "pause_fin": "13:00:00",
+      "heure_fermeture": "18:00:00",
+      "sur_rdv": false,
+      "est_ferme": false
+    }
+  },
+  {
+    "model": "lemka.horaire",
+    "pk": 6,
+    "fields": {
+      "jour": "Samedi",
+      "jour_semaine": 5,
+      "heure_ouverture": "10:00:00",
+      "pause_debut": "12:00:00",
+      "pause_fin": "13:00:00",
+      "heure_fermeture": "18:00:00",
+      "sur_rdv": true,
+      "est_ferme": false
+    }
+  },
+  {
+    "model": "lemka.horaire",
+    "pk": 7,
+    "fields": {
+      "jour": "Dimanche",
+      "jour_semaine": 6,
+      "heure_ouverture": null,
+      "pause_debut": null,
+      "pause_fin": null,
+      "heure_fermeture": null,
+      "sur_rdv": false,
+      "est_ferme": true
+    }
+  }
+]
