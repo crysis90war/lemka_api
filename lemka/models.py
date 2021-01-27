@@ -251,8 +251,8 @@ class ArticleImage(models.Model):
     def save(self, *args, **kwargs):
         super(ArticleImage, self).save(*args, **kwargs)
 
-        if self.image:
-            Utils.resize_image(self.image.path, (720, 1008))
+        # if self.image:
+        #     Utils.resize_image(self.image.path, (720, 1008))
 
     def __str__(self):
         if self.is_main is True:
@@ -320,8 +320,8 @@ class MercerieOptionImage(models.Model):
     def save(self, *args, **kwargs):
         super(MercerieOptionImage, self).save(*args, **kwargs)
 
-        if self.image:
-            Utils.resize_image(self.image.path, (720, 720))
+        # if self.image:
+        #     Utils.resize_image(self.image.path, (720, 720))
 
     def __str__(self):
         reference = self.ref_mercerie_option.reference

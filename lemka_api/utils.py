@@ -1,7 +1,7 @@
 import random
 import string
 
-from PIL import Image
+# from PIL import Image
 from django.core.mail import EmailMessage
 
 ALPHANUMERIC_CHARS = string.ascii_lowercase + string.digits
@@ -23,9 +23,9 @@ class Utils:
         email = EmailMessage(subject=data['email_subject'], body=data['email_body'], to=[data['to_email']])
         email.send()
 
-    @staticmethod
-    def resize_image(img_path, img_size):
-        img = Image.open(img_path)
-        if img.width > img_size[0] or img.height > img_size[1]:
-            img.thumbnail(img_size)
-            img.save(img_path)
+    # @staticmethod
+    # def resize_image(img_path, img_size):
+    #     img = Image.open(img_path)
+    #     if img.width > img_size[0] or img.height > img_size[1]:
+    #         img.thumbnail(img_size)
+    #         img.save(img_path)
