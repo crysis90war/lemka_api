@@ -1,6 +1,5 @@
 import locale
 
-from PIL import Image
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -69,8 +68,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         self.username = self.username.lower()
         self.email = self.email.lower()
-        if self.image:
-            Utils.resize_image(self.image.path, (360, 360))
+        # if self.image:
+        #     Utils.resize_image(self.image.path, (360, 360))
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)
@@ -108,44 +107,6 @@ class Ville(models.Model):
         return f'{self.ville} {self.code_postale}'
 
 
-# class User(AbstractUser):
-#     email = models.EmailField('Email', unique=True, blank=False, null=False)
-#     username = models.CharField(max_length=255, unique=True, blank=False, null=False, verbose_name='Nom public')
-#     image = models.ImageField(default='default.jpg', upload_to=path_and_rename_user_image)
-#     first_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Prénom')
-#     last_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Nom')
-#     numero_tel = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Numéro tel.')
-#     is_confirmed = models.BooleanField(default=True)
-# 
-#     ref_genre = models.ForeignKey(Genre, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Sexe')
-# 
-#     USERNAME_FIELD = 'email'
-#     REQUIRED_FIELDS = ['username', ]
-# 
-#     objects = UserManager()
-# 
-#     def has_perm(self, perm, obj=None):
-#         # "Does the user have a specific permission?"
-#         # Simplest possible answer: Yes, always
-#         return True
-# 
-#     def has_module_perms(self, app_label):
-#         # "Does the user have permissions to view the app `app_label`?"
-#         # Simplest possible answer: Yes, always
-#         return True
-# 
-#     def save(self, *args, **kwargs):
-#         super(User, self).save(*args, **kwargs)
-# 
-#         self.username = self.username.lower()
-#         self.email = self.email.lower()
-#         if self.image:
-#             resize_image(self.image.path, (360, 360))
-# 
-#     def __str__(self):
-#         return f'{self.email}'
-
-
 class Adresse(models.Model):
     ref_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='adresses')
     ref_ville = models.ForeignKey(Ville, on_delete=models.CASCADE)
@@ -158,61 +119,6 @@ class Adresse(models.Model):
 
     def __str__(self):
         return f'{self.id} | {self.ref_user.email} {self.ref_ville.ville}'
-
-
-# class Mensuration(models.Model):
-#     ref_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mensurations')
-#     nom = models.CharField(max_length=255)
-#     is_main = models.BooleanField(default=False)
-#     hauteur = models.FloatField(default=0.0,
-#                                 validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     tour_de_cou_1 = models.FloatField(default=0.0,
-#                                       validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     epaules_a_epaules_2 = models.FloatField(default=0.0,
-#                                             validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     tour_de_poitrine_3 = models.FloatField(default=0.0,
-#                                            validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     tour_sous_poitrine_f_3a = models.FloatField(default=0.0,
-#                                                 validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     tour_de_taille_4 = models.FloatField(default=0.0,
-#                                          validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     longueur_dos_5 = models.FloatField(default=0.0,
-#                                        validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     epaule_au_poignet_6 = models.FloatField(default=0.0,
-#                                             validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     epaule_au_coude_7 = models.FloatField(default=0.0,
-#                                           validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     poignet_au_coude_8 = models.FloatField(default=0.0,
-#                                            validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     biceps_tour_9 = models.FloatField(default=0.0,
-#                                       validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     avant_bras_tour_10 = models.FloatField(default=0.0,
-#                                            validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     tour_de_poignet_11 = models.FloatField(default=0.0,
-#                                            validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     taille_a_la_cheville_12 = models.FloatField(default=0.0,
-#                                                 validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     tour_de_hanches_13 = models.FloatField(default=0.0,
-#                                            validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     tour_de_cuisse_14 = models.FloatField(default=0.0,
-#                                           validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     genoux_tour_15 = models.FloatField(default=0.0,
-#                                        validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     mollet_tour_16 = models.FloatField(default=0.0,
-#                                        validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     entrejambe_a_cheville_17 = models.FloatField(default=0.0,
-#                                                  validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     genoux_a_cheville_18 = models.FloatField(default=0.0,
-#                                              validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     tour_de_cheville_19 = models.FloatField(default=0.0,
-#                                             validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#     cou_jusqua_cheville_20 = models.FloatField(default=0.0,
-#                                                validators=[MinValueValidator(0.00), MaxValueValidator(250.00)])
-#
-#     def __str__(self):
-#         email = self.ref_user.email
-#         nom = self.nom
-#         return f'{email} - {nom}'
 
 
 class Mensuration(models.Model):

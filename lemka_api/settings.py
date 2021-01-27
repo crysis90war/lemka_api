@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import django_heroku
 from datetime import timedelta
 from pathlib import Path
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -142,11 +142,27 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+USE_S3 = os.environ.get('USE_S3', True)
 
-MEDIA_URL = '/media/'
+if USE_S3 and USE_S3 is True:
+    AWS_ACCESS_KEY_ID = 'AKIATBNTZDJFD5K2X76S'
+    AWS_SECRET_ACCESS_KEY = '9xIQ5gkMhixhfDQqdzIbXtcyxkK9OVlqW7mzNa'
+    AWS_STORAGE_BUCKET_NAME = 'lemka-assets'
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-MEDIA_ROOT = 'media'
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+
+    STATIC_URL = '/static/'
+
+    DEFAULT_FILE_STORAGE = 'lemka_api.storages.MediaStore'
+else:
+    STATIC_URL = '/static/'
+
+    MEDIA_URL = '/media/'
+
+    MEDIA_ROOT = 'media'
 
 # Custom User Model
 AUTH_USER_MODEL = 'lemka.User'
@@ -202,8 +218,8 @@ SIMPLE_JWT = {
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'shatsijev@gmail.com'
+EMAIL_HOST_PASSWORD = '90SAM22sung+'
 
 # Configure Django App for Heroku.
 django_heroku.settings(locals())
