@@ -162,11 +162,6 @@ if USE_S3 and USE_S3 == 'True':
 
     MEDIA_ROOT = 'media'
     MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIA_ROOT)
-
-    STATICFILES_FINDERS = (
-        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-        'django.contrib.staticfiles.finders.FileSystemFinder',
-    )
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     STATIC_URL = '/static/'
