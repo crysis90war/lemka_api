@@ -1,5 +1,6 @@
 import locale
 
+from PIL import Image
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -40,7 +41,7 @@ class Genre(models.Model):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True, verbose_name='Nom public')
     email = models.EmailField(max_length=255, unique=True, db_index=True)
-    image = models.ImageField(default='media/default.jpg', upload_to=path_and_rename_user_image)
+    image = models.ImageField(default='default.jpg', upload_to=path_and_rename_user_image)
     first_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Prénom')
     last_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Nom')
     numero_tel = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Numéro tel.')

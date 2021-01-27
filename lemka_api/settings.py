@@ -39,15 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'storages',
-
     'drf_yasg',
     'rest_framework',
     'corsheaders',
 
     'lemka.apps.LemkaConfig',
     'authentication.apps.AuthenticationConfig',
-    'utilisateur.apps.UtilisateurConfig'
+    'utilisateur.apps.UtilisateurConfig',
+    'administrateur.apps.AdministrateurConfig',
+
+    'storages',
 ]
 
 SWAGGER_SETTINGS = {
@@ -141,36 +142,11 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-USE_S3 = os.environ.get('USE_S3', False)
+STATIC_URL = '/static/'
 
-if USE_S3 and USE_S3 == 'True':
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+MEDIA_URL = '/media/'
 
-    AWS_S3_FILE_OWERWRITE = False
-    AWS_DEFAULT_ACL = None
-
-    STATIC_ROOT = 'static'
-    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATIC_ROOT)
-
-    MEDIA_ROOT = 'media'
-    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIA_ROOT)
-
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATIC_URL = '/static/'
-    STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'static'),
-    )
-
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'
-    MEDIAFILES_DIRS = (
-        os.path.join(BASE_DIR, 'media')
-    )
+MEDIA_ROOT = 'media'
 
 # Custom User Model
 AUTH_USER_MODEL = 'lemka.User'
