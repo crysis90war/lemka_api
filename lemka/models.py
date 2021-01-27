@@ -68,8 +68,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         self.username = self.username.lower()
         self.email = self.email.lower()
-        if self.image:
-            Utils.resize_image(self.image.path, (360, 360))
+        # if self.image:
+        #     Utils.resize_image(self.image.path, (360, 360))
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)
