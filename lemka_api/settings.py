@@ -154,7 +154,11 @@ if USE_S3 and USE_S3 == 'True':
 
     AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     STATIC_URL = '/static/'
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
 
     MEDIA_ROOT = 'media'
     MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIA_ROOT)
@@ -164,11 +168,17 @@ if USE_S3 and USE_S3 == 'True':
         'django.contrib.staticfiles.finders.FileSystemFinder',
     )
 else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     STATIC_URL = '/static/'
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
 
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = '/media/'
-
-    MEDIA_ROOT = 'media'
+    MEDIAFILES_DIRS = (
+        os.path.join(BASE_DIR, 'media')
+    )
 
 # Custom User Model
 AUTH_USER_MODEL = 'lemka.User'
