@@ -151,8 +151,8 @@ if USE_S3 and USE_S3 == 'True':
 
     STATIC_URL = '/static/'
 
-    MEDIAFILES_LOCATION = 'media'
-    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+    MEDIA_ROOT = 'media'
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIA_ROOT)
     DEFAULT_FILE_STORAGE = 'lemka_api.storage_backends.MediaStorage'
 else:
     STATIC_URL = '/static/'
