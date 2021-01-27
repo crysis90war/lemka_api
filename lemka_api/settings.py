@@ -152,9 +152,8 @@ if USE_S3 and USE_S3 == 'True':
     AWS_S3_FILE_OWERWRITE = False
     AWS_DEFAULT_ACL = None
 
-    AWS_LOCATION = 'static'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+    STATIC_ROOT = 'static'
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATIC_ROOT)
 
     MEDIA_ROOT = 'media'
     MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIA_ROOT)
