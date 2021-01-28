@@ -78,6 +78,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
         articles = Article.objects.all().order_by('-created_at')
         return articles
 
+
 class EntrepriseLemkaViewSet(CommonFields):
     queryset = EntrepriseLemka.objects.all()
     serializer_class = EntrepriseLemkaSerializer
@@ -127,6 +128,11 @@ class DetailViewSet(CommonFields):
 class TvaViewSet(CommonFields):
     queryset = Tva.objects.all()
     serializer_class = TvaSertializer
+
+
+class MensurationViewSet(CommonFields):
+    queryset = Mensuration.objects.all()
+    serializer_class = MensurationSerializer
 
 
 class DetailListAPIView(generics.ListAPIView):

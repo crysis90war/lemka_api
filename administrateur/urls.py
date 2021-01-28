@@ -22,7 +22,8 @@ router.register('categories', CategorieViewSet)
 router.register('merceries', MercerieViewSet)
 router.register('mercerieoption', MercerieCouleurViewSet)
 router.register('details', DetailViewSet)
-router.register('tva', TvaViewSet)
+router.register('tva', TvaViewSet),
+router.register('mensurations', MensurationViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
