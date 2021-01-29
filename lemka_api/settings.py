@@ -58,11 +58,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
-    'http://192.168.1.45:8080',
-)
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8080',
+#     'http://127.0.0.1:8080',
+#     'http://192.168.1.45:8080',
+# )
 
 ROOT_URLCONF = 'lemka_api.urls'
 
