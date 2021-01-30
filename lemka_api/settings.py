@@ -192,7 +192,7 @@ DEFAULT_FROM_EMAIL = 'Lemka - Atelier de couture'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 AWS_ACCESS_KEY_ID = 'AKIATBNTZDJFD5K2X76S'
-AWS_SECRET_ACCESS_KEY = '9xIQ5gkMhixhfDQqdzIbXtcyxkK9OVlqW7mzNa'
+AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'lemka-assets'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
