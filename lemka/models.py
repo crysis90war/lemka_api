@@ -40,7 +40,7 @@ class Genre(models.Model):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True, verbose_name='Nom public')
     email = models.EmailField(max_length=255, unique=True, db_index=True)
-    image = models.ImageField(default='default.jpg', upload_to='media/profile_pics')
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     first_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Prénom')
     last_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Nom')
     numero_tel = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Numéro tel.')
