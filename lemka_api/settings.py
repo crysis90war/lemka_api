@@ -180,8 +180,9 @@ django_heroku.settings(locals())
 # LOGIN_REDIRECT_URL = '/api/v1/'
 # LOGOUT_REDIRECT_URL = '/api/v1/'
 
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'shatsijev@gmail.com'
 EMAIL_HOST_PASSWORD = '90SAM22sung+'
