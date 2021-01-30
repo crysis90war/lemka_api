@@ -32,7 +32,7 @@ class RegisterView(generics.GenericAPIView):
         relative_link = reverse('email-verify')
 
         absurl = 'http://' + current_site + relative_link + '?token=' + str(token)
-        email_body = f'Bonjour {user.username}, <br>Cliquez sur le lien suivant pour activer votre compte ... <br><a href="{absurl}">Activer mon compte</a>'
+        email_body = f'Bonjour {user.username}, cliquez sur le lien suivant pour activer votre compte ... {absurl}'
         data = {
             'email_body': email_body,
             'to_email': user.email,
