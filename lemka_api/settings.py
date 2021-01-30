@@ -186,6 +186,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'shatsijev@gmail.com'
 EMAIL_HOST_PASSWORD = 'itfgfdzultduxkde'
+DEFAULT_FROM_EMAIL = 'default from email'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
