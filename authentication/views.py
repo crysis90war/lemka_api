@@ -24,23 +24,30 @@ class RegisterView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         user_data = serializer.data
-        user=User.objects.get(email=user_data['email'])
+        user = User.objects.get(email=user_data['email'])
 
         token = RefreshToken.for_user(user).access_token
 
         current_site = get_current_site(request).domain
         relative_link = reverse('email-verify')
 
-        absurl = 'http://'+current_site+relative_link+'?token='+str(token)
-        email_body = 'Bonjour '+user.username+' Cliquez sur le lien suivant pour activer votre compte ... \n'+absurl
-        data = { 'email_body': email_body, 'to_email': user.email, 'email_subject': "Vérification d'email" }
+        absurl = 'http://' + current_site + relative_link + '?token=' + str(token)
+        email_body = f'Bonjour {user.username}, <br>Cliquez sur le lien suivant pour activer votre compte ... <br><a href="{absurl}">Activer mon compte</a>'
+        data = {
+            'email_body': email_body,
+            'to_email': user.email,
+            'email_subject': "Vérification d'email"
+        }
         Utils.send_email(data)
         return Response(user_data, status=status.HTTP_201_CREATED)
 
 
 class VerifyEmailView(views.APIView):
     serializer_class = EmailVerificationSerializer
-    token_param_config = openapi.Parameter('token', in_=openapi.IN_QUERY, description='Description', type=openapi.TYPE_STRING)
+    token_param_config = openapi.Parameter('token',
+                                           in_=openapi.IN_QUERY,
+                                           description='Description',
+                                           type=openapi.TYPE_STRING)
     permission_classes = [AllowAny]
 
     # noinspection PyMethodMayBeStatic
