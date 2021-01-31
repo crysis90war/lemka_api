@@ -13,6 +13,12 @@ class GenreListAPIView(generics.ListAPIView):
     permission_classes = [IsAuthenticated, ]
 
 
+class GenreRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+    permission_classes = [IsAuthenticated, ]
+
+
 class VillesListAPIView(generics.ListAPIView):
     queryset = Ville.objects.all()
     serializer_class = VilleSerializer
