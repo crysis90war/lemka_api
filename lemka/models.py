@@ -40,7 +40,7 @@ class Genre(models.Model):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True, verbose_name='Nom public')
     email = models.EmailField(max_length=255, unique=True, db_index=True)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    image = models.ImageField(default='default.jpg', upload_to=path_and_rename_user_image) #Media/profile_pic/:username
     first_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Prénom')
     last_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Nom')
     numero_tel = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Numéro tel.')
@@ -256,9 +256,9 @@ class ArticleImage(models.Model):
 
     def __str__(self):
         if self.is_main is True:
-            return f'{self.ref_article.slug} Principale'
+            return f'Principale - {self.ref_article.slug}'
         else:
-            return f'{self.ref_article.slug} Secondaire'
+            return f'Secondaire - {self.ref_article.slug}'
 
 
 class Categorie(models.Model):
