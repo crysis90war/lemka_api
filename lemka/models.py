@@ -30,39 +30,6 @@ class Slug(models.Model):
         abstract = True
 
 
-class Pays(models.Model):
-    pays = models.CharField(max_length=255)
-    code = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f'{self.pays}'
-
-
-class Ville(models.Model):
-    ref_pays = models.ForeignKey(Pays, on_delete=models.CASCADE)
-    ville = models.CharField(max_length=255)
-    code_postale = models.CharField(max_length=255)
-
-    class Meta:
-        ordering = ['ville']
-
-    def __str__(self):
-        return f'{self.ville} {self.code_postale}'
-
-
-class Adresse(models.Model):
-    ref_ville = models.ForeignKey(Ville, on_delete=models.CASCADE)
-    rue = models.CharField(max_length=255)
-    numero = models.CharField(max_length=255)
-    boite = models.CharField(max_length=255, blank=True)
-
-    class Meta:
-        ordering = ['ref_ville__ref_pays__pays', 'ref_ville__ville']
-
-    def __str__(self):
-        return f'{self.id} | {self.ref_ville.ref_pays.pays} - {self.ref_ville.ville}'
-
-
 class Genre(models.Model):
     genre = models.CharField(max_length=255)
 
@@ -87,7 +54,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=False, default=AUTH_PROVIDERS.get('email'))
 
     ref_genre = models.ForeignKey(Genre, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Sexe')
-    ref_adresse = models.ForeignKey(Adresse, on_delete=models.CASCADE, blank=True, null=True, related_name='adresse')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -117,6 +83,41 @@ class AccompteDemande(models.Model):
     def __str__(self):
         taux = self.taux * 100
         return f'{taux} %'
+
+
+class Pays(models.Model):
+    pays = models.CharField(max_length=255)
+    code = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.pays}'
+
+
+class Ville(models.Model):
+    ref_pays = models.ForeignKey(Pays, on_delete=models.CASCADE)
+    ville = models.CharField(max_length=255)
+    code_postale = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ['ville']
+
+    def __str__(self):
+        return f'{self.ville} {self.code_postale}'
+
+
+class Adresse(models.Model):
+    rue = models.CharField(max_length=255)
+    numero = models.CharField(max_length=255)
+    boite = models.CharField(max_length=255, blank=True)
+
+    ref_ville = models.ForeignKey(Ville, on_delete=models.CASCADE)
+    ref_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='adresses')
+
+    class Meta:
+        ordering = ['ref_user__email', 'ref_ville__ville']
+
+    def __str__(self):
+        return f'{self.id} | {self.ref_user.email} {self.ref_ville.ville}'
 
 
 class Mensuration(models.Model):
