@@ -103,18 +103,16 @@ class AdresseListCreateAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         if self.request.user and not self.request.user.is_anonymous:
             user = self.request.user
-            queryset = Adresse.objects.filter()
+            queryset = Adresse.objects.filter(ref_user=user)
             return queryset
         else:
             raise ValidationError("Les utilisateurs anonymes ne disposent d'aucun droit !")
 
     def perform_create(self, serializer):
         request_user = self.request.user
-        adresses = Adresse.objects.filter(ref_user=request_user)
 
-        if adresses.count() >= 2:
-            raise ValidationError(
-                "Vous avez deux adresses enregistrés, Veuillez modifier ou supprimer pour ajour un nouveau !")
+        if Adresse.objects.all(ref_user=request_user).exists():
+            raise ValidationError("Adresse existe déja !")
 
         serializer.save(ref_user=request_user)
 
