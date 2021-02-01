@@ -319,7 +319,7 @@ class UserAdresseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Adresse
-        exclude = ['ref_user']
+        fields = '__all__'
 
 
 class CheckUserSerializer(serializers.ModelSerializer):
