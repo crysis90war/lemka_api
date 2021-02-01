@@ -96,17 +96,9 @@ class MensurationUserMensurationUpdateApiView(generics.RetrieveUpdateAPIView):
         )
 
 
-class AdresseListCreateAPIView(generics.ListCreateAPIView):
+class AdresseCreateAPIView(generics.CreateAPIView):
     serializer_class = UserAdresseSerializer
     permission_classes = [IsAuthenticated, ]
-
-    def get_queryset(self):
-        if self.request.user and not self.request.user.is_anonymous:
-            user = self.request.user
-            queryset = Adresse.objects.filter(ref_user=user)
-            return queryset
-        else:
-            raise ValidationError("Les utilisateurs anonymes ne disposent d'aucun droit !")
 
     def perform_create(self, serializer):
         request_user = self.request.user
