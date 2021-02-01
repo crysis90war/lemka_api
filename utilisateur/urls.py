@@ -16,7 +16,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('profil/', ProfilAPIView.as_view()),
     path('profil/genres/', GenreListAPIView.as_view()),
-    path('profil/genres/<int:pk>', GenreRetrieveAPIView.as_view()),
+    path('profil/genres/<int:pk>/', GenreRetrieveAPIView.as_view()),
 
     path('user_mensurations/', UserMensurationListCreateAPIView.as_view()),
     path('user_mensurations/<int:pk>/', UserMensurationRUDApiView.as_view()),
