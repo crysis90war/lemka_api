@@ -22,7 +22,7 @@ urlpatterns = [
     path('profil/villes/', VillesListAPIView.as_view()),  # GET CITIES
     path('profil/villes/<int:pk>/', VilleRetrieveAPIView.as_view()),  # GET CITIE by ID
 
-    path('profil/pays/', PaysRetrieveAPIView.as_view()),  # GET PAYS by ID
+    path('profil/pays/<int:pk>/', PaysRetrieveAPIView.as_view()),  # GET PAYS by ID
 
     path('profil/genres/', GenreListAPIView.as_view()),
     path('profil/genres/<int:pk>/', GenreRetrieveAPIView.as_view()),
