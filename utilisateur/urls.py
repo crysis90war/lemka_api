@@ -17,6 +17,7 @@ urlpatterns = [
     path('profil/', ProfilAPIView.as_view()),
     # PROFIL ADRESSE
     path('profil/adresse/villes/', VillesListAPIView.as_view()),  # GET CITIES
+    path('profil/adresse/villes/<int:pk>/', VilleRetrieveAPIView.as_view()),  # GET CITIE by ID
     path('profil/adresses/', AdresseCreateAPIView.as_view()),  # CREATE
     path('profil/adresse/', AdresseAPIView.as_view()),  # GET PUT PATCH DELETE
 
