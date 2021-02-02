@@ -15,12 +15,14 @@ router.register('horaire', HoraireViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('profil/', ProfilAPIView.as_view()),
-    # PROFIL ADRESSE
-    path('profil/villes/', VillesListAPIView.as_view()),  # GET CITIES
-    path('profil/villes/<int:pk>/', VilleRetrieveAPIView.as_view()),  # GET CITIE by ID
 
     path('profil/adresses/', AdresseCreateAPIView.as_view()),  # CREATE adresse
     path('profil/adresse/', AdresseAPIView.as_view()),  # GET PUT PATCH DELETE adresse
+
+    path('profil/villes/', VillesListAPIView.as_view()),  # GET CITIES
+    path('profil/villes/<int:pk>/', VilleRetrieveAPIView.as_view()),  # GET CITIE by ID
+
+    path('profil/pays/', PaysRetrieveAPIView.as_view()),  # GET PAYS by ID
 
     path('profil/genres/', GenreListAPIView.as_view()),
     path('profil/genres/<int:pk>/', GenreRetrieveAPIView.as_view()),
