@@ -52,11 +52,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AdresseSerializer(serializers.ModelSerializer):
-    ref_user = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Adresse
-        fields = "__all__"
+        exclude = ['ref_user']
 
 
 class TypeServiceSerializer(serializers.ModelSerializer):

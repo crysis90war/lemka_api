@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.exceptions import ValidationError
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
@@ -109,15 +110,16 @@ class AdresseCreateAPIView(generics.CreateAPIView):
         serializer.save(ref_user=request_user)
 
 
-class AdresseRUDApiView(generics.RetrieveUpdateDestroyAPIView):
+class AdresseAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Adresse.objects.all()
     serializer_class = AdresseSerializer
-    permission_classes = [UserRUDPermission, ]
 
-    def get_queryset(self):
-        if self.request.user and not self.request.user.is_anonymous:
-            queryset = Adresse.objects.filter(ref_user=self.request.user)
-            return queryset
-        else:
-            return ValidationError('Vous devez vous connecter')
-            # raise exceptions.AuthenticationFailed('Vous devez vous connecter')
+    def get_object(self):
+        adresse_object = get_object_or_404(Adresse, ref_user=self.request.user)
+        return adresse_object
+
+    def get(self, request, *args, **kwargs):
+        adresse = self.get_object()
+        serializer_context = {'request': request}
+        serializer = self.serializer_class(adresse, context=serializer_context)
+        return Response(serializer.data, status=status.HTTP_200_OK)

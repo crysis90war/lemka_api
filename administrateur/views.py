@@ -58,7 +58,8 @@ class CatalogueViewSet(viewsets.ModelViewSet):
         kwarg_section = serializer.validated_data['ref_section']
         kwarg_type_produit = serializer.validated_data['ref_type_produit']
 
-        if Catalogue.objects.filter(ref_rayon=kwarg_rayon, ref_section=kwarg_section, ref_type_produit=kwarg_type_produit).exists():
+        if Catalogue.objects.filter(ref_rayon=kwarg_rayon, ref_section=kwarg_section,
+                                    ref_type_produit=kwarg_type_produit).exists():
             raise ValidationError("Ce catalogue existe déja !")
         serializer.save(ref_rayon=kwarg_rayon, ref_section=kwarg_section, ref_type_produit=kwarg_type_produit)
 
@@ -197,7 +198,6 @@ class ArticleImageListCreateAPIView(generics.ListCreateAPIView):
         serializer.save(ref_article=article)
 
 
-
 class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ArticleImage.objects.all()
     serializer_class = ArticleImageSerializer
@@ -252,7 +252,7 @@ class CheckUserAPIView(APIView):
         elif self.request.user.is_staff:
             username = self.kwargs.get('username')
             if User.objects.filter(username=username).exists():
-                return Response(data={message:True})
+                return Response(data={message: True})
             else:
                 return Response(data={message: False})
         else:
