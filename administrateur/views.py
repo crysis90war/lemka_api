@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from lemka.permissions import IsAdminOrReadOnly
 from lemka.serializers import *
 
 
@@ -13,9 +14,10 @@ class CommonFields(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser, ]
 
 
-class PaysViewSet(CommonFields):
+class PaysViewSet(viewsets.ModelViewSet):
     queryset = Pays.objects.all().order_by("pays")
     serializer_class = PaysSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class VilleViewSet(CommonFields):
@@ -222,7 +224,7 @@ class MercerieCouleurImageListCreateAPIView(generics.ListCreateAPIView):
 class MercerieCouleurImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MercerieOptionImage.objects.all()
     serializer_class = MercerieCouleurImageSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser, ]
 
 
 class UserListAPIView(generics.ListAPIView):

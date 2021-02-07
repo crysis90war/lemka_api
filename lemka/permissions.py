@@ -1,4 +1,5 @@
 from rest_framework import permissions
+from rest_framework.permissions import SAFE_METHODS
 
 
 class UserGetPostPermission(permissions.BasePermission):
@@ -6,6 +7,7 @@ class UserGetPostPermission(permissions.BasePermission):
     Object-level permission to only allow updating his own profile
     """
     my_safe_method = ['GET', 'POST']
+
     # my_safe_method = ['GET', 'PUT']
     # my_safe_method = ['GET']
 
@@ -44,6 +46,7 @@ class OnlyOwner(permissions.BasePermission):
             return True
         return obj.ref_user == request.user
 
+
 # class IsAuthenticatedOwner(permissions.BasePermission):
 #     def has_permission(self, request, view):
 #         # work when your access /item/
@@ -59,3 +62,11 @@ class OnlyOwner(permissions.BasePermission):
 #         # work when your access /item/item_id/
 #         # Instance must have an attribute named `owner`.
 #         return obj.owner == request.user
+
+
+class IsAdminOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        else:
+            return request.user.is_staff
