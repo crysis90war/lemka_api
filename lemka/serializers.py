@@ -293,9 +293,9 @@ class ProfilSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     username = serializers.CharField(required=False)
     email = serializers.StringRelatedField(read_only=True)
-    last_login = serializers.StringRelatedField(read_only=True)
-    created_at = serializers.StringRelatedField(read_only=True)
-    updated_at = serializers.StringRelatedField(read_only=True)
+    last_login = serializers.SerializerMethodField(read_only=True)
+    created_at = serializers.SerializerMethodField(read_only=True)
+    updated_at = serializers.SerializerMethodField(read_only=True)
     is_verified = serializers.StringRelatedField(read_only=True)
     is_active = serializers.StringRelatedField(read_only=True)
     is_staff = serializers.StringRelatedField(read_only=True)
@@ -305,6 +305,18 @@ class ProfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ['id', 'groups', 'user_permissions', 'auth_provider', 'is_superuser']
+
+    # noinspection PyMethodMayBeStatic
+    def get_last_login(self, instance):
+        return instance.last_login.strftime("%B %d, %Y")
+
+    # noinspection PyMethodMayBeStatic
+    def get_created_at(self, instance):
+        return instance.created_at.strftime("%B %d, %Y")
+
+    # noinspection PyMethodMayBeStatic
+    def get_updated_at(self, instance):
+        return instance.updated_at.strftime("%B %d, %Y")
 
 
 class UserImageSerializer(serializers.ModelSerializer):
