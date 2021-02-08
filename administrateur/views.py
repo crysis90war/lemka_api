@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from administrateur.pagination import SmallSetPagination
 from lemka.permissions import IsAdminOrReadOnly
 from lemka.serializers import *
 
@@ -23,7 +24,8 @@ class PaysViewSet(viewsets.ModelViewSet):
 class VilleViewSet(viewsets.ModelViewSet):
     queryset = Ville.objects.all().order_by("ref_pays__pays", "code_postale")
     permission_classes = [IsAdminOrReadOnly, ]
-    serializer_class = VilleSerializer
+    serializer_class = VilleSerializer,
+    pagination_class = SmallSetPagination
 
 
 class GenreViewSet(CommonFields):
