@@ -23,12 +23,11 @@ class PaysViewSet(viewsets.ModelViewSet):
 
 class VilleViewSet(viewsets.ModelViewSet):
     queryset = Ville.objects.all().order_by("ref_pays__pays", "code_postale")
-    permission_classes = [IsAdminOrReadOnly, ]
-    serializer_class = VilleSerializer,
-    pagination_class = SmallSetPagination
+    serializer_class = VilleSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['ville', 'code_postale']
-
+    pagination_class = SmallSetPagination
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class GenreViewSet(CommonFields):
