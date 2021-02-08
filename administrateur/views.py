@@ -20,8 +20,9 @@ class PaysViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
-class VilleViewSet(CommonFields):
+class VilleViewSet(viewsets.ModelViewSet):
     queryset = Ville.objects.all().order_by("ref_pays__pays", "code_postale")
+    permission_classes = [IsAdminOrReadOnly, ]
     serializer_class = VilleSerializer
 
 
