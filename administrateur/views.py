@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, filters
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -26,6 +26,9 @@ class VilleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
     serializer_class = VilleSerializer,
     pagination_class = SmallSetPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['ville', 'code_postale']
+
 
 
 class GenreViewSet(CommonFields):
