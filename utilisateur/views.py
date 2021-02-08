@@ -20,24 +20,6 @@ class GenreRetrieveAPIView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated, ]
 
 
-class VillesListAPIView(generics.ListAPIView):
-    queryset = Ville.objects.all()
-    serializer_class = VilleSerializer
-    permission_classes = [IsAuthenticated, ]
-
-
-class VilleRetrieveAPIView(generics.RetrieveAPIView):
-    queryset = Ville.objects.all()
-    serializer_class = VilleSerializer
-    permission_classes = [IsAuthenticated, ]
-
-
-class PaysRetrieveAPIView(generics.RetrieveAPIView):
-    queryset = Pays.objects.all()
-    serializer_class = PaysSerializer
-    permission_classes = [IsAuthenticated, ]
-
-
 class ProfilAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = ProfilSerializer

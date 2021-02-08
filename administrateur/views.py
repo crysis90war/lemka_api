@@ -30,9 +30,10 @@ class VilleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
-class GenreViewSet(CommonFields):
+class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all().order_by("genre")
     serializer_class = GenreSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class TypeServiceViewSet(CommonFields):
