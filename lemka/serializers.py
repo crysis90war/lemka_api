@@ -333,6 +333,13 @@ class UserAdresseSerializer(serializers.ModelSerializer):
         exclude = ['ref_user', 'id']
 
 
+class UserCreateAdresseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Adresse
+        exclude = ['id']
+
+
 class CheckUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

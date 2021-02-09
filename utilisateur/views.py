@@ -98,7 +98,7 @@ class AdresseCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         request_user = self.request.user
 
-        if Adresse.objects.all(ref_user=request_user).exists():
+        if Adresse.objects.filter(ref_user=request_user).exists():
             raise ValidationError("Adresse existe déja !")
 
         serializer.save(ref_user=request_user)
