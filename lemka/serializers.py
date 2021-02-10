@@ -282,11 +282,12 @@ class UserMensurationSerializer(serializers.ModelSerializer):
 
 
 class MensurationUserMensurationSerializer(serializers.ModelSerializer):
-    ref_mensuration = serializers.StringRelatedField(read_only=True)
+    # ref_mensuration = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = MensurationUserMensuration
-        exclude = ['ref_user_mensuration']
+        fields = '__all__'
+        # exclude = ['ref_user_mensuration']
 
 
 class ProfilSerializer(serializers.ModelSerializer):
