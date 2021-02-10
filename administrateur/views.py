@@ -139,9 +139,10 @@ class TvaViewSet(CommonFields):
     serializer_class = TvaSertializer
 
 
-class MensurationViewSet(CommonFields):
+class MensurationViewSet(viewsets.ModelViewSet):
     queryset = Mensuration.objects.all()
     serializer_class = MensurationSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class DetailListAPIView(generics.ListAPIView):
