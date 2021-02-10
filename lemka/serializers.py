@@ -282,7 +282,7 @@ class UserMensurationSerializer(serializers.ModelSerializer):
 
 
 class MensurationUserMensurationSerializer(serializers.ModelSerializer):
-    ref_mensuration = serializers.StringRelatedField(read_only=True)
+    # ref_mensuration = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = MensurationUserMensuration
