@@ -36,6 +36,8 @@ class GenreSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     mensurations_count = serializers.SerializerMethodField(read_only=True)
     adresses_count = serializers.SerializerMethodField(read_only=True)
+    created_at = serializers.SerializerMethodField(read_only=True)
+    updated_at = serializers.SerializerMethodField(read_only=True)
     ref_genre = GenreSerializer
 
     class Meta:
@@ -49,6 +51,14 @@ class UserSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_adresses_count(self, instance):
         return instance.adresses.count()
+
+    # noinspection PyMethodMayBeStatic
+    def get_created_at(self, instance):
+        return instance.created_at.strftime("%d %b %Y")
+
+    # noinspection PyMethodMayBeStatic
+    def get_updated_at(self, instance):
+        return instance.updated_at.strftime("%d %b %Y")
 
 
 class AdresseSerializer(serializers.ModelSerializer):
