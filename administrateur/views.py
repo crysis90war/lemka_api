@@ -114,9 +114,10 @@ class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
-class EntrepriseLemkaViewSet(CommonFields):
+class EntrepriseLemkaViewSet(viewsets.ModelViewSet):
     queryset = EntrepriseLemka.objects.all()
     serializer_class = EntrepriseLemkaSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class UserViewSet(viewsets.ModelViewSet):
