@@ -88,6 +88,32 @@ class ArticleViewSet(viewsets.ModelViewSet):
         return articles
 
 
+class ArticleImageListCreateAPIView(generics.ListCreateAPIView):
+    queryset = ArticleImage.objects.all()
+    serializer_class = ArticleImageSerializer
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        """
+        Permet de récupérer les images pour un article spécifique par slug
+        :return: Retourne les images d'un article
+        """
+        kwarg_slug = self.kwargs.get("slug")
+        test = ArticleImage.objects.filter(ref_article__slug=kwarg_slug)
+        return test
+
+    def perform_create(self, serializer):
+        kwarg_slug = self.kwargs.get("slug")
+        article = get_object_or_404(Article, slug=kwarg_slug)
+        serializer.save(ref_article=article)
+
+
+class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ArticleImage.objects.all()
+    serializer_class = ArticleImageSerializer
+    permission_classes = [IsAdminUser]
+
+
 class EntrepriseLemkaViewSet(CommonFields):
     queryset = EntrepriseLemka.objects.all()
     serializer_class = EntrepriseLemkaSerializer
@@ -185,32 +211,6 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
             return obj
         except Exception as e:
             raise ValidationError(e)
-
-
-class ArticleImageListCreateAPIView(generics.ListCreateAPIView):
-    queryset = ArticleImage.objects.all()
-    serializer_class = ArticleImageSerializer
-    permission_classes = [IsAdminUser]
-
-    def get_queryset(self):
-        """
-        Permet de récupérer les images pour un article spécifique par slug
-        :return: Retourne les images d'un article
-        """
-        kwarg_slug = self.kwargs.get("slug")
-        test = ArticleImage.objects.filter(ref_article__slug=kwarg_slug)
-        return test
-
-    def perform_create(self, serializer):
-        kwarg_slug = self.kwargs.get("slug")
-        article = get_object_or_404(Article, slug=kwarg_slug)
-        serializer.save(ref_article=article)
-
-
-class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ArticleImage.objects.all()
-    serializer_class = ArticleImageSerializer
-    permission_classes = [IsAdminUser]
 
 
 class MercerieCouleurImageListCreateAPIView(generics.ListCreateAPIView):
