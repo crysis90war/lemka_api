@@ -91,7 +91,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 class ArticleImageListCreateAPIView(generics.ListCreateAPIView):
     queryset = ArticleImage.objects.all()
     serializer_class = ArticleImageSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminOrReadOnly, ]
 
     def get_queryset(self):
         """
@@ -111,7 +111,7 @@ class ArticleImageListCreateAPIView(generics.ListCreateAPIView):
 class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ArticleImage.objects.all()
     serializer_class = ArticleImageSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class EntrepriseLemkaViewSet(CommonFields):
