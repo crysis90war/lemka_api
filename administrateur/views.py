@@ -81,7 +81,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all().order_by("-created_at")
     lookup_field = 'slug'
     serializer_class = ArticleSerializer
-    permission_classes = [IsAuthenticated, IsAdminUser, ]
+    permission_classes = [IsAdminOrReadOnly, ]
 
     def get_queryset(self):
         articles = Article.objects.all().order_by('-created_at')
