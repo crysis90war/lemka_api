@@ -65,6 +65,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 #     'http://192.168.1.45:8080',
 # )
 
+# CSRF_COOKIE_SECURE = True
+
 ROOT_URLCONF = 'lemka_api.urls'
 
 TEMPLATES = [

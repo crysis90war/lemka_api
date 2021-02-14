@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics, filters
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -250,6 +250,17 @@ class UserRetrieveAPIView(generics.RetrieveUpdateAPIView):
         queryset = self.get_queryset()
         kwarg_username = self.kwargs.get("username")
         obj = get_object_or_404(queryset, username=kwarg_username)
+        return obj
+
+
+class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
+    queryset = Adresse.objects.all()
+    serializer_class = AdresseSerializer
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        kwarg_username = self.kwargs.get("username")
+        obj = get_object_or_404(queryset, ref_user__username=kwarg_username)
         return obj
 
 
