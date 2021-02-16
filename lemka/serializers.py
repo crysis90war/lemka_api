@@ -309,7 +309,7 @@ class ProfilSerializer(serializers.ModelSerializer):
     is_verified = serializers.StringRelatedField(read_only=True)
     is_active = serializers.StringRelatedField(read_only=True)
     is_staff = serializers.StringRelatedField(read_only=True)
-    image = serializers.ImageField(read_only=True)
+    image = serializers.ImageField()
     # ref_genre = GenreSerializer(many=False)
 
     class Meta:
