@@ -23,7 +23,7 @@ class GenreRetrieveAPIView(generics.RetrieveAPIView):
 class ProfilAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = ProfilSerializer
-    permission_classes = [IsAuthenticated, UserRUDPermission, ]
+    # permission_classes = [IsAuthenticated, UserRUDPermission, ]
 
     # parser_classes = (MultiPartParser, FormParser,)
 
