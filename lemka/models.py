@@ -10,8 +10,10 @@ from lemka.manager import UserManager
 from lemka.utils import *
 
 locale.setlocale(locale.LC_TIME, '')
-AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
-                  'twitter': 'twitter', 'email': 'email'}
+AUTH_PROVIDERS = {'facebook': 'facebook',
+                  'google': 'google',
+                  'twitter': 'twitter',
+                  'email': 'email'}
 
 
 class Genre(models.Model):

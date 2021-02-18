@@ -82,7 +82,7 @@ class TagViewSet(viewsets.ModelViewSet):
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.all().order_by("-created_at")
+    queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     lookup_field = 'slug'
     permission_classes = [IsAdminOrReadOnly, ]
