@@ -207,17 +207,21 @@ class TypeService(models.Model):
 
 
 class Tag(models.Model):
-    tag = models.CharField(max_length=255, unique=True)
-    tag_slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
+    tag = models.CharField(max_length=255, unique=True, null=False, blank=False)
 
     def __str__(self):
-        return f'{self.tag}'
+        return f'{self.id} {self.tag}'
 
 
-class Article(Timestamp, Slug):
+class Article(models.Model):
     titre = models.CharField(max_length=255)
     description = models.TextField()
+
+    slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
     est_active = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     ref_type_service = models.ForeignKey(TypeService, on_delete=models.CASCADE)
     ref_catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE, default=None)
@@ -225,19 +229,8 @@ class Article(Timestamp, Slug):
     ref_tag = models.ManyToManyField(Tag, blank=True, related_name='tags')
     likes = models.ManyToManyField(User, blank=True, related_name='likes')
 
-    class Meta:
-        ordering = ["-created_at"]
-
     def __str__(self):
-        service = self.ref_type_service.type_service
-        article = self.slug
-        created_at = self.created_at.strftime("%d %B %Y")
-        if self.likes.count() == 0 or self.likes.count() == 1:
-            likes_count = f'{self.likes.count()} like'
-        else:
-            likes_count = f'{self.likes.count()} likes'
-
-        return f'{created_at} | {service} - {article} ({likes_count})'
+        return f'{self.created_at} | {self.ref_type_service.type_service} - {self.titre})'
 
 
 class ArticleImage(models.Model):

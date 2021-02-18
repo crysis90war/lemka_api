@@ -48,15 +48,15 @@ def ajout_type_produit_slug(sender, instance, *args, **kwargs):
             instance.type_produit_slug = type_produit_slug
 
 
-@receiver(pre_save, sender=Tag)
-def ajout_tag_slug(sender, instance, *args, **kwargs):
-    if instance and not instance.tag_slug:
-        tag_slug = slugify(instance.tag)
-        if Tag.objects.filter(tag_slug=tag_slug).exists():
-            random_string = Utils.generate_random_string()
-            instance.tag_slug = tag_slug + "-" + random_string
-        else:
-            instance.tag_slug = tag_slug
+# @receiver(pre_save, sender=Tag)
+# def ajout_tag_slug(sender, instance, *args, **kwargs):
+#     if instance and not instance.tag_slug:
+#         tag_slug = slugify(instance.tag)
+#         if Tag.objects.filter(tag_slug=tag_slug).exists():
+#             random_string = Utils.generate_random_string()
+#             instance.tag_slug = tag_slug + "-" + random_string
+#         else:
+#             instance.tag_slug = tag_slug
 
 
 @receiver(pre_save, sender=DemandeDevis)

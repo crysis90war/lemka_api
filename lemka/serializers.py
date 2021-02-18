@@ -130,10 +130,6 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    ref_catalogue = CatalogueSerializer
-    ref_tag = TagSerializer
-    ref_type_service = TypeServiceSerializer
-    created_at = serializers.SerializerMethodField()
     slug = serializers.SlugField(read_only=True)
     likes_count = serializers.SerializerMethodField(read_only=True)
     utilisateur_a_like = serializers.SerializerMethodField()
@@ -142,10 +138,6 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         exclude = ['updated_at', 'likes']
-
-    # noinspection PyMethodMayBeStatic
-    def get_created_at(self, instance):
-        return instance.created_at.strftime("%d %b %Y")
 
     # noinspection PyMethodMayBeStatic
     def get_likes_count(self, instance):

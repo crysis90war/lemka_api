@@ -75,7 +75,10 @@ class CatalogueViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all().order_by("tag")
     serializer_class = TagSerializer
+    lookup_field = 'pk'
     permission_classes = [IsAdminOrReadOnly, ]
+    # filter_backends = [filters.SearchFilter]
+    # search_fields = ['tag']
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
