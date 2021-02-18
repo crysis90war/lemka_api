@@ -14,21 +14,6 @@ AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
                   'twitter': 'twitter', 'email': 'email'}
 
 
-class Timestamp(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
-class Slug(models.Model):
-    slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
-
-    class Meta:
-        abstract = True
-
-
 class Genre(models.Model):
     genre = models.CharField(max_length=255)
 
@@ -39,7 +24,7 @@ class Genre(models.Model):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True, verbose_name='Nom public')
     email = models.EmailField(max_length=255, unique=True, db_index=True)
-    image = models.ImageField(default='default.jpg', upload_to=path_and_rename_user_image) #Media/profile_pic/:username
+    image = models.ImageField(default='default.jpg', upload_to=path_and_rename_user_image)
     first_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Prénom')
     last_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Nom')
     numero_tel = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Numéro tel.')
