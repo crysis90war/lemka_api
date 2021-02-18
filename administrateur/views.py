@@ -72,9 +72,10 @@ class CatalogueViewSet(viewsets.ModelViewSet):
         serializer.save(ref_rayon=kwarg_rayon, ref_section=kwarg_section, ref_type_produit=kwarg_type_produit)
 
 
-class TagViewSet(CommonFields):
+class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all().order_by("tag")
     serializer_class = TagSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
@@ -126,9 +127,11 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class AccompteDemandeViewSet(CommonFields):
+class AccompteDemandeViewSet(viewsets.ModelViewSet):
     queryset = AccompteDemande.objects.all()
     serializer_class = AccompteDemandeSerializer
+    lookup_field = 'pk'
+    permission_classes = [IsAdminUser, ]
 
 
 class CouleurViewSet(CommonFields):
