@@ -230,7 +230,7 @@ class Article(models.Model):
     likes = models.ManyToManyField(User, blank=True, related_name='likes')
 
     def __str__(self):
-        return f'{self.created_at} | {self.ref_type_service.type_service} - {self.titre})'
+        return f'{self.titre})'
 
 
 class ArticleImage(models.Model):
