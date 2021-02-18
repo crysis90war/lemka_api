@@ -8,7 +8,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from lemka.manager import UserManager
 from lemka.utils import *
-from lemka_api.utils import Utils
 
 locale.setlocale(locale.LC_TIME, '')
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
