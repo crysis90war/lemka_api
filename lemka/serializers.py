@@ -75,7 +75,6 @@ class TypeServiceSerializer(serializers.ModelSerializer):
 
 
 class RayonSerializer(serializers.ModelSerializer):
-    # rayon_slug = serializers.SlugField(read_only=True)
 
     class Meta:
         model = Rayon
@@ -83,7 +82,6 @@ class RayonSerializer(serializers.ModelSerializer):
 
 
 class SectionSerializer(serializers.ModelSerializer):
-    # section_slug = serializers.SlugField(read_only=True)
 
     class Meta:
         model = Section
@@ -91,7 +89,6 @@ class SectionSerializer(serializers.ModelSerializer):
 
 
 class TypeProduitSerializer(serializers.ModelSerializer):
-    # type_produit_slug = serializers.SlugField(read_only=True)
 
     class Meta:
         model = TypeProduit
@@ -122,7 +119,6 @@ class CatalogueSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-    # tag_slug = serializers.SlugField(read_only=True)
 
     class Meta:
         model = Tag
@@ -158,6 +154,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     #     section = instance.ref_catalogue.ref_section.section
     #     type_produit = instance.ref_catalogue.ref_type_produit.type_produit
     #     return f'{rayon} - {section} - {type_produit}'
+
 
 class ArticleImageSerializer(serializers.ModelSerializer):
     article_slug = serializers.SerializerMethodField()

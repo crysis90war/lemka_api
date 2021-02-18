@@ -226,8 +226,8 @@ class MercerieCouleurImageListCreateAPIView(generics.ListCreateAPIView):
         return merceriescouleur
 
     def perform_create(self, serializer):
-        kwarg_slug = self.kwargs.get("pk")
-        mercerie = get_object_or_404(MercerieOption, id=kwarg_slug)
+        kwarg_pk = self.kwargs.get("pk")
+        mercerie = get_object_or_404(MercerieOption, id=kwarg_pk)
         serializer.save(ref_mercerie_couleur=mercerie)
 
 

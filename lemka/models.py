@@ -144,7 +144,6 @@ class MensurationUserMensuration(models.Model):
 
 class Rayon(models.Model):
     rayon = models.CharField(max_length=255, blank=False, null=False, unique=True)
-    rayon_slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
 
     def __str__(self):
         return f'{self.rayon}'
@@ -152,7 +151,6 @@ class Rayon(models.Model):
 
 class Section(models.Model):
     section = models.CharField(max_length=255, blank=False, null=False, unique=True)
-    section_slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
 
     class Meta:
         ordering = ['section']
@@ -163,7 +161,6 @@ class Section(models.Model):
 
 class TypeProduit(models.Model):
     type_produit = models.CharField(max_length=255, blank=False, null=False, unique=True)
-    type_produit_slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
 
     class Meta:
         ordering = ['type_produit']
@@ -242,14 +239,13 @@ class ArticleImage(models.Model):
 
 
 class Categorie(models.Model):
-    nom = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
+    nom = models.CharField(max_length=255, null=False, blank=True, unique=True)
 
     class Meta:
         ordering = ['nom']
 
     def __str__(self):
-        return f'{self.nom} - {self.slug}'
+        return f'{self.nom}'
 
 
 class Mercerie(models.Model):
