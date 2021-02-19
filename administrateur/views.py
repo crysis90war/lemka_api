@@ -77,8 +77,9 @@ class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
     lookup_field = 'pk'
     permission_classes = [IsAdminOrReadOnly, ]
-    # filter_backends = [filters.SearchFilter]
-    # search_fields = ['tag']
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['tag']
+    pagination_class = SmallSetPagination
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
