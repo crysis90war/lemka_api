@@ -82,7 +82,18 @@ class TagViewSet(viewsets.ModelViewSet):
     pagination_class = SmallSetPagination
 
 
-class ArticleViewSet(viewsets.ModelViewSet):
+class ArticleListAPIView(generics.ListAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleListSerializer
+
+
+class ArticleCreateAPIView(generics.CreateAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleCreateSerializer
+    permission_classes = [IsAdminUser, ]
+
+
+class ArticleRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     lookup_field = 'slug'

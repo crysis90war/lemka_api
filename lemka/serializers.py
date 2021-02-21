@@ -125,8 +125,36 @@ class TagSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ArticleListSerializer(serializers.ModelSerializer):
+    created_at = serializers.StringRelatedField(read_only=True)
+    likes_count = serializers.SerializerMethodField(read_only=True)
+    images_count = serializers.SerializerMethodField(read_only=True)
+    slug = serializers.SlugField(read_only=True)
+
+    class Meta:
+        model = Article
+        exclude = ['updated_at', 'likes', 'ref_tag']
+
+    # noinspection PyMethodMayBeStatic
+    def get_likes_count(self, instance):
+        return instance.likes.count()
+
+    # noinspection PyMethodMayBeStatic
+    def get_images_count(self, instance):
+        images = ArticleImage.objects.filter(ref_article=instance)
+        return images.count()
+
+
+class ArticleCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Article
+        exclude = ['created_at', 'updated_at', 'slug', 'likes']
+
+
 class ArticleSerializer(serializers.ModelSerializer):
     created_at = serializers.StringRelatedField(read_only=True)
+    updated_at = serializers.StringRelatedField(read_only=True)
     likes_count = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
     slug = serializers.SlugField(read_only=True)
@@ -134,7 +162,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        exclude = ['updated_at', 'likes']
+        fields = '__all__'
 
     # noinspection PyMethodMayBeStatic
     def get_likes_count(self, instance):

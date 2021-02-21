@@ -182,11 +182,11 @@ class Catalogue(models.Model):
 
 
 class TypeService(models.Model):
-    type_service = models.CharField(max_length=255)
-    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)])
+    type_service = models.CharField(max_length=255, unique=True, null=False, blank=False)
+    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False, null=False)
 
     def __str__(self):
-        return f'{self.type_service}'
+        return f'{self.type_service} - {self.duree_minute}'
 
 
 class Tag(models.Model):
