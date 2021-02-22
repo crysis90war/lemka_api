@@ -186,15 +186,10 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class ArticleImageSerializer(serializers.ModelSerializer):
-    article_slug = serializers.SerializerMethodField()
 
     class Meta:
         model = ArticleImage
-        fields = "__all__"
-
-    # noinspection PyMethodMayBeStatic
-    def get_article_slug(self, instance):
-        return instance.ref_article.slug
+        exclude = ['ref_article']
 
 
 class DemandeDevisSerializer(serializers.ModelSerializer):
