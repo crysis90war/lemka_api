@@ -44,6 +44,7 @@ def article_image_is_main(sender, instance, *args, **kwargs):
                     article_image.save()
         elif instance.is_main is False:
             article_true_count = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=True).count()
+            print(article_true_count)
             if not a_i_is_main_true and a_i_is_main_false:
                 article_image = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=False).first()
                 article_image.is_main = True
@@ -51,6 +52,7 @@ def article_image_is_main(sender, instance, *args, **kwargs):
             if not a_i_is_main_true and not a_i_is_main_false:
                 instance.is_main = True
                 instance.save()
+
 
 # @receiver(pre_save, sender=Rayon)
 # def ajout_rayon_slug(sender, instance, *args, **kwargs):
