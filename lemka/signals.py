@@ -18,7 +18,7 @@ def ajouter_slug_article(sender, instance, *args, **kwargs):
 @receiver(pre_save, sender=DemandeDevis)
 def ajout_numero_demande_devis(sender, instance, *args, **kwargs):
     if instance and not instance.numero_demande_devis:
-        date = datetime.datetime.now().strftime ("%Y%m%d")
+        date = datetime.datetime.now().strftime("%Y%m%d")
         numero_demande_devis = date + Utils.generate_random_numbers()
         instance.numero_demande_devis = numero_demande_devis
 
@@ -26,7 +26,7 @@ def ajout_numero_demande_devis(sender, instance, *args, **kwargs):
 @receiver(pre_save, sender=Devis)
 def ajout_numero_devis(sender, instance, *args, **kwargs):
     if instance and not instance.numero_devis:
-        date = datetime.datetime.now().strftime ("%Y%m%d")
+        date = datetime.datetime.now().strftime("%Y%m%d")
         numero_devis = date + Utils.generate_random_numbers()
         instance.numero_devis = numero_devis
 
@@ -34,8 +34,10 @@ def ajout_numero_devis(sender, instance, *args, **kwargs):
 @receiver(pre_save, sender=ArticleImage)
 def article_image_is_main(sender, instance, *args, **kwargs):
     if instance:
-        a_i_is_main_true = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=True).exists()
-        a_i_is_main_false = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=False).exists()
+        a_i_is_main_true = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug,
+                                                       is_main=True).exists()
+        a_i_is_main_false = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug,
+                                                        is_main=False).exists()
         if instance.is_main is True:
             if a_i_is_main_true:
                 article_images = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=True)
@@ -43,14 +45,21 @@ def article_image_is_main(sender, instance, *args, **kwargs):
                     article_image.is_main = False
                     article_image.save()
         elif instance.is_main is False:
+            article_true_count = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug,
+                                                             is_main=True).count()
             if not a_i_is_main_true and a_i_is_main_false:
-                article_image = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=False).first()
+                article_image = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug,
+                                                            is_main=False).first()
                 article_image.is_main = True
                 article_image.save()
-            elif not a_i_is_main_true and not a_i_is_main_false:
+            if not a_i_is_main_true and not a_i_is_main_false:
                 instance.is_main = True
                 instance.save()
-
+            if article_true_count is 1:
+                article_image = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug,
+                                                            is_main=False).first()
+                article_image.is_main = True
+                article_image.save()
 
 # @receiver(pre_save, sender=Rayon)
 # def ajout_rayon_slug(sender, instance, *args, **kwargs):
