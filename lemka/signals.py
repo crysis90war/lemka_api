@@ -31,6 +31,21 @@ def ajout_numero_devis(sender, instance, *args, **kwargs):
         instance.numero_devis = numero_devis
 
 
+@receiver(pre_save, sender=ArticleImage)
+def article_image_is_main(sender, instance, *args, **kwargs):
+    if instance and instance.is_main is True:
+        if ArticleImage.objects.filter(ref_article=instance.ref_article.slug, is_main=True).exists():
+            article_images = ArticleImage.objects.filter(ref_article=instance.ref_article.slug, is_main=True)
+            for article_image in article_images:
+                article_image.is_main = False
+                article_image.save()
+        elif not ArticleImage.objects.filter(ref_article=instance.ref_article.slug, is_main=True).exists() and ArticleImage.objects.filter(ref_article=instance.ref_article.slug, is_main=False).exists():
+            article_image = ArticleImage.objects.filter(ref_article=instance.ref_article.slug, is_main=False).first()
+            article_image.is_main = True
+            article_image.save()
+        else:
+            pass
+
 # @receiver(pre_save, sender=Rayon)
 # def ajout_rayon_slug(sender, instance, *args, **kwargs):
 #     if instance and not instance.rayon_slug:
