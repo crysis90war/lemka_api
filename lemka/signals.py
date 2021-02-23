@@ -34,17 +34,17 @@ def ajout_numero_devis(sender, instance, *args, **kwargs):
 @receiver(pre_save, sender=ArticleImage)
 def article_image_is_main(sender, instance, *args, **kwargs):
     if instance:
-        a_i_is_main_true = ArticleImage.objects.filter(ref_article=instance.ref_article.slug, is_main=True).exists()
-        a_i_is_main_false = ArticleImage.objects.filter(ref_article=instance.ref_article.slug, is_main=False).exists()
+        a_i_is_main_true = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=True).exists()
+        a_i_is_main_false = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=False).exists()
         if instance.is_main is True:
             if a_i_is_main_true:
-                article_images = ArticleImage.objects.filter(ref_article=instance.ref_article.slug, is_main=True)
+                article_images = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=True)
                 for article_image in article_images:
                     article_image.is_main = False
                     article_image.save()
         elif instance.is_main is False:
             if not a_i_is_main_true and a_i_is_main_false:
-                article_image = ArticleImage.objects.filter(ref_article=instance.ref_article.slug, is_main=False).first()
+                article_image = ArticleImage.objects.filter(ref_article__slug=instance.ref_article.slug, is_main=False).first()
                 article_image.is_main = True
                 article_image.save()
             elif not a_i_is_main_true and not a_i_is_main_false:
