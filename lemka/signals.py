@@ -51,7 +51,6 @@ def article_image_is_main(sender, instance, *args, **kwargs):
                 article_image.save()
             if not a_i_is_main_true and not a_i_is_main_false:
                 instance.is_main = True
-                instance.save()
 
 
 # @receiver(pre_save, sender=Rayon)
