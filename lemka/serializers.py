@@ -130,7 +130,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
     slug = serializers.SlugField(read_only=True)
-    service = serializers.SerializerMethodField(read_only=True)
+    type_service = serializers.SerializerMethodField(read_only=True)
     rayon = serializers.SerializerMethodField(read_only=True)
     section = serializers.SerializerMethodField(read_only=True)
     type_produit = serializers.SerializerMethodField(read_only=True)
@@ -149,7 +149,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
         return images.count()
 
     # noinspection PyMethodMayBeStatic
-    def get_service(self, instance):
+    def get_type_service(self, instance):
         return instance.ref_type_service.type_service
 
     # noinspection PyMethodMayBeStatic
