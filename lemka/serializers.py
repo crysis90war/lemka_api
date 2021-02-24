@@ -292,16 +292,10 @@ class MercerieCouleurSerializer(serializers.ModelSerializer):
 
 
 class MercerieCouleurImageSerializer(serializers.ModelSerializer):
-    ref_mercerie_couleur = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = MercerieOptionImage
         fields = "__all__"
-
-    # noinspection PyMethodMayBeStatic
-    def get_ref_mercerie_couleur(self, instance):
-        ref_mercerie_couleur = instance.ref_mercerie_couleur.id
-        return ref_mercerie_couleur
 
 
 class TvaSertializer(serializers.ModelSerializer):
