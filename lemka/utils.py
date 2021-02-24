@@ -49,7 +49,7 @@ def path_and_rename_mercerie_couleur_image(instance, filename):
     if instance.ref_mercerie_option.reference:
         dossier = 'mercerie'
         mercerie = instance.ref_mercerie_option.reference
-        couleur = instance.ref_mercerie_couleur.ref_couleur.nom
+        couleur = instance.ref_mercerie_option.ref_couleur.nom
         upload_to = f'{dossier}/{mercerie}'
         filename = f'{mercerie}-{couleur}-{Utils.generate_random_string()}.{ext}'
     else:
