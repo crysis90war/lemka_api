@@ -283,7 +283,7 @@ class MercerieSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class MercerieCouleurSerializer(serializers.ModelSerializer):
+class MercerieOptionSerializer(serializers.ModelSerializer):
     reference = serializers.CharField(read_only=True)
 
     class Meta:
@@ -291,7 +291,7 @@ class MercerieCouleurSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class MercerieCouleurImageSerializer(serializers.ModelSerializer):
+class MercerieOptionImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MercerieOptionImage

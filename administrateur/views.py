@@ -162,7 +162,7 @@ class MercerieViewSet(CommonFields):
 
 class MercerieCouleurViewSet(CommonFields):
     queryset = MercerieOption.objects.all()
-    serializer_class = MercerieCouleurSerializer
+    serializer_class = MercerieOptionSerializer
 
 
 class HoraireViewSet(CommonFields):
@@ -230,7 +230,7 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 
 class MercerieCouleurImageListCreateAPIView(generics.ListCreateAPIView):
     queryset = MercerieOptionImage.objects.all()
-    serializer_class = MercerieCouleurImageSerializer
+    serializer_class = MercerieOptionImageSerializer
 
     def get_queryset(self):
         kwarg_pk = self.kwargs.get("pk")
@@ -245,7 +245,7 @@ class MercerieCouleurImageListCreateAPIView(generics.ListCreateAPIView):
 
 class MercerieCouleurImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MercerieOptionImage.objects.all()
-    serializer_class = MercerieCouleurImageSerializer
+    serializer_class = MercerieOptionImageSerializer
     permission_classes = [IsAdminUser, ]
 
 
