@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from administrateur.pagination import SmallSetPagination
+from lemka.pagination import SmallSetPagination
 from lemka.permissions import IsAdminOrReadOnly
 from lemka.serializers import *
 

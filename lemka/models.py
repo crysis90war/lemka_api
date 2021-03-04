@@ -248,18 +248,18 @@ class Categorie(models.Model):
         return f'{self.nom}'
 
 
-class Mercerie(models.Model):
+class Couleur(models.Model):
     nom = models.CharField(max_length=255)
-    description = models.TextField()
-
-    ref_categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.nom}'
 
 
-class Couleur(models.Model):
+class Mercerie(models.Model):
     nom = models.CharField(max_length=255)
+    description = models.TextField()
+
+    ref_categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.nom}'
