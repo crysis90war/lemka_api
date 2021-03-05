@@ -297,6 +297,9 @@ class MercerieOptionDimension(models.Model):
     valeur = models.DecimalField(max_digits=10, decimal_places=2,
                                  validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
 
+    class Meta:
+        ordering = ['ref_mercerie_option__ref_mercerie__nom']
+
     def __str__(self):
         return f'{self.ref_mercerie_option.ref_mercerie.nom} | {self.ref_dimension.nom} - {self.valeur} cm'
 
