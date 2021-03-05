@@ -294,11 +294,11 @@ class Dimension(models.Model):
 class MercerieOptionDimension(models.Model):
     ref_mercerie_option = models.ForeignKey(MercerieOption, null=False, blank=False, on_delete=models.CASCADE)
     ref_dimension = models.ForeignKey(Dimension, null=False, blank=False, on_delete=models.CASCADE)
-    valeur = models.DecimalField(max_digits=10, decimal_places=3,
-                                 validators=[MinValueValidator(0.0), MaxValueValidator(999999999.9)])
+    valeur = models.DecimalField(max_digits=10, decimal_places=2,
+                                 validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
 
     def __str__(self):
-        return f'{self.ref_mercerie_option.ref_mercerie.nom} | {self.ref_dimension.nom} - {self.valeur}'
+        return f'{self.ref_mercerie_option.ref_mercerie.nom} | {self.ref_dimension.nom} - {self.valeur} cm'
 
 
 class MercerieOptionImage(models.Model):
