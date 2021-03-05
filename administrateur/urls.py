@@ -19,8 +19,8 @@ router.register('entreprise', EntrepriseLemkaViewSet)
 router.register('accomptedemande', AccompteDemandeViewSet)
 router.register('couleurs', CouleurViewSet)
 router.register('categories', CategorieViewSet)
-router.register('merceries', MercerieViewSet)
-router.register('mercerieoption', MercerieCouleurViewSet)
+# router.register('merceries', MercerieViewSet)
+# router.register('mercerieoption', MercerieCouleurViewSet)
 router.register('details', DetailViewSet)
 router.register('tva', TvaViewSet),
 router.register('mensurations', MensurationViewSet)
@@ -37,13 +37,23 @@ urlpatterns = [
     path('articles/<slug:slug>/images/<int:pk>/', ArticleImageRUDAPIView.as_view(), name='article-image-detail'),
 
     # Récupération, création et détail avec update et supprésion d'images pour un mercerie donné
-    path('merceries/<int:pk>/images/', MercerieCouleurImageListCreateAPIView.as_view(), name='mercerie-couleur-image-list-create'),
-    path('merceries/<int:pk>/images/<int:id>/', MercerieCouleurImageRUDAPIView.as_view(), name='mercerie-couleur-image-detail'),
+    # path('merceries/<int:pk>/images/', MercerieCouleurImageListCreateAPIView.as_view(), name='mercerie-couleur-image-list-create'),
+    # path('merceries/<int:pk>/images/<int:id>/', MercerieCouleurImageRUDAPIView.as_view(), name='mercerie-couleur-image-detail'),
 
     # Récupération, création et détail avec update et supprésion d'images pour un mercerie donné
     path('devis/<str:numero_devis>/details/', DetailListAPIView.as_view(), name='detail-list'),
     path('devis/<str:numero_devis>/details/', DetailCreateAPIView.as_view(), name='detail-create'),
     path('devis/<str:numero_devis>/<int:pk>/', DetailRUDApiView.as_view(), name='detail-detail'),
+
+    # Récupération, création et détail avec update et suppréssion de mercerie
+    path('merceries/', MercerieListCreateApiView.as_view()),
+    path('merceries/<int:pk>/', MercerieRUDApiView.as_view()),
+
+    path('merceries/<int:mercerie_id>/options/', MercerieOptionListCreateApiView.as_view()),
+    path('merceries/<int:mercerie_id>/options/<int:pk>/', MercerieOptionRUDApiView.as_view()),
+
+    path('mercerie_options/<int:mercerie_option_id>/images/', MercerieOptionImageListCreateApiView.as_view()),
+    path('mercerie_options/<int:mercerie_option_id>/images/<int:pk>/', MercerieOptionImageRUDApiView.as_view()),
 
     # Récupération, détail et update d'utilisateurs
     path('utilisateurs/', UserListAPIView.as_view(), name='customuser-list'),

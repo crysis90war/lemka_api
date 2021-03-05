@@ -12,5 +12,4 @@ urlpatterns = [
     path('public/catalogues/<rayon_slug>/<section_slug>/<type_produit_slug>/', ArticleTypeProduitListAPIView.as_view(), name='article-type-produit-list'),
 
     path('articles/<slug:slug>/like/', ArticleLikeAPIView.as_view(), name='article-like'),
-
 ]

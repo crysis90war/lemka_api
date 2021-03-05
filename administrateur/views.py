@@ -15,6 +15,35 @@ class CommonFields(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser, ]
 
 
+class Dashboard(APIView):
+
+    def get(self, request, *args, **kwargs):
+        if not self.request.user.is_anonymous and self.request.user.is_staff:
+            users_count = User.objects.count()
+            articles_counts = Article.objects.count()
+            merceries_count = Mercerie.objects.count()
+            demandes_de_devis_count = DemandeDevis.objects.count()
+            devis_count = Devis.objects.count()
+            bons_de_commande_count = BonCommande.objects.count()
+            factures_count = Facture.objects.count()
+            rendez_vous_count = RendezVous.objects.count()
+
+            admin_dashboard = {
+                'user_count': users_count,
+                'articles_count': articles_counts,
+                'merceries_count': merceries_count,
+                'demandes_de_devis_count': demandes_de_devis_count,
+                'devis_count': devis_count,
+                'bons_de_commande_count': bons_de_commande_count,
+                'factures_count': factures_count,
+                'rendez_vous_count': rendez_vous_count,
+            }
+
+            return Response(data=admin_dashboard)
+        else:
+            raise ValidationError("Vous n'avez pas l'autorisation")
+
+
 class PaysViewSet(viewsets.ModelViewSet):
     queryset = Pays.objects.all().order_by("pays")
     serializer_class = PaysSerializer
@@ -36,24 +65,28 @@ class GenreViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
-class TypeServiceViewSet(CommonFields):
+class TypeServiceViewSet(viewsets.ModelViewSet):
     queryset = TypeService.objects.all().order_by("type_service")
     serializer_class = TypeServiceSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
-class RayonViewSet(CommonFields):
+class RayonViewSet(viewsets.ModelViewSet):
     queryset = Rayon.objects.all().order_by("rayon")
     serializer_class = RayonSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
-class SectionViewSet(CommonFields):
+class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all().order_by("section")
     serializer_class = SectionSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
-class TypeProduitViewSet(CommonFields):
+class TypeProduitViewSet(viewsets.ModelViewSet):
     queryset = TypeProduit.objects.all().order_by("type_produit")
     serializer_class = TypeProduitSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class CatalogueViewSet(viewsets.ModelViewSet):
@@ -76,10 +109,10 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all().order_by("tag")
     serializer_class = TagSerializer
     lookup_field = 'pk'
-    permission_classes = [IsAdminOrReadOnly, ]
     filter_backends = [filters.SearchFilter]
     search_fields = ['tag']
     pagination_class = SmallSetPagination
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class ArticleListAPIView(generics.ListAPIView):
@@ -145,26 +178,6 @@ class AccompteDemandeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser, ]
 
 
-class CouleurViewSet(CommonFields):
-    queryset = Couleur.objects.all()
-    serializer_class = CouleurSerializer
-
-
-class CategorieViewSet(CommonFields):
-    queryset = Categorie.objects.all()
-    serializer_class = CategorieSerializer
-
-
-class MercerieViewSet(CommonFields):
-    queryset = Mercerie.objects.all()
-    serializer_class = MercerieSerializer
-
-
-class MercerieCouleurViewSet(CommonFields):
-    queryset = MercerieOption.objects.all()
-    serializer_class = MercerieOptionSerializer
-
-
 class HoraireViewSet(CommonFields):
     queryset = Horaire.objects.all()
     serializer_class = HoraireSerializer
@@ -228,25 +241,106 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
             raise ValidationError(e)
 
 
-class MercerieCouleurImageListCreateAPIView(generics.ListCreateAPIView):
+class CouleurViewSet(CommonFields):
+    queryset = Couleur.objects.all()
+    serializer_class = CouleurSerializer
+
+
+class CategorieViewSet(CommonFields):
+    queryset = Categorie.objects.all()
+    serializer_class = CategorieSerializer
+
+
+# class MercerieViewSet(CommonFields):
+#     queryset = Mercerie.objects.all()
+#     serializer_class = MercerieSerializer
+#
+#
+# class MercerieCouleurViewSet(CommonFields):
+#     queryset = MercerieOption.objects.all()
+#     serializer_class = MercerieOptionSerializer
+#
+#
+# class MercerieCouleurImageListCreateAPIView(generics.ListCreateAPIView):
+#     queryset = MercerieOptionImage.objects.all()
+#     serializer_class = MercerieOptionImageSerializer
+#
+#     def get_queryset(self):
+#         kwarg_pk = self.kwargs.get("pk")
+#         merceriescouleur = MercerieOptionImage.objects.filter(ref_mercerie_option_id=kwarg_pk)
+#         return merceriescouleur
+#
+#     def perform_create(self, serializer):
+#         kwarg_pk = self.kwargs.get("pk")
+#         mercerie = get_object_or_404(MercerieOption, id=kwarg_pk)
+#         serializer.save(ref_mercerie_couleur=mercerie)
+#
+#
+# class MercerieCouleurImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = MercerieOptionImage.objects.all()
+#     serializer_class = MercerieOptionImageSerializer
+#     permission_classes = [IsAdminUser, ]
+
+
+class MercerieListCreateApiView(generics.ListCreateAPIView):
+    queryset = Mercerie.objects.all()
+    serializer_class = MercerieSerializer
+
+
+class MercerieRUDApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Mercerie.objects.all()
+    serializer_class = MercerieSerializer
+
+
+class MercerieOptionListCreateApiView(generics.ListCreateAPIView):
+    queryset = MercerieOption.objects.all()
+    serializer_class = MercerieOptionSerializer
+
+    def get_queryset(self):
+        kwarg_mercerie_id = self.kwargs.get('mercerie_id')
+        return MercerieOption.objects.filter(ref_mercerie=kwarg_mercerie_id)
+
+    def perform_create(self, serializer):
+        kwarg_mercerie_id = self.kwargs.get('mercerie_id')
+        mercerie = get_object_or_404(Mercerie, pk=kwarg_mercerie_id)
+        serializer.save(ref_mercerie=mercerie)
+
+
+class MercerieOptionRUDApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MercerieOption.objects.all()
+    serializer_class = MercerieOptionSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        kwarg_mercerie_id = self.kwargs.get('mercerie_id')
+        kwarg_pk = self.kwargs.get('pk')
+
+        instance = get_object_or_404(MercerieOption, ref_mercerie=kwarg_mercerie_id, pk=kwarg_pk)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        kwarg_mercerie_id = self.kwargs.get('mercerie_id')
+        mercerie = get_object_or_404(Mercerie, pk=kwarg_mercerie_id)
+        serializer.save(ref_mercerie=mercerie)
+
+
+class MercerieOptionImageListCreateApiView(generics.ListCreateAPIView):
     queryset = MercerieOptionImage.objects.all()
     serializer_class = MercerieOptionImageSerializer
 
     def get_queryset(self):
-        kwarg_pk = self.kwargs.get("pk")
-        merceriescouleur = MercerieOptionImage.objects.filter(ref_mercerie_option_id=kwarg_pk)
-        return merceriescouleur
+        kwarg_mercerie_option_id = self.kwargs.get('mercerie_option_id')
+        return MercerieOptionImage.objects.filter(ref_mercerie_option=kwarg_mercerie_option_id)
 
     def perform_create(self, serializer):
-        kwarg_pk = self.kwargs.get("pk")
-        mercerie = get_object_or_404(MercerieOption, id=kwarg_pk)
-        serializer.save(ref_mercerie_couleur=mercerie)
+        kwarg_mercerie_option_id = self.kwargs.get('mercerie_option_id')
+        mercerie_option = get_object_or_404(MercerieOption, pk=kwarg_mercerie_option_id)
+        serializer.save(ref_mercerie_option=mercerie_option)
 
 
-class MercerieCouleurImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
+class MercerieOptionImageRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MercerieOptionImage.objects.all()
     serializer_class = MercerieOptionImageSerializer
-    permission_classes = [IsAdminUser, ]
 
 
 class UserListAPIView(generics.ListAPIView):
@@ -292,32 +386,3 @@ class CheckUserAPIView(APIView):
                 return Response(data={message: False})
         else:
             return Response(data={message: 'Admins only allowed'})
-
-
-class Dashboard(APIView):
-
-    def get(self, request, *args, **kwargs):
-        if not self.request.user.is_anonymous and self.request.user.is_staff:
-            users_count = User.objects.count()
-            articles_counts = Article.objects.count()
-            merceries_count = Mercerie.objects.count()
-            demandes_de_devis_count = DemandeDevis.objects.count()
-            devis_count = Devis.objects.count()
-            bons_de_commande_count = BonCommande.objects.count()
-            factures_count = Facture.objects.count()
-            rendez_vous_count = RendezVous.objects.count()
-
-            admin_dashboard = {
-                'user_count': users_count,
-                'articles_count': articles_counts,
-                'merceries_count': merceries_count,
-                'demandes_de_devis_count': demandes_de_devis_count,
-                'devis_count': devis_count,
-                'bons_de_commande_count': bons_de_commande_count,
-                'factures_count': factures_count,
-                'rendez_vous_count': rendez_vous_count,
-            }
-
-            return Response(data=admin_dashboard)
-        else:
-            raise ValidationError('Vous n\'avez pas l\'autorisation')

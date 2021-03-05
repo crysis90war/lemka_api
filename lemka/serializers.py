@@ -62,7 +62,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AdresseSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Adresse
         exclude = ['ref_user']
@@ -75,21 +74,18 @@ class TypeServiceSerializer(serializers.ModelSerializer):
 
 
 class RayonSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Rayon
         fields = "__all__"
 
 
 class SectionSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Section
         fields = '__all__'
 
 
 class TypeProduitSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = TypeProduit
         fields = '__all__'
@@ -119,7 +115,6 @@ class CatalogueSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Tag
         fields = "__all__"
@@ -164,8 +159,8 @@ class ArticleListSerializer(serializers.ModelSerializer):
     def get_type_produit(self, instance):
         return instance.ref_catalogue.ref_type_produit.type_produit
 
-class ArticleCreateSerializer(serializers.ModelSerializer):
 
+class ArticleCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         exclude = ['created_at', 'updated_at', 'slug', 'likes']
@@ -205,7 +200,6 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class ArticleImageSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = ArticleImage
         exclude = ['ref_article']
@@ -253,7 +247,6 @@ class RendezVousSerializer(serializers.ModelSerializer):
 
 
 class HoraireSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Horaire
         fields = "__all__"
@@ -278,21 +271,34 @@ class CategorieSerializer(serializers.ModelSerializer):
 
 
 class MercerieSerializer(serializers.ModelSerializer):
+    nom = serializers.CharField()
+    est_publie = serializers.BooleanField(default=False)
+    categorie = serializers.SerializerMethodField(read_only=True)
+    ref_categorie = CategorieSerializer
+
     class Meta:
         model = Mercerie
-        fields = "__all__"
+        fields = '__all__'
+
+    def get_categorie(self, instance):
+        return instance.ref_categorie.nom
 
 
 class MercerieOptionSerializer(serializers.ModelSerializer):
     reference = serializers.CharField(read_only=True)
+    name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = MercerieOption
         fields = "__all__"
 
+    def get_name(self, instance):
+        name = instance.ref_mercerie.nom
+        couleur = instance.ref_couleur.nom
+        return f'{name} - {couleur}'
+
 
 class MercerieOptionImageSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = MercerieOptionImage
         fields = "__all__"
@@ -305,7 +311,6 @@ class TvaSertializer(serializers.ModelSerializer):
 
 
 class MensurationSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Mensuration
         fields = '__all__'
@@ -343,21 +348,18 @@ class ProfilSerializer(serializers.ModelSerializer):
 
 
 class UserImageSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = ['image']
 
 
 class UserAdresseSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Adresse
         exclude = ['ref_user', 'id']
 
 
 class UserCreateAdresseSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Adresse
         exclude = ['id']

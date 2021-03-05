@@ -183,7 +183,8 @@ class Catalogue(models.Model):
 
 class TypeService(models.Model):
     type_service = models.CharField(max_length=255, unique=True, null=False, blank=False)
-    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False, null=False)
+    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False,
+                                               null=False)
 
     def __str__(self):
         return f'{self.type_service} - {self.duree_minute}'
@@ -257,7 +258,7 @@ class Couleur(models.Model):
 
 class Mercerie(models.Model):
     nom = models.CharField(max_length=255)
-    description = models.TextField()
+    est_publie = models.BooleanField(default=False)
 
     ref_categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE)
 
@@ -267,9 +268,10 @@ class Mercerie(models.Model):
 
 class MercerieOption(models.Model):
     reference = models.CharField(max_length=255)
-    taille = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
-    prix_u_ht = models.DecimalField(max_digits=10, decimal_places=3,
-                                    validators=[MinValueValidator(0.0), MaxValueValidator(999999999.9)])
+    est_publie = models.BooleanField(default=False)
+    description = models.TextField(default="")
+    prix_u_ht = models.DecimalField(max_digits=10, decimal_places=2,
+                                    validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
     stock = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
 
     ref_mercerie = models.ForeignKey(Mercerie, on_delete=models.CASCADE)
@@ -279,9 +281,24 @@ class MercerieOption(models.Model):
         ordering = ['ref_mercerie__nom', 'ref_couleur__nom']
 
     def __str__(self):
-        nom = self.ref_mercerie.nom
-        couleur = self.ref_couleur.nom
-        return f'{nom} - {couleur}'
+        return f'{self.reference} | {self.ref_mercerie.nom} - {self.ref_couleur.nom}'
+
+
+class Dimension(models.Model):
+    nom = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.nom
+
+
+class MercerieOptionDimension(models.Model):
+    ref_mercerie_option = models.ForeignKey(MercerieOption, null=False, blank=False, on_delete=models.CASCADE)
+    ref_dimension = models.ForeignKey(Dimension, null=False, blank=False, on_delete=models.CASCADE)
+    valeur = models.DecimalField(max_digits=10, decimal_places=3,
+                                 validators=[MinValueValidator(0.0), MaxValueValidator(999999999.9)])
+
+    def __str__(self):
+        return f'{self.ref_mercerie_option.ref_mercerie.nom} | {self.ref_dimension.nom} - {self.valeur}'
 
 
 class MercerieOptionImage(models.Model):
