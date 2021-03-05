@@ -301,7 +301,7 @@ class MercerieOptionDimension(models.Model):
         ordering = ['ref_mercerie_option__ref_mercerie__nom']
 
     def __str__(self):
-        return f'{self.ref_mercerie_option.ref_mercerie.nom} | {self.ref_dimension.nom} - {self.valeur} cm'
+        return f'{self.ref_mercerie_option.ref_mercerie.nom} | {self.ref_dimension.nom} - {self.valeur}'
 
 
 class MercerieOptionImage(models.Model):
