@@ -115,9 +115,9 @@ class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
-class ArticleListAPIView(generics.ListAPIView):
+class ArticleListCreateAPIView(generics.ListCreateAPIView):
     queryset = Article.objects.all().order_by('-created_at')
-    serializer_class = ArticleListSerializer
+    serializer_class = ArticleSerializer
 
 
 class ArticleCreateAPIView(generics.CreateAPIView):

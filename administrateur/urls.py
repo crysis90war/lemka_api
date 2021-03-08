@@ -28,7 +28,7 @@ router.register('mensurations', MensurationViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 
-    path('articles/', ArticleListAPIView.as_view(), name='article-list'),
+    path('articles/', ArticleListCreateAPIView.as_view(), name='article-list'),
     path('articles/new/', ArticleCreateAPIView.as_view(), name='article-create'),
     path('articles/<slug:slug>/', ArticleRUDApiView.as_view(), name='article-rud'),
 
