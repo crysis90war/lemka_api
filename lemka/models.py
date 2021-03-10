@@ -267,7 +267,7 @@ class Mercerie(models.Model):
 
 
 class MercerieOption(models.Model):
-    reference = models.CharField(max_length=255)
+    reference = models.CharField(max_length=255, unique=True)
     est_publie = models.BooleanField(default=False)
     description = models.TextField(default="")
     prix_u_ht = models.DecimalField(max_digits=10, decimal_places=2,

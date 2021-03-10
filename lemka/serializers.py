@@ -305,12 +305,15 @@ class MercerieSerializer(serializers.ModelSerializer):
 
 
 class MercerieOptionSerializer(serializers.ModelSerializer):
-    reference = serializers.CharField(read_only=True)
     name = serializers.SerializerMethodField(read_only=True)
+    ref_couleur = CouleurSerializer
 
     class Meta:
         model = MercerieOption
-        fields = "__all__"
+        exclude = ['ref_mercerie']
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
 
     def get_name(self, instance):
         name = instance.ref_mercerie.nom
