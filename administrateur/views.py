@@ -241,9 +241,10 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
             raise ValidationError(e)
 
 
-class CouleurViewSet(CommonFields):
+class CouleurViewSet(viewsets.ModelViewSet):
     queryset = Couleur.objects.all()
     serializer_class = CouleurSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class CategorieViewSet(CommonFields):
