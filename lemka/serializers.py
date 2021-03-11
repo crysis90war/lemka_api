@@ -331,6 +331,18 @@ class MercerieOptionImageSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class CaracteristiqueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Caracteristique
+        fields = "__all__"
+
+
+class MercerieOptionCaracteristiqueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model: MercerieOptionCaracteristique
+        fields = "__all_-"
+
+
 class TvaSertializer(serializers.ModelSerializer):
     class Meta:
         model = Tva

@@ -59,6 +59,12 @@ class VilleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
+class CaracteristiqueViewSet(viewsets.ModelViewSet):
+    queryset = Caracteristique.objects.all()
+    serializer_class = CaracteristiqueSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
+
+
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all().order_by("genre")
     serializer_class = GenreSerializer
