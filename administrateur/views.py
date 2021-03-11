@@ -15,35 +15,6 @@ class CommonFields(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser, ]
 
 
-class Dashboard(APIView):
-
-    def get(self, request, *args, **kwargs):
-        if not self.request.user.is_anonymous and self.request.user.is_staff:
-            users_count = User.objects.count()
-            articles_counts = Article.objects.count()
-            merceries_count = Mercerie.objects.count()
-            demandes_de_devis_count = DemandeDevis.objects.count()
-            devis_count = Devis.objects.count()
-            bons_de_commande_count = BonCommande.objects.count()
-            factures_count = Facture.objects.count()
-            rendez_vous_count = RendezVous.objects.count()
-
-            admin_dashboard = {
-                'user_count': users_count,
-                'articles_count': articles_counts,
-                'merceries_count': merceries_count,
-                'demandes_de_devis_count': demandes_de_devis_count,
-                'devis_count': devis_count,
-                'bons_de_commande_count': bons_de_commande_count,
-                'factures_count': factures_count,
-                'rendez_vous_count': rendez_vous_count,
-            }
-
-            return Response(data=admin_dashboard)
-        else:
-            raise ValidationError("Vous n'avez pas l'autorisation")
-
-
 class PaysViewSet(viewsets.ModelViewSet):
     queryset = Pays.objects.all().order_by("pays")
     serializer_class = PaysSerializer
@@ -377,6 +348,35 @@ class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
         kwarg_username = self.kwargs.get("username")
         obj = get_object_or_404(queryset, ref_user__username=kwarg_username)
         return obj
+
+
+class Dashboard(APIView):
+
+    def get(self, request, *args, **kwargs):
+        if not self.request.user.is_anonymous and self.request.user.is_staff:
+            users_count = User.objects.count()
+            articles_counts = Article.objects.count()
+            merceries_count = Mercerie.objects.count()
+            demandes_de_devis_count = DemandeDevis.objects.count()
+            devis_count = Devis.objects.count()
+            bons_de_commande_count = BonCommande.objects.count()
+            factures_count = Facture.objects.count()
+            rendez_vous_count = RendezVous.objects.count()
+
+            admin_dashboard = {
+                'user_count': users_count,
+                'articles_count': articles_counts,
+                'merceries_count': merceries_count,
+                'demandes_de_devis_count': demandes_de_devis_count,
+                'devis_count': devis_count,
+                'bons_de_commande_count': bons_de_commande_count,
+                'factures_count': factures_count,
+                'rendez_vous_count': rendez_vous_count,
+            }
+
+            return Response(data=admin_dashboard)
+        else:
+            raise ValidationError("Vous n'avez pas l'autorisation")
 
 
 class CheckUserAPIView(APIView):
