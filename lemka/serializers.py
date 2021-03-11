@@ -339,8 +339,8 @@ class CaracteristiqueSerializer(serializers.ModelSerializer):
 
 class MercerieOptionCaracteristiqueSerializer(serializers.ModelSerializer):
     class Meta:
-        model: MercerieOptionCaracteristique
-        fields = "__all_-"
+        model = MercerieOptionCaracteristique
+        fields = "__all__"
 
 
 class TvaSertializer(serializers.ModelSerializer):
