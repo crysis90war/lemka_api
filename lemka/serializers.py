@@ -338,9 +338,14 @@ class CaracteristiqueSerializer(serializers.ModelSerializer):
 
 
 class MercerieOptionCaracteristiqueSerializer(serializers.ModelSerializer):
+    caracteristique = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = MercerieOptionCaracteristique
         fields = "__all__"
+
+    def get_caracteristique(self, instance):
+        return instance.ref_caracteristique.nom
 
 
 class TvaSertializer(serializers.ModelSerializer):
