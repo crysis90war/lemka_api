@@ -284,16 +284,16 @@ class MercerieOption(models.Model):
         return f'{self.reference} | {self.ref_mercerie.nom} - {self.ref_couleur.nom}'
 
 
-class Dimension(models.Model):
+class Caracteristique(models.Model):
     nom = models.CharField(max_length=255)
 
     def __str__(self):
         return self.nom
 
 
-class MercerieOptionDimension(models.Model):
+class MercerieOptionCaracteristique(models.Model):
     ref_mercerie_option = models.ForeignKey(MercerieOption, null=False, blank=False, on_delete=models.CASCADE)
-    ref_dimension = models.ForeignKey(Dimension, null=False, blank=False, on_delete=models.CASCADE)
+    ref_caracteristique = models.ForeignKey(Caracteristique, null=False, blank=False, on_delete=models.CASCADE)
     valeur = models.DecimalField(max_digits=10, decimal_places=2,
                                  validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
 
@@ -301,7 +301,7 @@ class MercerieOptionDimension(models.Model):
         ordering = ['ref_mercerie_option__ref_mercerie__nom']
 
     def __str__(self):
-        return f'{self.ref_mercerie_option.ref_mercerie.nom} | {self.ref_dimension.nom} - {self.valeur}'
+        return f'{self.ref_mercerie_option.ref_mercerie.nom} | {self.ref_caracteristique.nom} - {self.valeur}'
 
 
 class MercerieOptionImage(models.Model):
