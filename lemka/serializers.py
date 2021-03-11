@@ -305,6 +305,7 @@ class MercerieSerializer(serializers.ModelSerializer):
 
 
 class MercerieOptionSerializer(serializers.ModelSerializer):
+    images_count = serializers.SerializerMethodField(read_only=True)
     name = serializers.SerializerMethodField(read_only=True)
     ref_couleur = CouleurSerializer
 
@@ -319,6 +320,9 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
         name = instance.ref_mercerie.nom
         couleur = instance.ref_couleur.nom
         return f'{name} - {couleur}'
+
+    def get_images_count(self, instance):
+        return instance.images.count()
 
 
 class MercerieOptionImageSerializer(serializers.ModelSerializer):
