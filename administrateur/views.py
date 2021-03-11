@@ -321,6 +321,25 @@ class MercerieOptionImageRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MercerieOptionImageSerializer
 
 
+class MercerieOptionCaracteristiqueListCreateApiView(generics.ListCreateAPIView):
+    queryset = MercerieOptionCaracteristique
+    serializer_class = MercerieOptionCaracteristiqueSerializer
+
+    def get_queryset(self):
+        kwarg_mercerie_option_id = self.kwargs.get('mercerie_option_id')
+        return MercerieOptionCaracteristique.objects.filter(ref_mercerie_option=kwarg_mercerie_option_id)
+
+    def perform_create(self, serializer):
+        kwarg_mercerie_option_id = self.kwargs.get('mercerie_option_id')
+        mercerie_option = get_object_or_404(MercerieOption, pk=kwarg_mercerie_option_id)
+        serializer.save(ref_mercerie_option=mercerie_option)
+
+
+class MercerieOptionCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MercerieOptionCaracteristique.objects.all()
+    serializer_class = MercerieOptionCaracteristiqueSerializer
+
+
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer

@@ -50,8 +50,8 @@ urlpatterns = [
     path('mercerie_options/<int:mercerie_option_id>/images/', MercerieOptionImageListCreateApiView.as_view()),
     path('mercerie_options/<int:mercerie_option_id>/images/<int:pk>/', MercerieOptionImageRUDApiView.as_view()),
 
-    path('mercerie_options/<int:mercerie_option_id>/caracteristiques/', MercerieOptionImageListCreateApiView.as_view()),
-    path('mercerie_options/<int:mercerie_option_id>/caracteristiques/<int:pk>/', MercerieOptionImageRUDApiView.as_view()),
+    path('mercerie_options/<int:mercerie_option_id>/caracteristiques/', MercerieOptionCaracteristiqueListCreateApiView.as_view()),
+    path('mercerie_options/<int:mercerie_option_id>/caracteristiques/<int:pk>/', MercerieOptionCaracteristiqueRUDApiView.as_view()),
 
     # Récupération, détail et update d'utilisateurs
     path('utilisateurs/', UserListAPIView.as_view(), name='customuser-list'),
