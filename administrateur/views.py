@@ -345,6 +345,9 @@ class UserListAPIView(generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser, ]
 
+    def get_queryset(self):
+        return User.objects.filter(is_superuser=False)
+
 
 class UserRetrieveAPIView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
