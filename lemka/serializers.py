@@ -342,7 +342,7 @@ class MercerieOptionCaracteristiqueSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MercerieOptionCaracteristique
-        fields = "__all__"
+        exclude = ['ref_mercerie_option']
 
     def get_caracteristique(self, instance):
         return instance.ref_caracteristique.nom
