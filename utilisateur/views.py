@@ -127,6 +127,9 @@ class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
+        """
+        GIT TEST
+        """
         request_user = self.request.user
         demandes_devis = DemandeDevis.objects.filter(ref_user=request_user)
         return demandes_devis
