@@ -26,5 +26,5 @@ urlpatterns = [
     path('profil/mensurations/<int:ref_user_mensuration_id>/mensurations/<int:pk>/',
          MensurationUserMensurationUpdateApiView.as_view()),
 
-    path('demande_devis', UserDemandeDevisListCreateApiView.as_view())
+    path('demandes_devis', UserDemandeDevisListCreateApiView.as_view())
 ]
