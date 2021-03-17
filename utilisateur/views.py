@@ -130,7 +130,8 @@ class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
             demandes_devis = DemandeDevis.objects.filter(ref_user=request_user)
             return demandes_devis
         else:
-            raise Response('User is not connected !')
+            context = {'error': "User is not connected !", 'success': "false", 'message': 'Failed To Get contents.'}
+            return Response(context, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def perform_create(self, serializer):
         request_user = self.request.user
