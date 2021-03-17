@@ -130,7 +130,7 @@ class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
             demandes_devis = DemandeDevis.objects.filter(ref_user=request_user)
             return demandes_devis
         else:
-            raise ValidationError(detail='User is not connected !')
+            raise Response('User is not connected !')
 
     def perform_create(self, serializer):
         request_user = self.request.user
