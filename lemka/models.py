@@ -394,7 +394,6 @@ class DemandeDevis(models.Model):
 
     ref_user = models.ForeignKey(User, on_delete=models.CASCADE)
     ref_type_service = models.ForeignKey(TypeService, on_delete=models.CASCADE)
-    ref_catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE)
 
     ref_mensuration = models.ManyToManyField(UserMensuration, blank=True)
     # ref_materiel = models.ManyToManyField(Materiel, blank=True, related_name='matérieux')

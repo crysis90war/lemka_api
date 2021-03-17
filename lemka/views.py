@@ -121,7 +121,8 @@ class RendezVousViewSet(viewsets.ModelViewSet):
         horaire = Horaire.objects.get(jour_semaine=day)
         if kwarg_date < now:
             raise ValidationError("La date choisie ne peut pas être inférieur a celle d'aujourd'hui !")
-        elif RendezVous.objects.filter(date=kwarg_date).filter((Q(start__gte=start) & Q(start__lte=end_time) | Q(end__gte=start))):
+        elif RendezVous.objects.filter(date=kwarg_date).filter(
+                (Q(start__gte=start) & Q(start__lte=end_time) | Q(end__gte=start))):
             raise ValidationError("Il y a déja une réservation pour ce jour, veillez choisir un autre moment !")
         elif kwarg_date == now:
             raise ValidationError("Le rendez-vous n'est pas possible pour le jour même !")
