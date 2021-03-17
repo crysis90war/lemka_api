@@ -24,6 +24,7 @@ class GenreRetrieveAPIView(generics.RetrieveAPIView):
 class ProfilAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = ProfilSerializer
+
     # permission_classes = [IsAuthenticated, UserRUDPermission, ]
 
     # parser_classes = (MultiPartParser, FormParser,)
@@ -123,15 +124,12 @@ class AdresseAPIView(generics.RetrieveUpdateDestroyAPIView):
 class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
     queryset = DemandeDevis.objects.all()
     serializer_class = UserDemandeDevisSerializer
+    permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
-        if not self.request.user.is_anonymous:
-            request_user = self.request.user
-            demandes_devis = DemandeDevis.objects.filter(ref_user=request_user)
-            return demandes_devis
-        else:
-            context = {'error': "User is not connected !", 'success': "false", 'message': 'Failed To Get contents.'}
-            return Response(context, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        request_user = self.request.user
+        demandes_devis = DemandeDevis.objects.filter(ref_user=request_user)
+        return demandes_devis
 
     def perform_create(self, serializer):
         request_user = self.request.user
