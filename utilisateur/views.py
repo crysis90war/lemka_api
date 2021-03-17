@@ -127,16 +127,10 @@ class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
-        """
-        GIT TEST GET QUERYSET
-        """
         request_user = self.request.user
         demandes_devis = DemandeDevis.objects.filter(ref_user=request_user)
         return demandes_devis
 
     def perform_create(self, serializer):
-        """
-        GIT TEST PERFORM CREATE
-        """
         request_user = self.request.user
         serializer.save(ref_user=request_user)
