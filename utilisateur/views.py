@@ -125,9 +125,12 @@ class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
     serializer_class = UserDemandeDevisSerializer
 
     def get_queryset(self):
-        request_user = self.request.user
-        demandes_devis = DemandeDevis.objects.filter(ref_user=request_user)
-        return demandes_devis
+        if not self.request.user.is_anonymous:
+            request_user = self.request.user
+            demandes_devis = DemandeDevis.objects.filter(ref_user=request_user)
+            return demandes_devis
+        else:
+            raise ValidationError(detail='User is not connected !')
 
     def perform_create(self, serializer):
         request_user = self.request.user
