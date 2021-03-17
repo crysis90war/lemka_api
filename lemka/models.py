@@ -384,7 +384,7 @@ class MercerieOptionImage(models.Model):
 
 
 class DemandeDevis(models.Model):
-    numero_demande_devis = models.PositiveIntegerField(unique=True, )
+    numero_demande_devis = models.PositiveBigIntegerField(unique=True, )
     titre = models.CharField(max_length=255)
     remarque = models.TextField()
     est_urgent = models.BooleanField(default=False)
