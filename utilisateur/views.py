@@ -124,12 +124,11 @@ class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
     queryset = DemandeDevis.objects.all()
     serializer_class = UserDemandeDevisSerializer
 
-    def request_user(self):
-        return self.request.user
-
     def get_queryset(self):
-        demandes_devis = DemandeDevis.objects.filter(ref_user=self.request_user())
+        request_user = self.request.user
+        demandes_devis = DemandeDevis.objects.filter(ref_user=request_user)
         return demandes_devis
 
     def perform_create(self, serializer):
-        serializer.save(ref_user=self.request_user())
+        request_user = self.request.user
+        serializer.save(ref_user=request_user)
