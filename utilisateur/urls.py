@@ -7,7 +7,7 @@ from utilisateur.views import *
 
 router = DefaultRouter()
 
-router.register('demandedevis', DemandeDevisViewSet)
+# router.register('demandedevis', DemandeDevisViewSet)
 router.register('devis', DevisViewSet)
 router.register('rendezvous', RendezVousViewSet)
 router.register('horaire', HoraireViewSet)
@@ -25,4 +25,6 @@ urlpatterns = [
          MensurationUserMensurationListApiView.as_view()),
     path('profil/mensurations/<int:ref_user_mensuration_id>/mensurations/<int:pk>/',
          MensurationUserMensurationUpdateApiView.as_view()),
+
+    path('demande_devis', UserDemandeDevisListCreateApiView.as_view())
 ]

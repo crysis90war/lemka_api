@@ -4,8 +4,9 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
-from lemka.permissions import UserGetPostPermission, UserRUDPermission
+from lemka.permissions import UserGetPostPermission
 from lemka.serializers import *
+from utilisateur.serializers import UserDemandeDevisSerializer
 
 
 class GenreListAPIView(generics.ListAPIView):
@@ -117,3 +118,18 @@ class AdresseAPIView(generics.RetrieveUpdateDestroyAPIView):
         serializer_context = {'request': request}
         serializer = self.serializer_class(adresse, context=serializer_context)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
+    queryset = DemandeDevis.objects.all()
+    serializer_class = UserDemandeDevisSerializer
+
+    def request_user(self):
+        return self.request.user
+
+    def get_queryset(self):
+        demandes_devis = DemandeDevis.objects.filter(ref_user=self.request_user())
+        return demandes_devis
+
+    def perform_create(self, serializer):
+        serializer.save(ref_user=self.request_user())
