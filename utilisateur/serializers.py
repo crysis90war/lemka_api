@@ -12,3 +12,6 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
     class Meta:
         model = DemandeDevis
         exclude = ['ref_user']
+        extra_kwargs = {
+            'numero_demande_devis': {'read_only': True}
+        }
