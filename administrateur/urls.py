@@ -18,9 +18,9 @@ router.register('couleurs', CouleurViewSet)
 router.register('mensurations', MensurationViewSet)
 router.register('categories', CategorieViewSet)
 router.register('tva', TvaViewSet),
+router.register('entreprises', EntrepriseLemkaViewSet)
 
 router.register('catalogues', CatalogueViewSet)
-router.register('entreprise', EntrepriseLemkaViewSet)
 router.register('accomptedemande', AccompteDemandeViewSet)
 router.register('details', DetailViewSet)
 
