@@ -92,7 +92,9 @@ class TypeProduitSerializer(serializers.ModelSerializer):
 
 
 class CatalogueSerializer(serializers.ModelSerializer):
-    # catalogue = serializers.SerializerMethodField()
+    rayon = serializers.SerializerMethodField(read_only=True)
+    section = serializers.SerializerMethodField(read_only=True)
+    type_produit = serializers.SerializerMethodField(read_only=True)
     ref_rayon = RayonSerializer
     ref_section = SectionSerializer
     ref_type_produit = TypeProduitSerializer
@@ -101,17 +103,14 @@ class CatalogueSerializer(serializers.ModelSerializer):
         model = Catalogue
         fields = '__all__'
 
-    # def get_ref_rayon(self, instance):
-    #     return f'{instance.ref_rayon.rayon}'
-    #
-    # def get_ref_section(self, instance):
-    #     return f'{instance.ref_section.section}'
-    #
-    # def get_ref_type_produit(self, instance):
-    #     return f'{instance.ref_type_produit.type_produit}'
-    # # noinspection PyMethodMayBeStatic
-    # def get_catalogue(self, instance):
-    #     return f'{instance.ref_rayon.rayon}/{instance.ref_section.section}/{instance.ref_type_produit.type_produit}'
+    def get_rayon(self, instance):
+        return f'{instance.ref_rayon.rayon}'
+
+    def get_section(self, instance):
+        return f'{instance.ref_section.section}'
+
+    def get_type_produit(self, instance):
+        return f'{instance.ref_type_produit.type_produit}'
 
 
 class TagSerializer(serializers.ModelSerializer):
