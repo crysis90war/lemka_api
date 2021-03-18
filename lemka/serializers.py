@@ -369,11 +369,14 @@ class UserMensurationSerializer(serializers.ModelSerializer):
 
 
 class MensurationUserMensurationSerializer(serializers.ModelSerializer):
-    ref_mensuration = serializers.StringRelatedField(read_only=True)
+    mensuration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = MensurationUserMensuration
-        exclude = ['ref_user_mensuration']
+        exclude = ['ref_user_mensuration', 'ref_mensuration']
+
+    def get_mensuration(self, instance):
+        return instance.ref_mensuration.nom
 
 
 class ProfilSerializer(serializers.ModelSerializer):
