@@ -63,9 +63,6 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email', 'password', 'username', 'tokens', 'is_staff']
-        extra_kwargs = {
-            'email': {'write_only': True}
-        }
 
     # noinspection PyMethodMayBeStatic
     def get_tokens(self, obj):
@@ -94,7 +91,7 @@ class LoginSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed("L'email n'est pas verifié")
 
         return {
-            # 'email': user.email,
+            'email': user.email,
             'username': user.username,
             'is_staff': user.is_staff,
             'tokens': user.tokens
