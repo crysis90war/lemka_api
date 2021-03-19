@@ -62,8 +62,12 @@ class LoginSerializer(serializers.ModelSerializer):
         max_length=68, min_length=6, write_only=True)
     username = serializers.CharField(
         max_length=255, min_length=3, read_only=True)
-    is_staff = serializers.StringRelatedField(read_only=True)
+    is_staff = serializers.BooleanField(read_only=True)
     tokens = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['email', 'password', 'username', 'tokens', 'is_staff']
 
     # noinspection PyMethodMayBeStatic
     def get_tokens(self, obj):
@@ -73,10 +77,6 @@ class LoginSerializer(serializers.ModelSerializer):
             'refresh': user.tokens()['refresh'],
             'access': user.tokens()['access']
         }
-
-    class Meta:
-        model = User
-        fields = ['email', 'password', 'username', 'tokens', 'is_staff']
 
     def validate(self, attrs):
         email = attrs.get('email', '')
