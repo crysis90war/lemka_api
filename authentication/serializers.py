@@ -74,7 +74,7 @@ class LoginSerializer(serializers.ModelSerializer):
         user = User.objects.get(email=obj['email'])
 
         return {
-            # 'refresh': user.tokens()['refresh'],
+            'refresh': user.tokens()['refresh'],
             'access': user.tokens()['access']
         }
 
@@ -96,6 +96,7 @@ class LoginSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed("L'email n'est pas verifié")
 
         return {
+            'email': user.email,
             'username': user.username,
             'is_staff': user.is_staff,
             'tokens': user.tokens
