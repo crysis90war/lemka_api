@@ -74,7 +74,7 @@ class LoginSerializer(serializers.ModelSerializer):
         user = User.objects.get(email=obj['email'])
 
         return {
-            'refresh': user.tokens()['refresh'],
+            # 'refresh': user.tokens()['refresh'],
             'access': user.tokens()['access']
         }
 
@@ -89,11 +89,11 @@ class LoginSerializer(serializers.ModelSerializer):
                 detail='Please continue your login using ' + filtered_user_by_email[0].auth_provider)
 
         if not user:
-            raise AuthenticationFailed('Invalid credentials, try again')
+            raise AuthenticationFailed("Identifiants non valides, réessayez")
         if not user.is_active:
-            raise AuthenticationFailed('Account disabled, contact admin')
+            raise AuthenticationFailed("Compte désactivé, contactez l'administrateur")
         if not user.is_verified:
-            raise AuthenticationFailed('Email is not verified')
+            raise AuthenticationFailed("L'email n'est pas verifié")
 
         return {
             'username': user.username,
