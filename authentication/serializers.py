@@ -10,13 +10,10 @@ from lemka.models import User
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
-        max_length=68, min_length=6, write_only=True)
-    password2 = serializers.CharField(
-        max_length=68, min_length=6, write_only=True)
+    password = serializers.CharField(max_length=68, min_length=6, write_only=True)
+    password2 = serializers.CharField(max_length=68, min_length=6, write_only=True)
 
-    default_error_messages = {
-        'username': 'The username should only contain alphanumeric characters'}
+    default_error_messages = {'username': "Le nom d'utilisateur ne doit contenir que des caractères alphanumériques"}
 
     class Meta:
         model = User
@@ -58,16 +55,17 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255, min_length=3)
-    password = serializers.CharField(
-        max_length=68, min_length=6, write_only=True)
-    username = serializers.CharField(
-        max_length=255, min_length=3, read_only=True)
+    username = serializers.CharField(max_length=255, min_length=3, read_only=True)
+    password = serializers.CharField(max_length=68, min_length=6, write_only=True)
     is_staff = serializers.BooleanField(read_only=True)
     tokens = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = ['email', 'password', 'username', 'tokens', 'is_staff']
+        extra_kwargs = {
+            'email': {'write_only': True}
+        }
 
     # noinspection PyMethodMayBeStatic
     def get_tokens(self, obj):
@@ -86,7 +84,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
         if filtered_user_by_email.exists() and filtered_user_by_email[0].auth_provider != 'email':
             raise AuthenticationFailed(
-                detail='Please continue your login using ' + filtered_user_by_email[0].auth_provider)
+                detail='Veuillez continuer votre connexion en utilisant ' + filtered_user_by_email[0].auth_provider)
 
         if not user:
             raise AuthenticationFailed("Identifiants non valides, réessayez")
@@ -96,7 +94,7 @@ class LoginSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed("L'email n'est pas verifié")
 
         return {
-            'email': user.email,
+            # 'email': user.email,
             'username': user.username,
             'is_staff': user.is_staff,
             'tokens': user.tokens

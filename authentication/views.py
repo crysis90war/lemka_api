@@ -44,10 +44,12 @@ class RegisterView(generics.GenericAPIView):
 
 class VerifyEmailView(views.APIView):
     serializer_class = EmailVerificationSerializer
-    token_param_config = openapi.Parameter('token',
-                                           in_=openapi.IN_QUERY,
-                                           description='Description',
-                                           type=openapi.TYPE_STRING)
+    token_param_config = openapi.Parameter(
+        'token',
+        in_=openapi.IN_QUERY,
+        description='Description',
+        type=openapi.TYPE_STRING
+    )
     permission_classes = [AllowAny]
 
     # noinspection PyMethodMayBeStatic
@@ -61,12 +63,12 @@ class VerifyEmailView(views.APIView):
                 user.is_verified = True
                 user.save()
 
-            return Response({'email': 'Successfully activated'}, status=status.HTTP_201_CREATED)
+            return Response({'email': 'Activé avec succès'}, status=status.HTTP_201_CREATED)
 
         except jwt.ExpiredSignatureError as identifier:
-            return Response({'error': 'Activtaion Expired'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Activtaion expiré'}, status=status.HTTP_400_BAD_REQUEST)
         except jwt.exceptions.DecodeError as identifier:
-            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Jeton invalide'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginAPIView(generics.GenericAPIView):
