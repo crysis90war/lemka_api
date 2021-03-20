@@ -124,9 +124,9 @@ class UserMensuration(models.Model):
 
     def __str__(self):
         if self.is_main is True:
-            return f'{self.ref_user.username} - Principale | {self.titre}'
+            return f'{self.pk} | {self.ref_user.username} - Principale | {self.titre}'
         else:
-            return f'{self.ref_user.username} - Secondaire | {self.titre}'
+            return f'{self.pk} | {self.ref_user.username} - Secondaire | {self.titre}'
 
 
 class MensurationUserMensuration(models.Model):
