@@ -136,7 +136,7 @@ class MensurationUserMensuration(models.Model):
     ref_mensuration = models.ForeignKey(Mensuration, on_delete=models.CASCADE, related_name='Mensuration')
 
     class Meta:
-        ordering = ['ref_user_mensuration__ref_user__username', '-ref_user_mensuration__is_main']
+        ordering = ['ref_user_mensuration__ref_user__username', '-ref_user_mensuration__is_main', 'ref_mensuration__id']
 
     def __str__(self):
         return f'{self.ref_user_mensuration.ref_user.username} | {self.ref_user_mensuration.titre} - {self.ref_mensuration.nom} - {self.mesure} cm'
