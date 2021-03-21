@@ -65,8 +65,9 @@ class MensurationUserMensurationListApiView(generics.ListAPIView):
     permission_classes = [IsOwnerOrAdmin, ]
 
     def get_queryset(self):
+        kwarg_user = self.request.user
         kwarg_id = self.kwargs.get('ref_user_mensuration_id')
-        return MensurationUserMensuration.objects.filter(ref_user_mensuration=kwarg_id)
+        return MensurationUserMensuration.objects.filter(ref_user_mensuration=kwarg_id, ref_user_mensuration__ref_user=kwarg_user)
 
 
 class MensurationUserMensurationUpdateApiView(generics.RetrieveUpdateAPIView):

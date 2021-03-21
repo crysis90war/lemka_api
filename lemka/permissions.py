@@ -75,5 +75,5 @@ class IsAdminOrReadOnly(permissions.BasePermission):
 class IsOwnerOrAdmin(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
-            return False
+            return True
         return obj.ref_user_mensuration.ref_user == request.user or request.user.is_admin
