@@ -62,7 +62,7 @@ class UserMensurationRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 class MensurationUserMensurationListApiView(generics.ListAPIView):
     queryset = MensurationUserMensuration.objects.all()
     serializer_class = MensurationUserMensurationSerializer
-    permission_classes = [IsOwnerOrAdmin, ]
+    permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
         kwarg_user = self.request.user
