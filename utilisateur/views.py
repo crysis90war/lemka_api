@@ -4,21 +4,9 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
-from lemka.permissions import UserGetPostPermission
+from lemka.permissions import UserGetPostPermission, IsOwnerOrAdmin
 from lemka.serializers import *
 from utilisateur.serializers import UserDemandeDevisSerializer
-
-
-class GenreListAPIView(generics.ListAPIView):
-    queryset = Genre.objects.all()
-    serializer_class = GenreSerializer
-    permission_classes = [IsAuthenticated, ]
-
-
-class GenreRetrieveAPIView(generics.RetrieveAPIView):
-    queryset = Genre.objects.all()
-    serializer_class = GenreSerializer
-    permission_classes = [IsAuthenticated, ]
 
 
 class ProfilAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -74,7 +62,7 @@ class UserMensurationRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 class MensurationUserMensurationListApiView(generics.ListAPIView):
     queryset = MensurationUserMensuration.objects.all()
     serializer_class = MensurationUserMensurationSerializer
-    permission_classes = [AllowAny, ]
+    permission_classes = [IsOwnerOrAdmin, ]
 
     def get_queryset(self):
         kwarg_id = self.kwargs.get('ref_user_mensuration_id')
