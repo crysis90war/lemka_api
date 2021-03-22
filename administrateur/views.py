@@ -368,7 +368,7 @@ class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
 
 
 class DemandeDevisViewSet(viewsets.ModelViewSet):
-    queryset = DemandeDevis.objects.all()
+    queryset = DemandeDevis.objects.all().filter(est_soumis=False)
     lookup_field = "pk"
     serializer_class = AdminDemandeDevisSerializer
     permission_classes = [IsAdminUser]
