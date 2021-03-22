@@ -5,9 +5,23 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from administrateur.serializers import (
+    GenreSerializer, VilleSerializer, PaysSerializer, EntrepriseLemkaSerializer, UserSerializer, AdminDemandeDevisSerializer,
+    DevisSerializer, TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer,
+    SectionSerializer, TypeProduitSerializer, CatalogueSerializer, CouleurSerializer, CategorieSerializer, AccompteDemandeSerializer,
+    HoraireSerializer, DetailSerialiser, TvaSertializer, MensurationSerializer, ArticleSerializer, ArticleImageSerializer,
+    MercerieSerializer, MercerieOptionSerializer, MercerieOptionImageSerializer, MercerieOptionCaracteristiqueSerializer
+)
+from lemka.models import (
+    Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, Catalogue, User, Article, Mercerie, DemandeDevis, Devis,
+    BonCommande, Facture, RendezVous, Tag, Couleur, Categorie, EntrepriseLemka, AccompteDemande, Horaire, Detail, Tva, Mensuration,
+    ArticleImage, Adresse, MercerieOptionCaracteristique, MercerieOption, MercerieOptionImage
+)
 from lemka.pagination import SmallSetPagination
 from lemka.permissions import IsAdminOrReadOnly
-from lemka.serializers import *
+
+
+# from lemka.serializers import *
 
 
 class CommonFields(viewsets.ModelViewSet):
@@ -69,7 +83,7 @@ class TypeProduitViewSet(viewsets.ModelViewSet):
 class CatalogueViewSet(viewsets.ModelViewSet):
     queryset = Catalogue.objects.all().order_by("ref_rayon", "ref_section", "ref_type_produit")
     serializer_class = CatalogueSerializer
-    permission_classes = [IsAdminUser, ]
+    permission_classes = [IsAdminOrReadOnly, ]
 
     def perform_create(self, serializer):
         kwarg_rayon = serializer.validated_data['ref_rayon']
@@ -92,60 +106,28 @@ class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
-class ArticleListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Article.objects.all().order_by('-created_at')
-    serializer_class = ArticleSerializer
+class CouleurViewSet(viewsets.ModelViewSet):
+    queryset = Couleur.objects.all()
+    serializer_class = CouleurSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
-class ArticleCreateAPIView(generics.CreateAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleCreateSerializer
+class CategorieViewSet(CommonFields):
+    queryset = Categorie.objects.all()
+    serializer_class = CategorieSerializer
+
+
+class DevisViewSet(viewsets.ModelViewSet):
+    queryset = Devis.objects.all()
+    lookup_field = "numero_devis"
+    serializer_class = DevisSerializer
     permission_classes = [IsAdminUser, ]
-
-
-class ArticleRUDApiView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-    lookup_field = 'slug'
-    permission_classes = [IsAdminOrReadOnly, ]
-
-
-class ArticleImageListCreateAPIView(generics.ListCreateAPIView):
-    queryset = ArticleImage.objects.all()
-    serializer_class = ArticleImageSerializer
-    permission_classes = [IsAdminOrReadOnly, ]
-
-    def get_queryset(self):
-        """
-        Permet de récupérer les images pour un article spécifique par slug
-        :return: Retourne les images d'un article
-        """
-        kwarg_slug = self.kwargs.get("slug")
-        test = ArticleImage.objects.filter(ref_article__slug=kwarg_slug)
-        return test
-
-    def perform_create(self, serializer):
-        kwarg_slug = self.kwargs.get("slug")
-        article = get_object_or_404(Article, slug=kwarg_slug)
-        serializer.save(ref_article=article)
-
-
-class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ArticleImage.objects.all()
-    serializer_class = ArticleImageSerializer
-    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class EntrepriseLemkaViewSet(viewsets.ModelViewSet):
     queryset = EntrepriseLemka.objects.all()
     serializer_class = EntrepriseLemkaSerializer
     permission_classes = [IsAdminOrReadOnly, ]
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    lookup_field = 'username'
-    serializer_class = UserSerializer
 
 
 class AccompteDemandeViewSet(viewsets.ModelViewSet):
@@ -155,19 +137,22 @@ class AccompteDemandeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser, ]
 
 
-class HoraireViewSet(CommonFields):
+class HoraireViewSet(viewsets.ModelViewSet):
     queryset = Horaire.objects.all()
     serializer_class = HoraireSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
-class DetailViewSet(CommonFields):
+class DetailViewSet(viewsets.ModelViewSet):
     queryset = Detail.objects.all()
     serializer_class = DetailSerialiser
+    permission_classes = [IsAdminUser]
 
 
-class TvaViewSet(CommonFields):
+class TvaViewSet(viewsets.ModelViewSet):
     queryset = Tva.objects.all()
     serializer_class = TvaSertializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class MensurationViewSet(viewsets.ModelViewSet):
@@ -218,48 +203,49 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
             raise ValidationError(e)
 
 
-class CouleurViewSet(viewsets.ModelViewSet):
-    queryset = Couleur.objects.all()
-    serializer_class = CouleurSerializer
+# region Traitement Article
+class ArticleListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Article.objects.all().order_by('-created_at')
+    serializer_class = ArticleSerializer
+
+
+class ArticleRUDApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    lookup_field = 'slug'
     permission_classes = [IsAdminOrReadOnly, ]
 
 
-class CategorieViewSet(CommonFields):
-    queryset = Categorie.objects.all()
-    serializer_class = CategorieSerializer
+class ArticleImageListCreateAPIView(generics.ListCreateAPIView):
+    queryset = ArticleImage.objects.all()
+    serializer_class = ArticleImageSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
+
+    def get_queryset(self):
+        """
+        Permet de récupérer les images pour un article spécifique par slug
+        :return: Retourne les images d'un article
+        """
+        kwarg_slug = self.kwargs.get("slug")
+        test = ArticleImage.objects.filter(ref_article__slug=kwarg_slug)
+        return test
+
+    def perform_create(self, serializer):
+        kwarg_slug = self.kwargs.get("slug")
+        article = get_object_or_404(Article, slug=kwarg_slug)
+        serializer.save(ref_article=article)
 
 
-# class MercerieViewSet(CommonFields):
-#     queryset = Mercerie.objects.all()
-#     serializer_class = MercerieSerializer
-#
-#
-# class MercerieCouleurViewSet(CommonFields):
-#     queryset = MercerieOption.objects.all()
-#     serializer_class = MercerieOptionSerializer
-#
-#
-# class MercerieCouleurImageListCreateAPIView(generics.ListCreateAPIView):
-#     queryset = MercerieOptionImage.objects.all()
-#     serializer_class = MercerieOptionImageSerializer
-#
-#     def get_queryset(self):
-#         kwarg_pk = self.kwargs.get("pk")
-#         merceriescouleur = MercerieOptionImage.objects.filter(ref_mercerie_option_id=kwarg_pk)
-#         return merceriescouleur
-#
-#     def perform_create(self, serializer):
-#         kwarg_pk = self.kwargs.get("pk")
-#         mercerie = get_object_or_404(MercerieOption, id=kwarg_pk)
-#         serializer.save(ref_mercerie_couleur=mercerie)
-#
-#
-# class MercerieCouleurImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = MercerieOptionImage.objects.all()
-#     serializer_class = MercerieOptionImageSerializer
-#     permission_classes = [IsAdminUser, ]
+class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ArticleImage.objects.all()
+    serializer_class = ArticleImageSerializer
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
+# endregion
+
+
+# region Traitement Mercerie
 class MercerieListCreateApiView(generics.ListCreateAPIView):
     queryset = Mercerie.objects.all()
     serializer_class = MercerieSerializer
@@ -340,6 +326,10 @@ class MercerieOptionCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIV
     serializer_class = MercerieOptionCaracteristiqueSerializer
 
 
+# endregion
+
+
+# region Traitement de l'utilisateur
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -353,6 +343,7 @@ class UserRetrieveAPIView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = "username"
+    permission_classes = [IsAdminUser]
 
     def get_object(self):
         queryset = self.get_queryset()
@@ -363,13 +354,24 @@ class UserRetrieveAPIView(generics.RetrieveUpdateAPIView):
 
 class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
     queryset = Adresse.objects.all()
-    serializer_class = AdresseSerializer
+    serializer_class = AdminAdresseSerializer
+    permission_classes = [IsAdminUser]
 
     def get_object(self):
         queryset = self.get_queryset()
         kwarg_username = self.kwargs.get("username")
         obj = get_object_or_404(queryset, ref_user__username=kwarg_username)
         return obj
+
+
+# endregion
+
+
+class DemandeDevisViewSet(viewsets.ModelViewSet):
+    queryset = DemandeDevis.objects.all()
+    lookup_field = "pk"
+    serializer_class = AdminDemandeDevisSerializer
+    permission_classes = [IsAdminUser]
 
 
 class Dashboard(APIView):

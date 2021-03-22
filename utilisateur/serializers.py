@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from lemka.models import DemandeDevis
+from lemka.models import DemandeDevis, RendezVous
 
 
 class UserDemandeDevisSerializer(serializers.ModelSerializer):
@@ -14,3 +14,12 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'numero_demande_devis': {'read_only': True}
         }
+
+
+class UserRendezVousSerializer(serializers.ModelSerializer):
+    ref_user = serializers.StringRelatedField(read_only=True)
+    end = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = RendezVous
+        fields = "__all__"
