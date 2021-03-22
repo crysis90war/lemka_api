@@ -75,8 +75,11 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_utilisateur(self, instance):
-        full_name = f'{instance.ref_user.first_name} {instance.ref_user.last_name}'
-        return full_name
+        if instance.ref_user.first_name and instance.ref_user.last_name:
+            full_name = f'{instance.ref_user.first_name} {instance.ref_user.last_name}'
+            return full_name
+        else:
+            return instance.ref_user.username
 
 
 class DevisSerializer(serializers.ModelSerializer):
