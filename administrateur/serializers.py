@@ -67,12 +67,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     numero_demande_devis = serializers.StringRelatedField(read_only=True)
-    ref_user = serializers.StringRelatedField(read_only=True)
     utilisateur = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
         fields = "__all__"
+        extra_kwargs = {
+            'ref_user': {'read_only': True}
+        }
 
     def get_utilisateur(self, instance):
         if instance.ref_user.first_name and instance.ref_user.last_name:
