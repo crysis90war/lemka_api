@@ -66,12 +66,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AdminDemandeDevisSerializer(serializers.ModelSerializer):
-    ref_user = serializers.StringRelatedField(read_only=True)
     numero_demande_devis = serializers.StringRelatedField(read_only=True)
+    ref_user = serializers.StringRelatedField(read_only=True)
+    utilisateur = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
         fields = "__all__"
+
+    def get_utilisateur(self, instance):
+        full_name = f'{instance.ref_user.first_name} {instance.ref_user.last_name}'
+        return full_name
 
 
 class DevisSerializer(serializers.ModelSerializer):
