@@ -263,7 +263,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_images(self, instance):
-        data = ArticleImage.objects.filter(ref_article=instance)
+        data = ArticleImage.objects.filter(ref_article=instance).order_by('is_main')
         serializer = ArticleImageSerializer(data, many=True)
         return serializer.data
 
