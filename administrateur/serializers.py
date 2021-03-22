@@ -263,7 +263,9 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_images(self, instance):
-        return instance.imgs.filter(ref_article=instance)
+        data = ArticleImage.objects.filter(ref_article=instance)
+        serializer = ArticleImageSerializer(data, many=True)
+        return serializer.data
 
 
 class MercerieSerializer(serializers.ModelSerializer):
