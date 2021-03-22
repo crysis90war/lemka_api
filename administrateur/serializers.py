@@ -226,6 +226,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     section = serializers.SerializerMethodField(read_only=True)
     type_produit = serializers.SerializerMethodField(read_only=True)
     utilisateur_a_like = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Article
@@ -259,6 +260,10 @@ class ArticleSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_type_produit(self, instance):
         return instance.ref_catalogue.ref_type_produit.type_produit
+
+    # noinspection PyMethodMayBeStatic
+    def get_images(self, instance):
+        return instance.imgs.filter(ref_article=instance)
 
 
 class MercerieSerializer(serializers.ModelSerializer):

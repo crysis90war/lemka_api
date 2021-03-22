@@ -221,7 +221,7 @@ class ArticleImage(models.Model):
     image = models.ImageField(default='default.jpg', upload_to=path_and_rename_article_image)
     is_main = models.BooleanField(default=False)
 
-    ref_article = models.ForeignKey(Article, on_delete=models.Model)
+    ref_article = models.ForeignKey(Article, on_delete=models.Model, related_name='imgs')
 
     class Meta:
         ordering = ['ref_article__slug', '-is_main']
