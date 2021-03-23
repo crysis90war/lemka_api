@@ -207,6 +207,7 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 # region Traitement Article
 class ArticleListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ArticleSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_queryset(self):
         if not self.request.user.is_staff:
