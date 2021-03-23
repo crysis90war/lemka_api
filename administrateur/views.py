@@ -205,8 +205,15 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 
 # region Traitement Article
 class ArticleListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Article.objects.all().order_by('-created_at')
     serializer_class = ArticleSerializer
+
+    def get_queryset(self):
+        if not self.request.user.is_staff:
+            queryset = Article.objects.filter(est_active=True).order_by('-created_at')
+            return queryset
+        else:
+            queryset = Article.objects.all().order_by('-created_at')
+            return queryset
 
 
 class ArticleRUDApiView(generics.RetrieveUpdateDestroyAPIView):
