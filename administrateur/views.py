@@ -92,8 +92,7 @@ class CatalogueViewSet(viewsets.ModelViewSet):
         kwarg_section = serializer.validated_data['ref_section']
         kwarg_type_produit = serializer.validated_data['ref_type_produit']
 
-        if Catalogue.objects.filter(ref_rayon=kwarg_rayon, ref_section=kwarg_section,
-                                    ref_type_produit=kwarg_type_produit).exists():
+        if Catalogue.objects.filter(ref_rayon=kwarg_rayon, ref_section=kwarg_section, ref_type_produit=kwarg_type_produit).exists():
             raise ValidationError("Ce catalogue existe déja !")
         serializer.save(ref_rayon=kwarg_rayon, ref_section=kwarg_section, ref_type_produit=kwarg_type_produit)
 
