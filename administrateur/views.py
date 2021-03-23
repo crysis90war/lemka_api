@@ -84,7 +84,7 @@ class CatalogueViewSet(viewsets.ModelViewSet):
     queryset = Catalogue.objects.all().order_by("ref_rayon", "ref_section", "ref_type_produit")
     serializer_class = CatalogueSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['rayon', 'section', 'type_produit']
+    search_fields = ['ref_rayon__rayon', 'ref_section__section', 'ref_type_produit__type_produit']
     permission_classes = [IsAdminOrReadOnly, ]
 
     def perform_create(self, serializer):
