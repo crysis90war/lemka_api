@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.db.models import Q
-from rest_framework import generics, status, views, viewsets
+from rest_framework import generics, status, views
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
