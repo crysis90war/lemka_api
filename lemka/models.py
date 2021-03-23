@@ -329,60 +329,6 @@ class MercerieOptionImage(models.Model):
             return f'{reference} | {nom} {couleur} - Secondaire'
 
 
-# class Materiel(Commun):
-#     reference = models.CharField(max_length=255)
-#     prix_u_ht = models.DecimalField(max_digits=10, decimal_places=3)
-#     stock = models.FloatField()
-#
-#     def __str__(self):
-#         return f'{self.reference} | {self.nom}'
-#
-#
-# class Tissu(Commun):
-#     reference = models.CharField(max_length=255)
-#     densite = models.FloatField()
-#
-#     def __str__(self):
-#         return f'{self.nom}'
-#
-#
-# class TissuCouleur(models.Model):
-#     prix_u_ht = models.DecimalField(max_digits=10, decimal_places=3)
-#     stock = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
-#
-#     ref_tissu = models.ForeignKey(Tissu, on_delete=models.CASCADE)
-#     ref_couleur = models.ForeignKey(Couleur, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         reference = self.ref_tissu.reference
-#         couleur = self.ref_couleur.nom
-#         return f'{couleur} | {reference}'
-#
-#
-# class TissuCouleurImage(models.Model):
-#     image = models.ImageField(default='default.jpg', upload_to=path_and_rename_tissu_couleur_image)
-#     is_main = models.BooleanField(default=False)
-#
-#     ref_tissu_couleur = models.ForeignKey(TissuCouleur, on_delete=models.CASCADE)
-#
-#     class Meta:
-#         ordering = ['ref_tissu_couleur__ref_tissu__nom', '-is_main']
-#
-#     def save(self, *args, **kwargs):
-#         super(TissuCouleurImage, self).save(*args, **kwargs)
-#
-#         if self.image:
-#             resize_image(self.image.path, (360, 360))
-#
-#     def __str__(self):
-#         reference = self.ref_tissu_couleur.ref_tissu.reference
-#         couleur = self.ref_tissu_couleur.ref_couleur.nom
-#         if self.is_main is True:
-#             return f'{reference} | {couleur} - Principale'
-#         else:
-#             return f'{reference} | {couleur} - Secondaire'
-
-
 class DemandeDevis(models.Model):
     numero_demande_devis = models.PositiveBigIntegerField(unique=True, )
     titre = models.CharField(max_length=255)
@@ -398,8 +344,6 @@ class DemandeDevis(models.Model):
     ref_mensuration = models.ForeignKey(UserMensuration, blank=True, null=True, on_delete=models.CASCADE)
 
     ref_mercerie_option = models.ManyToManyField(MercerieOption, blank=True, related_name='merceries')
-    # ref_materiel = models.ManyToManyField(Materiel, blank=True, related_name='matérieux')
-    # ref_tissu = models.ManyToManyField(TissuCouleur, blank=True, related_name='tissus')
 
     class Meta:
         ordering = ['-est_soumis', '-created_at']
