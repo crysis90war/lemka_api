@@ -376,8 +376,7 @@ class Devis(models.Model):
     est_soumis = models.BooleanField(default=False)
 
     ref_accompte = models.ForeignKey(AccompteDemande, on_delete=models.CASCADE, verbose_name='Accompte démandé')
-    ref_demande_devis = models.ForeignKey(DemandeDevis, null=True, blank=True, on_delete=models.CASCADE,
-                                          verbose_name='Demande de devis')
+    ref_demande_devis = models.ForeignKey(DemandeDevis, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Demande de devis')
 
     class Meta:
         ordering = ['-created_at']
