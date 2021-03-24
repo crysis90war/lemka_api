@@ -12,7 +12,6 @@ from lemka.models import (
     User, UserMensuration, MensurationUserMensuration, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire
 )
 from lemka.permissions import UserGetPostPermission
-# from lemka.serializers import *
 from utilisateur.serializers import UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, \
     UserMensurationSerializer, MensurationUserMensurationSerializer, UserAdresseSerializer
 
@@ -132,6 +131,12 @@ class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         request_user = self.request.user
         serializer.save(ref_user=request_user)
+
+
+class UserDemandeDevisRUApiView(generics.RetrieveUpdateAPIView):
+    queryset = DemandeDevis.objects.all()
+    serializer_class = UserDemandeDevisSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class ArticleLikeAPIView(views.APIView):

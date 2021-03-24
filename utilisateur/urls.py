@@ -17,7 +17,8 @@ urlpatterns = [
     path('profil/mensurations/<int:ref_user_mensuration_id>/mesures/', MensurationUserMensurationListApiView.as_view()),
     path('profil/mensurations/<int:ref_user_mensuration_id>/mesures/<int:pk>/', MensurationUserMensurationUpdateApiView.as_view()),
 
-    path('demandes_devis/', UserDemandeDevisListCreateApiView.as_view()),
+    path('profil/demandes_devis/', UserDemandeDevisListCreateApiView.as_view()),
+    path('profil/demandes_devis/<int:pk>/', UserDemandeDevisRUApiView.as_view()),
 
     path('articles/<slug:slug>/like/', ArticleLikeAPIView.as_view(), name='article-like'),
 
