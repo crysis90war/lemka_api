@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
 
 from administrateur.serializers import ArticleSerializer
@@ -50,3 +50,5 @@ class ArticleTypeProduitListAPIView(ArticleServiceListAPIView):
 class GlobalMercerieListApiView(generics.ListAPIView):
     queryset = MercerieOption.objects.all().filter(est_publie=True, ref_mercerie__est_publie=True)
     serializer_class = GlobalMerceriesSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['reference', 'description', 'ref_mercerie__nom', 'ref_couleur__nom']
