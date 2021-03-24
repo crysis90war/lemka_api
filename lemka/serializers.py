@@ -1,15 +1,7 @@
-import decimal
-
 from rest_framework import serializers
 
-from administrateur.serializers import RayonSerializer, SectionSerializer, TypeProduitSerializer
+from administrateur.serializers import MercerieOptionCaracteristiqueSerializer, MercerieOptionImageSerializer
 from lemka.models import *
-
-
-class AdresseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Adresse
-        exclude = ['ref_user']
 
 
 class ArticleListSerializer(serializers.ModelSerializer):
@@ -52,59 +44,28 @@ class ArticleListSerializer(serializers.ModelSerializer):
         return instance.ref_catalogue.ref_type_produit.type_produit
 
 
-class UserMensurationSerializer(serializers.ModelSerializer):
-    # id = serializers.IntegerField(read_only=True)
+class GlobalMerceriesSerializer(serializers.ModelSerializer):
+    caracteristiques = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField(read_only=True)
+    name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = UserMensuration
-        exclude = ['ref_user']
+        model = MercerieOption
+        fields = '__all__'
 
+    # noinspection PyMethodMayBeStatic
+    def get_name(self, instance):
+        name = instance.ref_mercerie.nom
+        couleur = instance.ref_couleur.nom
+        return f'{name} - {couleur}'
 
-class MensurationUserMensurationSerializer(serializers.ModelSerializer):
-    mensuration = serializers.SerializerMethodField(read_only=True)
+    def get_caracteristiques(self, instance):
+        data = instance.catacteristiques.filter(ref_mercerie_option=instance)
+        serializer = MercerieOptionCaracteristiqueSerializer(data, many=True)
+        return serializer.data
 
-    class Meta:
-        model = MensurationUserMensuration
-        exclude = ['ref_user_mensuration', 'ref_mensuration']
-
-    def get_mensuration(self, instance):
-        return instance.ref_mensuration.nom
-
-
-class ProfilSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=False)
-    email = serializers.StringRelatedField(read_only=True)
-    last_login = serializers.StringRelatedField(read_only=True)
-    created_at = serializers.StringRelatedField(read_only=True)
-    updated_at = serializers.StringRelatedField(read_only=True)
-    is_verified = serializers.StringRelatedField(read_only=True)
-    is_active = serializers.StringRelatedField(read_only=True)
-    is_staff = serializers.StringRelatedField(read_only=True)
-
-    class Meta:
-        model = User
-        exclude = ['id', 'groups', 'user_permissions', 'auth_provider', 'is_superuser']
-
-
-class UserImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['image']
-
-
-class UserAdresseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Adresse
-        exclude = ['ref_user', 'id']
-
-
-class UserCreateAdresseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Adresse
-        exclude = ['id']
-
-
-class CheckUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username']
+    # noinspection PyMethodMayBeStatic
+    def get_images(self, instance):
+        data = MercerieOptionImage.objects.filter(ref_mercerie_option=instance).order_by('is_main')
+        serializer = MercerieOptionImageSerializer(data, many=True)
+        return serializer.data

@@ -256,6 +256,13 @@ class Couleur(models.Model):
         return f'{self.nom}'
 
 
+class Caracteristique(models.Model):
+    nom = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.nom
+
+
 class Mercerie(models.Model):
     nom = models.CharField(max_length=255)
     est_publie = models.BooleanField(default=False)
@@ -284,15 +291,8 @@ class MercerieOption(models.Model):
         return f'{self.reference} | {self.ref_mercerie.nom} - {self.ref_couleur.nom}'
 
 
-class Caracteristique(models.Model):
-    nom = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.nom
-
-
 class MercerieOptionCaracteristique(models.Model):
-    ref_mercerie_option = models.ForeignKey(MercerieOption, null=False, blank=False, on_delete=models.CASCADE)
+    ref_mercerie_option = models.ForeignKey(MercerieOption, null=False, blank=False, on_delete=models.CASCADE, related_name='catacteristiques')
     ref_caracteristique = models.ForeignKey(Caracteristique, null=False, blank=False, on_delete=models.CASCADE)
     valeur = models.DecimalField(max_digits=10, decimal_places=2,
                                  validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])

@@ -8,9 +8,13 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from administrateur.serializers import ArticleSerializer
+from lemka.models import (
+    User, UserMensuration, MensurationUserMensuration, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire
+)
 from lemka.permissions import UserGetPostPermission
-from lemka.serializers import *
-from utilisateur.serializers import UserDemandeDevisSerializer, UserRendezVousSerializer
+# from lemka.serializers import *
+from utilisateur.serializers import UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, \
+    UserMensurationSerializer, MensurationUserMensurationSerializer, UserAdresseSerializer
 
 
 class ProfilAPIView(generics.RetrieveUpdateDestroyAPIView):

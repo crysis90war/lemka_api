@@ -2,7 +2,8 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 
 from administrateur.serializers import ArticleSerializer
-from lemka.serializers import *
+from lemka.models import Article, MercerieOption
+from lemka.serializers import GlobalMerceriesSerializer
 
 
 class ArticleServiceListAPIView(generics.ListAPIView):
@@ -44,4 +45,8 @@ class ArticleTypeProduitListAPIView(ArticleServiceListAPIView):
             ref_catalogue__ref_section__section_slug=kwarg_section_slug,
             ref_catalogue__ref_type_produit__type_produit_slug=kwarg_type_produit_slug
         )
-# endregion
+
+
+class GlobalMercerieListApiView(generics.ListAPIView):
+    queryset = MercerieOption.objects.all().filter(est_publie=True, ref_mercerie__est_publie=True)
+    serializer_class = GlobalMerceriesSerializer
