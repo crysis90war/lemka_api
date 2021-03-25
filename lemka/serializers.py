@@ -46,6 +46,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
 class GlobalMerceriesSerializer(serializers.ModelSerializer):
     caracteristiques = serializers.SerializerMethodField(read_only=True)
+    reference = serializers.CharField()
     images = serializers.SerializerMethodField(read_only=True)
     name = serializers.SerializerMethodField(read_only=True)
 
