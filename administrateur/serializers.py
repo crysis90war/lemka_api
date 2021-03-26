@@ -4,8 +4,8 @@ from rest_framework import serializers
 
 from lemka.models import (
     Pays, Ville, EntrepriseLemka, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
-    Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieOption,
-    MercerieOptionImage, MercerieOptionCaracteristique
+    Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieOption, MercerieOptionImage,
+    MercerieOptionCaracteristique
 )
 
 
