@@ -21,7 +21,6 @@ router.register('tva', TvaViewSet),
 router.register('entreprises', EntrepriseLemkaViewSet)
 
 router.register('catalogues', CatalogueViewSet)
-router.register('accomptedemande', AccompteDemandeViewSet)
 router.register('details', DetailViewSet)
 router.register('demandedevisadmin', DemandeDevisViewSet)
 router.register('devis', DevisViewSet)

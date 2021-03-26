@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from lemka.models import (
     Pays, Ville, EntrepriseLemka, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
-    Catalogue, Couleur, Categorie, AccompteDemande, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieOption,
+    Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieOption,
     MercerieOptionImage, MercerieOptionCaracteristique
 )
 
@@ -168,12 +168,6 @@ class CouleurSerializer(serializers.ModelSerializer):
 class CategorieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categorie
-        fields = "__all__"
-
-
-class AccompteDemandeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AccompteDemande
         fields = "__all__"
 
 

@@ -63,14 +63,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         }
 
 
-class AccompteDemande(models.Model):
-    taux = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])
-
-    def __str__(self):
-        taux = self.taux * 100
-        return f'{taux} %'
-
-
 class Pays(models.Model):
     pays = models.CharField(max_length=255)
     code = models.CharField(max_length=50)
@@ -375,7 +367,6 @@ class Devis(models.Model):
     est_accepte = models.BooleanField(null=True, blank=True)
     est_soumis = models.BooleanField(default=False)
 
-    ref_accompte = models.ForeignKey(AccompteDemande, on_delete=models.CASCADE, verbose_name='Accompte démandé')
     ref_demande_devis = models.ForeignKey(DemandeDevis, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Demande de devis')
 
     class Meta:

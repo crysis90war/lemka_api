@@ -8,13 +8,13 @@ from rest_framework.views import APIView
 from administrateur.serializers import (
     GenreSerializer, VilleSerializer, PaysSerializer, EntrepriseLemkaSerializer, UserSerializer, AdminDemandeDevisSerializer,
     DevisSerializer, TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer,
-    SectionSerializer, TypeProduitSerializer, CatalogueSerializer, CouleurSerializer, CategorieSerializer, AccompteDemandeSerializer,
+    SectionSerializer, TypeProduitSerializer, CatalogueSerializer, CouleurSerializer, CategorieSerializer,
     HoraireSerializer, DetailSerialiser, TvaSertializer, MensurationSerializer, ArticleSerializer, ArticleImageSerializer,
     MercerieSerializer, MercerieOptionSerializer, MercerieOptionImageSerializer, MercerieOptionCaracteristiqueSerializer
 )
 from lemka.models import (
     Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, Catalogue, User, Article, Mercerie, DemandeDevis, Devis,
-    RendezVous, Tag, Couleur, Categorie, EntrepriseLemka, AccompteDemande, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse,
+    RendezVous, Tag, Couleur, Categorie, EntrepriseLemka, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse,
     MercerieOptionCaracteristique, MercerieOption, MercerieOptionImage
 )
 from lemka.pagination import SmallSetPagination
@@ -126,13 +126,6 @@ class EntrepriseLemkaViewSet(viewsets.ModelViewSet):
     queryset = EntrepriseLemka.objects.all()
     serializer_class = EntrepriseLemkaSerializer
     permission_classes = [IsAdminOrReadOnly, ]
-
-
-class AccompteDemandeViewSet(viewsets.ModelViewSet):
-    queryset = AccompteDemande.objects.all()
-    serializer_class = AccompteDemandeSerializer
-    lookup_field = 'pk'
-    permission_classes = [IsAdminUser, ]
 
 
 class HoraireViewSet(viewsets.ModelViewSet):
