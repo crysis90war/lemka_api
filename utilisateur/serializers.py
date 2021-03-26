@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from lemka.models import DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure
+from lemka.models import (
+    DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure
+)
 
 
 class UserDemandeDevisSerializer(serializers.ModelSerializer):

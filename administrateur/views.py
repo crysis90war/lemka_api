@@ -21,9 +21,6 @@ from lemka.pagination import SmallSetPagination
 from lemka.permissions import IsAdminOrReadOnly
 
 
-# from lemka.serializers import *
-
-
 class CommonFields(viewsets.ModelViewSet):
     lookup_field = 'pk'
     permission_classes = [IsAdminUser, ]
