@@ -9,11 +9,11 @@ from rest_framework.response import Response
 
 from administrateur.serializers import ArticleSerializer
 from lemka.models import (
-    User, UserMensuration, MensurationUserMensuration, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire
+    User, UserMensuration, UserMensurationMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire
 )
 from lemka.permissions import UserGetPostPermission
 from utilisateur.serializers import UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, \
-    UserMensurationSerializer, MensurationUserMensurationSerializer, UserAdresseSerializer
+    UserMensurationSerializer, UserMensurationMesureSerializer, UserAdresseSerializer
 
 
 class ProfilAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -66,26 +66,26 @@ class UserMensurationRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserMensurationSerializer
 
 
-class MensurationUserMensurationListApiView(generics.ListAPIView):
-    queryset = MensurationUserMensuration.objects.all()
-    serializer_class = MensurationUserMensurationSerializer
+class UserMensurationMesureListApiView(generics.ListAPIView):
+    queryset = UserMensurationMesure.objects.all()
+    serializer_class = UserMensurationMesureSerializer
     permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
         kwarg_user = self.request.user
         kwarg_id = self.kwargs.get('ref_user_mensuration_id')
-        return MensurationUserMensuration.objects.filter(ref_user_mensuration=kwarg_id,
-                                                         ref_user_mensuration__ref_user=kwarg_user)
+        return UserMensurationMesure.objects.filter(ref_user_mensuration=kwarg_id,
+                                                    ref_user_mensuration__ref_user=kwarg_user)
 
 
-class MensurationUserMensurationUpdateApiView(generics.RetrieveUpdateAPIView):
-    queryset = MensurationUserMensuration.objects.all()
-    serializer_class = MensurationUserMensurationSerializer
+class UserMensurationMesureUpdateApiView(generics.RetrieveUpdateAPIView):
+    queryset = UserMensurationMesure.objects.all()
+    serializer_class = UserMensurationMesureSerializer
     permission_classes = [AllowAny, ]
 
     def get_queryset(self):
         kwarg_ref_user_mensuration_id = self.kwargs.get('ref_user_mensuration_id')
-        return MensurationUserMensuration.objects.filter(
+        return UserMensurationMesure.objects.filter(
             ref_user_mensuration_id=kwarg_ref_user_mensuration_id,
         )
 

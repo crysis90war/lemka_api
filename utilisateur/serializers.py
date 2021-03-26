@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from lemka.models import DemandeDevis, RendezVous, Adresse, User, UserMensuration, MensurationUserMensuration
+from lemka.models import DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure
 
 
 class UserDemandeDevisSerializer(serializers.ModelSerializer):
@@ -54,11 +54,11 @@ class UserMensurationSerializer(serializers.ModelSerializer):
         exclude = ['ref_user']
 
 
-class MensurationUserMensurationSerializer(serializers.ModelSerializer):
+class UserMensurationMesureSerializer(serializers.ModelSerializer):
     mensuration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = MensurationUserMensuration
+        model = UserMensurationMesure
         exclude = ['ref_user_mensuration', 'ref_mensuration']
 
     # noinspection PyMethodMayBeStatic

@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save, pre_save, post_delete
 from django.dispatch import receiver
 
-from lemka.models import UserMensuration, Mensuration, MensurationUserMensuration
+from lemka.models import UserMensuration, Mensuration, UserMensurationMesure
 
 
 @receiver(pre_save, sender=UserMensuration)
@@ -20,7 +20,7 @@ def create_user_mensuration(sender, instance, created, **kwargs):
         mensurations = Mensuration.objects.all()
 
         for mensuration in mensurations:
-            MensurationUserMensuration.objects.create(ref_mensuration=mensuration, ref_user_mensuration=instance)
+            UserMensurationMesure.objects.create(ref_mensuration=mensuration, ref_user_mensuration=instance)
 
 
 @receiver(post_delete, sender=UserMensuration)
