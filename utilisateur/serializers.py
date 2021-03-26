@@ -61,6 +61,7 @@ class MensurationUserMensurationSerializer(serializers.ModelSerializer):
         model = MensurationUserMensuration
         exclude = ['ref_user_mensuration', 'ref_mensuration']
 
+    # noinspection PyMethodMayBeStatic
     def get_mensuration(self, instance):
         return instance.ref_mensuration.nom
 

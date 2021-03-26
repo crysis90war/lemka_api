@@ -60,6 +60,7 @@ class GlobalMerceriesSerializer(serializers.ModelSerializer):
         couleur = instance.ref_couleur.nom
         return f'{name} - {couleur}'
 
+    # noinspection PyMethodMayBeStatic
     def get_caracteristiques(self, instance):
         data = instance.catacteristiques.filter(ref_mercerie_option=instance)
         serializer = MercerieOptionCaracteristiqueSerializer(data, many=True)

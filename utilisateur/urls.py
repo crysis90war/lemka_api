@@ -23,7 +23,5 @@ urlpatterns = [
     path('articles/<slug:slug>/like/', ArticleLikeAPIView.as_view(), name='article-like'),
 
     # TODO - Devis
-    # TODO - Bon de commande
-    # TODO - Facture
     # TODO - Rendez-vous
 ]

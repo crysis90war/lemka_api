@@ -408,14 +408,6 @@ class Discussion(models.Model):
         return f'{devis} | {envoyeur} -> {receveur} ({date})'
 
 
-class BonCommande(models.Model):
-    numero_bon_commande = models.PositiveIntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    accompte_paye = models.BooleanField()
-
-    ref_devis = models.ForeignKey(Devis, on_delete=models.CASCADE)
-
-
 class Tva(models.Model):
     taux = models.FloatField(unique=True)
 
@@ -425,21 +417,6 @@ class Tva(models.Model):
     def __str__(self):
         taux_en_pct = self.taux * 100
         return f'{taux_en_pct} %'
-
-
-class Facture(models.Model):
-    numero_facture = models.PositiveIntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    ref_bon_commande = models.ForeignKey(BonCommande, on_delete=models.CASCADE)
-
-    """
-    Calcules:
-    --------
-
-    Total HT + TVA - Accompte = Total TTC
-    
-    """
 
 
 class Detail(models.Model):

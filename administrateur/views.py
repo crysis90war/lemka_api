@@ -14,8 +14,8 @@ from administrateur.serializers import (
 )
 from lemka.models import (
     Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, Catalogue, User, Article, Mercerie, DemandeDevis, Devis,
-    BonCommande, Facture, RendezVous, Tag, Couleur, Categorie, EntrepriseLemka, AccompteDemande, Horaire, Detail, Tva, Mensuration,
-    ArticleImage, Adresse, MercerieOptionCaracteristique, MercerieOption, MercerieOptionImage
+    RendezVous, Tag, Couleur, Categorie, EntrepriseLemka, AccompteDemande, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse,
+    MercerieOptionCaracteristique, MercerieOption, MercerieOptionImage
 )
 from lemka.pagination import SmallSetPagination
 from lemka.permissions import IsAdminOrReadOnly
@@ -392,8 +392,6 @@ class Dashboard(APIView):
             merceries_count = Mercerie.objects.count()
             demandes_de_devis_count = DemandeDevis.objects.count()
             devis_count = Devis.objects.count()
-            bons_de_commande_count = BonCommande.objects.count()
-            factures_count = Facture.objects.count()
             rendez_vous_count = RendezVous.objects.count()
 
             admin_dashboard = {
@@ -402,8 +400,6 @@ class Dashboard(APIView):
                 'merceries_count': merceries_count,
                 'demandes_de_devis_count': demandes_de_devis_count,
                 'devis_count': devis_count,
-                'bons_de_commande_count': bons_de_commande_count,
-                'factures_count': factures_count,
                 'rendez_vous_count': rendez_vous_count,
             }
 
