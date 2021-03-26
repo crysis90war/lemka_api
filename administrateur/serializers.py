@@ -76,6 +76,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
             'ref_user': {'read_only': True}
         }
 
+    # noinspection PyMethodMayBeStatic
     def get_utilisateur(self, instance):
         if instance.ref_user.first_name and instance.ref_user.last_name:
             full_name = f'{instance.ref_user.first_name} {instance.ref_user.last_name}'
@@ -295,6 +296,7 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
         couleur = instance.ref_couleur.nom
         return f'{name} - {couleur}'
 
+    # noinspection PyMethodMayBeStatic
     def get_caracteristiques(self, instance):
         data = instance.catacteristiques.filter(ref_mercerie_option=instance)
         serializer = MercerieOptionCaracteristiqueSerializer(data, many=True)
