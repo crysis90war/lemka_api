@@ -267,6 +267,7 @@ class MercerieSerializer(serializers.ModelSerializer):
     nom = serializers.CharField()
     est_publie = serializers.BooleanField(default=False)
     categorie = serializers.SerializerMethodField(read_only=True)
+    options_count = serializers.SerializerMethodField(read_only=True)
     ref_categorie = CategorieSerializer
 
     class Meta:
@@ -276,6 +277,9 @@ class MercerieSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_categorie(self, instance):
         return instance.ref_categorie.nom
+
+    def get_options_count(self, instance):
+        return instance.options.count()
 
 
 class MercerieOptionSerializer(serializers.ModelSerializer):

@@ -239,8 +239,6 @@ class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ArticleImage.objects.all()
     serializer_class = ArticleImageSerializer
     permission_classes = [IsAdminOrReadOnly, ]
-
-
 # endregion
 
 
@@ -323,8 +321,6 @@ class MercerieOptionCaracteristiqueListCreateApiView(generics.ListCreateAPIView)
 class MercerieOptionCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MercerieOptionCaracteristique.objects.all()
     serializer_class = MercerieOptionCaracteristiqueSerializer
-
-
 # endregion
 
 
@@ -361,8 +357,6 @@ class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
         kwarg_username = self.kwargs.get("username")
         obj = get_object_or_404(queryset, ref_user__username=kwarg_username)
         return obj
-
-
 # endregion
 
 

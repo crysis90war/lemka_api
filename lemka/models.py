@@ -273,7 +273,7 @@ class MercerieOption(models.Model):
                                     validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
     stock = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
 
-    ref_mercerie = models.ForeignKey(Mercerie, on_delete=models.CASCADE)
+    ref_mercerie = models.ForeignKey(Mercerie, on_delete=models.CASCADE, related_name='options')
     ref_couleur = models.ForeignKey(Couleur, on_delete=models.CASCADE)
 
     class Meta:
