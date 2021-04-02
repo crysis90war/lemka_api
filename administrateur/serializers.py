@@ -86,6 +86,8 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
 
 
 class DevisSerializer(serializers.ModelSerializer):
+    numero_demande_devis = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Devis
         fields = '__all__'
@@ -94,6 +96,10 @@ class DevisSerializer(serializers.ModelSerializer):
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
         }
+
+    # noinspection PyMethodMayBeStatic
+    def get_numero_demande_devis(self, instance):
+        return f'{instance.ref_demande_devis.numero_demande_devis}'
 
 
 class TypeServiceSerializer(serializers.ModelSerializer):
