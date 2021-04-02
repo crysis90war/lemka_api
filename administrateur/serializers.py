@@ -281,6 +281,7 @@ class MercerieSerializer(serializers.ModelSerializer):
     def get_categorie(self, instance):
         return instance.ref_categorie.nom
 
+    # noinspection PyMethodMayBeStatic
     def get_options_count(self, instance):
         return instance.options.count()
 
