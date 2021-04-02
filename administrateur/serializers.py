@@ -86,11 +86,14 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
 
 
 class DevisSerializer(serializers.ModelSerializer):
-    numero_devis = serializers.StringRelatedField(read_only=True)
-
     class Meta:
         model = Devis
         fields = '__all__'
+        extra_kwargs = {
+            'numero_devis': {'read_only': True},
+            'created_at': {'read_only': True},
+            'updated_at': {'read_only': True},
+        }
 
 
 class TypeServiceSerializer(serializers.ModelSerializer):
