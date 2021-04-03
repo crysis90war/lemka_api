@@ -8,6 +8,7 @@ router = DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('profil/', ProfilAPIView.as_view()),
+    path('articles/<slug:slug>/like/', ArticleLikeAPIView.as_view(), name='article-like'),
 
     path('profil/adresse/create', AdresseCreateAPIView.as_view()),  # CREATE adresse
     path('profil/adresse/', AdresseRUDAPIView.as_view()),  # GET PUT PATCH DELETE adresse
@@ -19,8 +20,6 @@ urlpatterns = [
 
     path('profil/demandes_devis/', UserDemandeDevisListCreateApiView.as_view()),
     path('profil/demandes_devis/<int:pk>/', UserDemandeDevisRUApiView.as_view()),
-
-    path('articles/<slug:slug>/like/', ArticleLikeAPIView.as_view(), name='article-like'),
 
     # TODO - Devis
     # TODO - Rendez-vous
