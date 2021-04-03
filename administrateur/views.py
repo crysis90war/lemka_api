@@ -152,6 +152,22 @@ class MensurationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
+class DetailsListCreateApiView(generics.ListCreateAPIView):
+    queryset = Detail.objects.all()
+    serializer_class = DetailSerialiser
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        kwarg_devis = self.kwargs.get('numero_devis')
+        devis = Detail.objects.filter(ref_devis__numero_devis=kwarg_devis)
+        return devis
+
+    def perform_create(self, serializer):
+        kwarg_devis = self.kwargs.get("numero_devis")
+        devis = get_object_or_404(Devis, numero_devis=kwarg_devis)
+        serializer.save(ref_devis=devis)
+
+
 class DetailListAPIView(generics.ListAPIView):
     serializer_class = DetailSerialiser
 

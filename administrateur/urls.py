@@ -38,9 +38,10 @@ urlpatterns = [
     path('articles/<slug:slug>/images/<int:pk>/', ArticleImageRUDAPIView.as_view(), name='article-image-detail'),
 
     # Récupération, création et détail avec update et supprésion d'images pour un mercerie donné
-    path('devis/<str:numero_devis>/details/', DetailListAPIView.as_view(), name='detail-list'),
-    path('devis/<str:numero_devis>/details/', DetailCreateAPIView.as_view(), name='detail-create'),
-    path('devis/<str:numero_devis>/<int:pk>/', DetailRUDApiView.as_view(), name='detail-detail'),
+    path('devis/<str:numero_devis>/details/', DetailsListCreateApiView.as_view()),
+    # path('devis/<str:numero_devis>/details/', DetailListAPIView.as_view(), name='detail-list'),
+    # path('devis/<str:numero_devis>/details/', DetailCreateAPIView.as_view(), name='detail-create'),
+    path('devis/<str:numero_devis>/details/<int:pk>/', DetailRUDApiView.as_view()),
 
     # Récupération, création et détail avec update et suppréssion de mercerie
     path('merceries/', MercerieListCreateApiView.as_view()),
