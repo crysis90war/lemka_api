@@ -57,3 +57,17 @@ def path_and_rename_mercerie_couleur_image(instance, filename):
         filename = f'{Utils.generate_random_string()}.{ext}'
     # return the whole path to the file
     return os.path.join(upload_to, filename)
+
+
+def path_and_rename_demande_devis_image(instance, filename):
+    upload_to = ''
+    ext = filename.split('.')[-1]
+    if instance.ref_demande_devis.numero_demande_devis:
+        dossier = "demande_devis"
+        demande_devis = instance.ref_demande_devis.numero_demande_devis
+        user = instance.ref_demande_devis.ref_user.username
+        upload_to = f'{dossier}/{demande_devis}'
+        filename = f'{demande_devis}-{user}-{Utils.generate_random_string()}.{ext}'
+    else:
+        filename = f'{Utils.generate_random_string()}.{ext}'
+    return os.path.join(upload_to, filename)

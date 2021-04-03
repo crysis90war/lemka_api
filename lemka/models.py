@@ -352,7 +352,7 @@ class DemandeDevis(models.Model):
 
 
 class DemadeDevisImage(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to=path_and_rename_demande_devis_image)
 
     ref_demande_devis = models.ForeignKey(DemandeDevis, on_delete=models.CASCADE)
 
