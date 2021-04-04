@@ -365,7 +365,7 @@ class Devis(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     remarque = models.TextField(default="")
-    est_accepte = models.BooleanField(null=True, blank=True)
+    est_accepte = models.BooleanField(null=True)
     est_soumis = models.BooleanField(default=False)
 
     ref_demande_devis = models.ForeignKey(DemandeDevis, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Demande de devis')
