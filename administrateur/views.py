@@ -117,7 +117,6 @@ class CategorieViewSet(CommonFields):
 
 class DevisViewSet(viewsets.ModelViewSet):
     queryset = Devis.objects.all()
-    lookup_field = "numero_devis"
     serializer_class = AdminDevisSerializer
     # permission_classes = [IsAdminUser, ]
 
