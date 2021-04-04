@@ -117,6 +117,7 @@ class CategorieViewSet(CommonFields):
 
 class DevisViewSet(viewsets.ModelViewSet):
     queryset = Devis.objects.all()
+    lookup_field = 'numero_devis'
     serializer_class = AdminDevisSerializer
 
     # permission_classes = [IsAdminUser, ]
@@ -147,7 +148,7 @@ class HoraireViewSet(viewsets.ModelViewSet):
 class DetailViewSet(viewsets.ModelViewSet):
     queryset = Detail.objects.all()
     serializer_class = DetailSerialiser
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
 
 class TvaViewSet(viewsets.ModelViewSet):
@@ -164,8 +165,9 @@ class MensurationViewSet(viewsets.ModelViewSet):
 
 class DetailsListCreateApiView(generics.ListCreateAPIView):
     queryset = Detail.objects.all()
+    lookup_field = 'numero_devis'
     serializer_class = DetailSerialiser
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     def get_queryset(self):
         kwarg_devis = self.kwargs.get('numero_devis')

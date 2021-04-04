@@ -87,6 +87,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
 
 class AdminDevisSerializer(serializers.ModelSerializer):
     numero_demande_devis = serializers.SerializerMethodField(read_only=True)
+    details = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Devis
@@ -101,6 +102,12 @@ class AdminDevisSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_numero_demande_devis(self, instance):
         return f'{instance.ref_demande_devis.numero_demande_devis}'
+
+    # noinspection PyMethodMayBeStatic
+    def get_details(self, instance):
+        data = Detail.objects.filter(ref_devis=instance)
+        serializer = DetailSerialiser(data, many=True)
+        return serializer.data
 
 
 class TypeServiceSerializer(serializers.ModelSerializer):
@@ -189,17 +196,9 @@ class HoraireSerializer(serializers.ModelSerializer):
 
 
 class DetailSerialiser(serializers.ModelSerializer):
-    ref_devis = serializers.StringRelatedField(read_only=True)
-    total_ht = serializers.SerializerMethodField()
-
     class Meta:
         model = Detail
         fields = '__all__'
-
-    # noinspection PyMethodMayBeStatic
-    def get_total_ht(self, instance):
-        total = float(instance.prix_u_ht) * instance.quantite
-        return round(decimal.Decimal(total), 2)
 
 
 class TvaSertializer(serializers.ModelSerializer):

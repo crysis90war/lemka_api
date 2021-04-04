@@ -416,7 +416,7 @@ class Detail(models.Model):
     prix_u_ht = models.DecimalField(max_digits=10, decimal_places=3)
     quantite = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999999.0)])
 
-    ref_devis = models.ForeignKey(Devis, on_delete=models.CASCADE)
+    ref_devis = models.ForeignKey(Devis, on_delete=models.CASCADE, related_name='details')
     ref_tva = models.ForeignKey(Tva, on_delete=models.CASCADE)
 
     def __str__(self):
