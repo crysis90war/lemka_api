@@ -1,12 +1,8 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
 from utilisateur.views import *
 
-router = DefaultRouter()
-
 urlpatterns = [
-    path('', include(router.urls)),
     path('profil/', ProfilAPIView.as_view()),
     path('articles/<slug:slug>/like/', ArticleLikeAPIView.as_view(), name='article-like'),
 
@@ -21,6 +17,9 @@ urlpatterns = [
     path('profil/demandes_devis/', UserDemandeDevisListCreateApiView.as_view()),
     path('profil/demandes_devis/<int:pk>/', UserDemandeDevisRUApiView.as_view()),
 
+    # path('profil/devis/'),
+    # path('profil/devis/<str:devis_numero>/details/'),
+    # path('profil/devis/<str:devis_numero>/details/<int:pk>/'),
     # TODO - Devis
     # TODO - Rendez-vous
 ]

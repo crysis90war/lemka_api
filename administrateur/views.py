@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics, filters
+from rest_framework import viewsets, generics, filters, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAdminUser
@@ -90,7 +90,7 @@ class CatalogueViewSet(viewsets.ModelViewSet):
         kwarg_type_produit = serializer.validated_data['ref_type_produit']
 
         if Catalogue.objects.filter(ref_rayon=kwarg_rayon, ref_section=kwarg_section, ref_type_produit=kwarg_type_produit).exists():
-            raise ValidationError("Ce catalogue existe déja !")
+            raise ValidationError(detail={"detail": "Ce catalogue existe déja !"})
         serializer.save(ref_rayon=kwarg_rayon, ref_section=kwarg_section, ref_type_produit=kwarg_type_produit)
 
 
@@ -118,7 +118,18 @@ class CategorieViewSet(CommonFields):
 class DevisViewSet(viewsets.ModelViewSet):
     queryset = Devis.objects.all()
     serializer_class = AdminDevisSerializer
+
     # permission_classes = [IsAdminUser, ]
+
+    def perform_create(self, serializer):
+        kwarg_demande_devis = serializer.validated_data['ref_demande_devis']
+
+        if Devis.objects.filter(ref_demande_devis=kwarg_demande_devis).exists():
+            raise ValidationError(
+                detail={"detail": "Il y a deja un devis pour cette demande, veuillez modifier l'existant !"},
+                code=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save(ref_demande_devis=kwarg_demande_devis)
 
 
 class EntrepriseLemkaViewSet(viewsets.ModelViewSet):
@@ -254,6 +265,8 @@ class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ArticleImage.objects.all()
     serializer_class = ArticleImageSerializer
     permission_classes = [IsAdminOrReadOnly, ]
+
+
 # endregion
 
 
@@ -336,6 +349,8 @@ class MercerieOptionCaracteristiqueListCreateApiView(generics.ListCreateAPIView)
 class MercerieOptionCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MercerieOptionCaracteristique.objects.all()
     serializer_class = MercerieOptionCaracteristiqueSerializer
+
+
 # endregion
 
 
@@ -372,6 +387,8 @@ class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
         kwarg_username = self.kwargs.get("username")
         obj = get_object_or_404(queryset, ref_user__username=kwarg_username)
         return obj
+
+
 # endregion
 
 
@@ -385,7 +402,7 @@ class DemandeDevisViewSet(viewsets.ModelViewSet):
 class Dashboard(APIView):
 
     def get(self, request, *args, **kwargs):
-        if not self.request.user.is_anonymous and self.request.user.is_staff:
+        if self.request.user.is_staff:
             users_count = User.objects.count()
             articles_counts = Article.objects.count()
             merceries_count = Mercerie.objects.count()
@@ -403,8 +420,16 @@ class Dashboard(APIView):
             }
 
             return Response(data=admin_dashboard)
+        elif self.request.user.is_anonymous:
+            raise ValidationError(
+                detail={"detail": "Veuillez vous connecter !"},
+                code=status.HTTP_400_BAD_REQUEST
+            )
         else:
-            raise ValidationError("Vous n'avez pas l'autorisation")
+            raise ValidationError(
+                detail={"detail": "Vous n'avez pas l'autorisation"},
+                code=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class CheckUserAPIView(APIView):
