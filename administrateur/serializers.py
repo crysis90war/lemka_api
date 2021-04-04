@@ -85,13 +85,14 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
             return instance.ref_user.username
 
 
-class DevisSerializer(serializers.ModelSerializer):
+class AdminDevisSerializer(serializers.ModelSerializer):
     numero_demande_devis = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Devis
         fields = '__all__'
         extra_kwargs = {
+            'est_accepte': {'read_only': True},
             'numero_devis': {'read_only': True},
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},

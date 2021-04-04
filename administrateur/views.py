@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from administrateur.serializers import (
     GenreSerializer, VilleSerializer, PaysSerializer, EntrepriseLemkaSerializer, UserSerializer, AdminDemandeDevisSerializer,
-    DevisSerializer, TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer,
+    AdminDevisSerializer, TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer,
     SectionSerializer, TypeProduitSerializer, CatalogueSerializer, CouleurSerializer, CategorieSerializer,
     HoraireSerializer, DetailSerialiser, TvaSertializer, MensurationSerializer, ArticleSerializer, ArticleImageSerializer,
     MercerieSerializer, MercerieOptionSerializer, MercerieOptionImageSerializer, MercerieOptionCaracteristiqueSerializer
@@ -118,7 +118,7 @@ class CategorieViewSet(CommonFields):
 class DevisViewSet(viewsets.ModelViewSet):
     queryset = Devis.objects.all()
     lookup_field = "numero_devis"
-    serializer_class = DevisSerializer
+    serializer_class = AdminDevisSerializer
     permission_classes = [IsAdminUser, ]
 
 
