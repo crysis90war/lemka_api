@@ -322,7 +322,7 @@ class MercerieOptionImage(models.Model):
 
 
 class DemandeDevis(models.Model):
-    numero_demande_devis = models.PositiveBigIntegerField(unique=True, )
+    numero_demande_devis = models.PositiveBigIntegerField(unique=True)
     titre = models.CharField(max_length=255)
     remarque = models.TextField()
     est_urgent = models.BooleanField(default=False)
@@ -361,7 +361,7 @@ class DemadeDevisImage(models.Model):
 
 
 class Devis(models.Model):
-    numero_devis = models.PositiveIntegerField()
+    numero_devis = models.PositiveBigIntegerField(unique=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     remarque = models.TextField(default="")
