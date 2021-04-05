@@ -413,7 +413,7 @@ class Tva(models.Model):
 
 class Detail(models.Model):
     designation = models.CharField(max_length=255)
-    prix_u_ht = models.DecimalField(max_digits=10, decimal_places=3)
+    prix_u_ht = models.DecimalField(max_digits=10, decimal_places=2)
     quantite = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999999.0)])
 
     ref_devis = models.ForeignKey(Devis, on_delete=models.CASCADE, related_name='details')

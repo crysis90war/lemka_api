@@ -1,5 +1,3 @@
-import decimal
-
 from rest_framework import serializers
 
 from lemka.models import (
