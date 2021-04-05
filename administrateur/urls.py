@@ -22,7 +22,7 @@ router.register('entreprises', EntrepriseLemkaViewSet)
 
 router.register('catalogues', CatalogueViewSet)
 router.register('details', DetailViewSet)
-router.register('demandedevisadmin', DemandeDevisViewSet)
+router.register('demandes_devis', DemandeDevisViewSet)
 router.register('devis', DevisViewSet)
 # router.register('rendezvous', RendezVousViewSet)
 router.register('horaire', HoraireViewSet)

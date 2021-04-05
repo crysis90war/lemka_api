@@ -398,7 +398,7 @@ class DemandeDevisViewSet(viewsets.ModelViewSet):
     queryset = DemandeDevis.objects.all().filter(est_soumis=True)
     lookup_field = "pk"
     serializer_class = AdminDemandeDevisSerializer
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
 
 class Dashboard(APIView):
