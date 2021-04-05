@@ -180,36 +180,10 @@ class DetailsListCreateApiView(generics.ListCreateAPIView):
         serializer.save(ref_devis=devis)
 
 
-class DetailListAPIView(generics.ListAPIView):
-    serializer_class = DetailSerialiser
-
-    def get_queryset(self):
-        kwarg_devis = self.kwargs.get('numero_devis')
-        devis = Detail.objects.filter(ref_devis__numero_devis=kwarg_devis)
-        return devis
-
-
-class DetailCreateAPIView(generics.CreateAPIView):
-    queryset = Detail.objects.all()
-    serializer_class = DetailSerialiser
-    permission_classes = [IsAdminUser]
-
-    def perform_create(self, serializer):
-        kwarg_devis = self.kwargs.get("numero_devis")
-        devis = get_object_or_404(Devis, numero_devis=kwarg_devis)
-        serializer.save(ref_devis=devis)
-
-
 class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Detail.objects.all()
     serializer_class = DetailSerialiser
     permission_classes = [IsAdminUser]
-
-    # def get_queryset(self):
-    #     kwarg_id = self.kwargs.get('pk')
-    #     kwarg_devis = self.kwargs.get('numero_devis')
-    #     devis = Detail.objects.filter(ref_devis__numero_devis=kwarg_devis, pk=kwarg_id)
-    #     return devis
 
     def get_object(self):
         queryset = self.get_queryset()

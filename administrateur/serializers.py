@@ -87,6 +87,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
 
 class AdminDevisSerializer(serializers.ModelSerializer):
     numero_demande_devis = serializers.SerializerMethodField(read_only=True)
+    demande_devis_titre = serializers.SerializerMethodField(read_only=True)
     details = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -108,6 +109,10 @@ class AdminDevisSerializer(serializers.ModelSerializer):
         data = Detail.objects.filter(ref_devis=instance)
         serializer = DetailSerialiser(data, many=True)
         return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_demande_devis_titre(self, instance):
+        return f'{instance.ref_demande_devis.titre}'
 
 
 class TypeServiceSerializer(serializers.ModelSerializer):
