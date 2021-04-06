@@ -141,6 +141,7 @@ class UserDemandeDevisRUApiView(generics.RetrieveUpdateAPIView):
 
 class UserDevisListApiView(generics.ListAPIView):
     serializer_class = UserDevisSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
