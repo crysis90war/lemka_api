@@ -9,11 +9,11 @@ from rest_framework.response import Response
 
 from administrateur.serializers import ArticleSerializer
 from lemka.models import (
-    User, UserMensuration, UserMensurationMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire
+    User, UserMensuration, UserMensurationMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire, Devis
 )
 from lemka.permissions import UserGetPostPermission
 from utilisateur.serializers import UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, \
-    UserMensurationSerializer, UserMensurationMesureSerializer, UserAdresseSerializer
+    UserMensurationSerializer, UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisSerializer
 
 
 class ProfilAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -137,6 +137,21 @@ class UserDemandeDevisRUApiView(generics.RetrieveUpdateAPIView):
     queryset = DemandeDevis.objects.all()
     serializer_class = UserDemandeDevisSerializer
     permission_classes = [IsAuthenticated]
+
+
+class UserDevisListApiView(generics.ListAPIView):
+    serializer_class = UserDevisSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Devis.objects.filter(ref_demande_devis__ref_user=user)
+        serializer = UserDevisSerializer(queryset, many=True)
+        return serializer.data
+
+
+class UserDevisRU(generics.RetrieveUpdateAPIView):
+    queryset = Devis.objects.all()
+    serializer_class = UserDevisSerializer
 
 
 class ArticleLikeAPIView(views.APIView):
