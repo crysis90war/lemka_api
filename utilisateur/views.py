@@ -7,7 +7,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
-from administrateur.serializers import ArticleSerializer
+from administrateur.serializers import ArticleSerializer, AdminDevisSerializer
 from lemka.models import (
     User, UserMensuration, UserMensurationMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire, Devis
 )
@@ -141,7 +141,7 @@ class UserDemandeDevisRUApiView(generics.RetrieveUpdateAPIView):
 
 class UserDevisListApiView(generics.ListAPIView):
     queryset = Devis.objects.all()
-    serializer_class = UserDevisSerializer
+    serializer_class = AdminDevisSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
