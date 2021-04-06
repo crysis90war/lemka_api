@@ -145,10 +145,9 @@ class UserDevisListApiView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        queryset = Devis.objects.filter(ref_demande_devis__ref_user=user)
-        serializer = UserDevisSerializer(queryset, many=True)
-        return serializer.data
+        request_user = self.request.user
+        devis = Devis.objects.filter(ref_demande_devis__ref_user_id=request_user, est_soumis=True)
+        return devis
 
 
 class UserDevisRU(generics.RetrieveUpdateAPIView):
