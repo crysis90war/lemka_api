@@ -364,7 +364,7 @@ class Devis(models.Model):
     numero_devis = models.PositiveBigIntegerField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    remarque = models.TextField(default="")
+    remarque = models.TextField(default="", blank=True)
     est_accepte = models.BooleanField(null=True)
     est_soumis = models.BooleanField(default=False)
 

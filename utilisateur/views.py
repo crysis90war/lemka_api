@@ -150,7 +150,7 @@ class UserDevisListApiView(generics.ListAPIView):
         return devis
 
 
-class UserDevisRU(generics.RetrieveUpdateAPIView):
+class UserDevisRUApiView(generics.RetrieveUpdateAPIView):
     queryset = Devis.objects.all()
     serializer_class = UserDevisSerializer
 
