@@ -199,9 +199,17 @@ class HoraireSerializer(serializers.ModelSerializer):
 
 
 class DetailSerialiser(serializers.ModelSerializer):
+    tva = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Detail
         exclude = ['ref_devis']
+        extra_kwargs = {
+            'ref_tva': {'write_only': True}
+        }
+
+    def get_tva(self, instance):
+        return instance.ref_tva
 
 
 class TvaSertializer(serializers.ModelSerializer):
