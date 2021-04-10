@@ -422,8 +422,8 @@ class Detail(models.Model):
     def __str__(self):
         email = self.ref_devis.ref_demande_devis.ref_user.email
         numero_devis = self.ref_devis.numero_devis
-        date = self.ref_devis.created_at
-        return f'{numero_devis} | {email} - {date}'
+        demande_devis_titre = self.ref_devis.ref_demande_devis.titre
+        return f'{numero_devis} | {email} - {demande_devis_titre}'
 
 
 class EntrepriseLemka(models.Model):
