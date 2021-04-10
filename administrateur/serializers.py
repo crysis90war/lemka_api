@@ -201,7 +201,7 @@ class HoraireSerializer(serializers.ModelSerializer):
 class DetailSerialiser(serializers.ModelSerializer):
     class Meta:
         model = Detail
-        fields = '__all__'
+        exclude = ['ref_devis']
 
 
 class TvaSertializer(serializers.ModelSerializer):
