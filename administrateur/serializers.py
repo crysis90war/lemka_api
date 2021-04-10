@@ -198,6 +198,12 @@ class HoraireSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class TvaSertializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tva
+        fields = '__all__'
+
+
 class DetailSerialiser(serializers.ModelSerializer):
     tva = serializers.SerializerMethodField(read_only=True)
 
@@ -208,14 +214,10 @@ class DetailSerialiser(serializers.ModelSerializer):
             'ref_tva': {'write_only': True}
         }
 
+    # noinspection PyMethodMayBeStatic
     def get_tva(self, instance):
-        return instance.ref_tva
-
-
-class TvaSertializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tva
-        fields = '__all__'
+        serializer = TvaSertializer(instance.ref_tva)
+        return serializer.data
 
 
 class MensurationSerializer(serializers.ModelSerializer):
