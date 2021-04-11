@@ -192,25 +192,30 @@ class CatalogueSerializer(serializers.ModelSerializer):
     rayon = serializers.SerializerMethodField(read_only=True)
     section = serializers.SerializerMethodField(read_only=True)
     type_produit = serializers.SerializerMethodField(read_only=True)
-    ref_rayon = RayonSerializer
-    ref_section = SectionSerializer
-    ref_type_produit = TypeProduitSerializer
 
     class Meta:
         model = Catalogue
         fields = '__all__'
+        extra_kwargs = {
+            'ref_rayon': {'write_only': True},
+            'ref_section': {'write_only': True},
+            'ref_type_produit': {'write_only': True},
+        }
 
     # noinspection PyMethodMayBeStatic
     def get_rayon(self, instance):
-        return f'{instance.ref_rayon.rayon}'
+        serializer = RayonSerializer(instance.ref_rayon)
+        return serializer.data
 
     # noinspection PyMethodMayBeStatic
     def get_section(self, instance):
-        return f'{instance.ref_section.section}'
+        serializer = SectionSerializer(instance.ref_section)
+        return serializer.data
 
     # noinspection PyMethodMayBeStatic
     def get_type_produit(self, instance):
-        return f'{instance.ref_type_produit.type_produit}'
+        serializer = TypeProduitSerializer(instance.ref_type_produit)
+        return serializer.data
 
 
 class CouleurSerializer(serializers.ModelSerializer):
@@ -266,21 +271,25 @@ class ArticleImageSerializer(serializers.ModelSerializer):
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    created_at = serializers.StringRelatedField(read_only=True)
-    updated_at = serializers.StringRelatedField(read_only=True)
     likes_count = serializers.SerializerMethodField(read_only=True)
+    utilisateur_a_like = serializers.SerializerMethodField()
     images_count = serializers.SerializerMethodField(read_only=True)
-    slug = serializers.SlugField(read_only=True)
+    catalogue = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
     rayon = serializers.SerializerMethodField(read_only=True)
     section = serializers.SerializerMethodField(read_only=True)
     type_produit = serializers.SerializerMethodField(read_only=True)
-    utilisateur_a_like = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Article
         exclude = ['likes']
+        extra_kwargs = {
+            'created_at': {'read_only': True},
+            'updated_at': {'read_only': True},
+            'slug': {'read_only': True},
+            'ref_catalogue': {'write_only': True},
+        }
 
     # noinspection PyMethodMayBeStatic
     def get_likes_count(self, instance):
@@ -294,6 +303,11 @@ class ArticleSerializer(serializers.ModelSerializer):
     def get_images_count(self, instance):
         images = ArticleImage.objects.filter(ref_article=instance)
         return images.count()
+
+    # noinspection PyMethodMayBeStatic
+    def get_catalogue(self, instance):
+        serializer = CatalogueSerializer(instance.ref_catalogue)
+        return serializer.data
 
     # noinspection PyMethodMayBeStatic
     def get_type_service(self, instance):
