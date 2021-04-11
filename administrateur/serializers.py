@@ -272,7 +272,7 @@ class ArticleImageSerializer(serializers.ModelSerializer):
 
 class ArticleSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField(read_only=True)
-    utilisateur_a_like = serializers.SerializerMethodField()
+    utilisateur_a_like = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
     catalogue = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
