@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from administrateur.serializers import GenreSerializer
 from lemka.models import (
     DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis
 )
@@ -48,10 +49,22 @@ class ProfilSerializer(serializers.ModelSerializer):
     is_verified = serializers.StringRelatedField(read_only=True)
     is_active = serializers.StringRelatedField(read_only=True)
     is_staff = serializers.StringRelatedField(read_only=True)
+    genre = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
         exclude = ['id', 'groups', 'user_permissions', 'auth_provider', 'is_superuser']
+        extra_kwargs = {
+            'ref_genre': {'write_only': True}
+        }
+
+    def get_genre(self, instance):
+        if instance.ref_genre is not None:
+            print(instance.ref_genre)
+            serializer = GenreSerializer(instance.ref_genre)
+            return serializer.data
+        else:
+            return None
 
 
 class UserMensurationSerializer(serializers.ModelSerializer):
