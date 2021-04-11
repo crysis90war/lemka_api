@@ -12,7 +12,7 @@ urlpatterns = [
     path('profil/mensurations/', UserMensurationListCreateAPIView.as_view()),
     path('profil/mensurations/<int:pk>/', UserMensurationRUDApiView.as_view()),
     path('profil/mensurations/<int:ref_user_mensuration_id>/mesures/', UserMensurationMesureListApiView.as_view()),
-    path('profil/mensurations/<int:ref_user_mensuration_id>/mesures/<int:pk>/', UserMensurationMesureUpdateApiView.as_view()),
+    path('profil/mensurations/<int:ref_user_mensuration_id>/mesures/<int:pk>/', UserMensurationMesureRUApiView.as_view()),
 
     path('profil/demandes_devis/', UserDemandeDevisListCreateApiView.as_view()),
     path('profil/demandes_devis/<int:pk>/', UserDemandeDevisRUApiView.as_view()),

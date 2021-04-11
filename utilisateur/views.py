@@ -74,11 +74,10 @@ class UserMensurationMesureListApiView(generics.ListAPIView):
     def get_queryset(self):
         kwarg_user = self.request.user
         kwarg_id = self.kwargs.get('ref_user_mensuration_id')
-        return UserMensurationMesure.objects.filter(ref_user_mensuration=kwarg_id,
-                                                    ref_user_mensuration__ref_user=kwarg_user)
+        return UserMensurationMesure.objects.filter(ref_user_mensuration=kwarg_id, ref_user_mensuration__ref_user=kwarg_user)
 
 
-class UserMensurationMesureUpdateApiView(generics.RetrieveUpdateAPIView):
+class UserMensurationMesureRUApiView(generics.RetrieveUpdateAPIView):
     queryset = UserMensurationMesure.objects.all()
     serializer_class = UserMensurationMesureSerializer
     permission_classes = [AllowAny, ]
