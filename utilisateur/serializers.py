@@ -72,7 +72,6 @@ class ProfilSerializer(serializers.ModelSerializer):
 
     def get_genre(self, instance):
         if instance.ref_genre is not None:
-            print(instance.ref_genre)
             serializer = GenreSerializer(instance.ref_genre)
             return serializer.data
         else:
