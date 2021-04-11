@@ -66,12 +66,14 @@ class UserSerializer(serializers.ModelSerializer):
 class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     numero_demande_devis = serializers.StringRelatedField(read_only=True)
     utilisateur = serializers.SerializerMethodField(read_only=True)
+    type_service = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
         fields = "__all__"
         extra_kwargs = {
-            'ref_user': {'read_only': True}
+            'ref_user': {'read_only': True},
+            'ref_type_service': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
@@ -81,6 +83,11 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
             return full_name
         else:
             return instance.ref_user.username
+
+    # noinspection PyMethodMayBeStatic
+    def get_type_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_type_service)
+        return serializer.data
 
 
 class AdminDevisSerializer(serializers.ModelSerializer):
