@@ -14,19 +14,38 @@ class PaysSerializer(serializers.ModelSerializer):
 
 
 class VilleSerializer(serializers.ModelSerializer):
-    ref_pays = PaysSerializer
+    pays = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Ville
         fields = '__all__'
+        extra_fields = {
+            'ref_pays': {'write_only': True}
+        }
+
+    # noinspection PyMethodMayBeStatic
+    def get_pays(self, instance):
+        serializer = PaysSerializer(instance.ref_pays)
+        return serializer.data
 
 
 class EntrepriseLemkaSerializer(serializers.ModelSerializer):
-    ref_ville = VilleSerializer
+    ville = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = EntrepriseLemka
         fields = "__all__"
+        extra_kwargs = {
+            'ref_ville': {'write_only': True}
+        }
+
+    # noinspection PyMethodMayBeStatic
+    def get_ville(self, instance):
+        if instance.ref_ville is not None:
+            serializer = VilleSerializer(instance.ref_ville)
+            return serializer.data
+        else:
+            return None
 
 
 class GenreSerializer(serializers.ModelSerializer):
