@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from administrateur.serializers import GenreSerializer
+from administrateur.serializers import GenreSerializer, VilleSerializer
 from lemka.models import (
     DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis
 )
@@ -35,9 +35,21 @@ class UserRendezVousSerializer(serializers.ModelSerializer):
 
 
 class AdresseSerializer(serializers.ModelSerializer):
+    ville = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Adresse
         exclude = ['ref_user']
+        extra_kwargs = {
+            'ref_ville': {'write_only': True}
+        }
+
+    def get_ville(self, instance):
+        if instance.ref_ville is not None:
+            serializer = VilleSerializer(instance.ref_ville)
+            return serializer.data
+        else:
+            return None
 
 
 class ProfilSerializer(serializers.ModelSerializer):
