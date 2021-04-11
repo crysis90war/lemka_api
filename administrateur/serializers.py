@@ -19,7 +19,7 @@ class VilleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ville
         fields = '__all__'
-        extra_fields = {
+        extra_kwargs = {
             'ref_pays': {'write_only': True}
         }
 
