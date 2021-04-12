@@ -1,16 +1,17 @@
 from rest_framework import serializers
 
 from administrateur.serializers import (
-    GenreSerializer, VilleSerializer, TypeServiceSerializer, CatalogueSerializer
+    GenreSerializer, VilleSerializer, TypeServiceSerializer, CatalogueSerializer, ArticleImageSerializer
 )
 from lemka.models import (
-    DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis, Article
+    DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis, Article, ArticleImage
 )
 
 
 class UserArticleSerializer(serializers.ModelSerializer):
     catalogue = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Article
@@ -26,6 +27,12 @@ class UserArticleSerializer(serializers.ModelSerializer):
 
     def get_type_service(self, instance):
         serializer = TypeServiceSerializer(instance.ref_type_service)
+        return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_images(self, instance):
+        data = ArticleImage.objects.filter(ref_article=instance).order_by('is_main')
+        serializer = ArticleImageSerializer(data, many=True)
         return serializer.data
 
 
