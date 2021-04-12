@@ -335,7 +335,7 @@ class DemandeDevis(models.Model):
     ref_article = models.ForeignKey(Article, blank=True, null=True, on_delete=models.CASCADE)
     ref_mensuration = models.ForeignKey(UserMensuration, blank=True, null=True, on_delete=models.CASCADE)
 
-    ref_mercerie_option = models.ManyToManyField(MercerieOption, blank=True, related_name='merceries')
+    ref_mercerie_options = models.ManyToManyField(MercerieOption, blank=True, related_name='merceries')
 
     class Meta:
         ordering = ['-est_soumis', '-created_at']

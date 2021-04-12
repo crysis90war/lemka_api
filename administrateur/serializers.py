@@ -114,6 +114,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     type_service = serializers.SerializerMethodField(read_only=True)
     article = serializers.SerializerMethodField(read_only=True)
     mensuration = serializers.SerializerMethodField(read_only=True)
+    mercerie_option = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
