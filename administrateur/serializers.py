@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.fields import CurrentUserDefault
 
 from lemka.models import (
     Pays, Ville, EntrepriseLemka, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
@@ -289,6 +290,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             'updated_at': {'read_only': True},
             'slug': {'read_only': True},
             'ref_catalogue': {'write_only': True},
+            'ref_article': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
@@ -311,7 +313,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_type_service(self, instance):
-        return instance.ref_type_service.type_service
+        serializer = TypeServiceSerializer(instance.ref_type_service)
+        return serializer.data
 
     # noinspection PyMethodMayBeStatic
     def get_rayon(self, instance):

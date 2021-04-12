@@ -12,8 +12,10 @@ from lemka.models import (
     User, UserMensuration, UserMensurationMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire, Devis
 )
 from lemka.permissions import UserGetPostPermission
-from utilisateur.serializers import UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, \
-    UserMensurationSerializer, UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisSerializer
+from utilisateur.serializers import (
+    UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, UserMensurationSerializer,
+    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisSerializer
+)
 
 
 class ProfilAPIView(generics.RetrieveUpdateDestroyAPIView):

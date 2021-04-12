@@ -1,22 +1,69 @@
 from rest_framework import serializers
 
-from administrateur.serializers import GenreSerializer, VilleSerializer
-from lemka.models import (
-    DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis
+from administrateur.serializers import (
+    GenreSerializer, VilleSerializer, TypeServiceSerializer, CatalogueSerializer
 )
+from lemka.models import (
+    DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis, Article
+)
+
+
+class UserArticleSerializer(serializers.ModelSerializer):
+    catalogue = serializers.SerializerMethodField(read_only=True)
+    type_service = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Article
+        fields = '__all__'
+        extra_kwargs = {
+            'ref_catalogue': {'write_only': True},
+            'ref_type_service': {'write_only': True},
+        }
+
+    def get_catalogue(self, instance):
+        serializer = CatalogueSerializer(instance.ref_catalogue)
+        return serializer.data
+
+    def get_type_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_type_service)
+        return serializer.data
 
 
 class UserDemandeDevisSerializer(serializers.ModelSerializer):
     est_traite = serializers.BooleanField(default=False, read_only=True)
     est_urgent = serializers.BooleanField(default=False)
     est_soumis = serializers.BooleanField(default=False)
+    type_service = serializers.SerializerMethodField(read_only=True)
+    article = serializers.SerializerMethodField(read_only=True)
+    mensuration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
         exclude = ['ref_user']
         extra_kwargs = {
-            'numero_demande_devis': {'read_only': True}
+            'numero_demande_devis': {'read_only': True},
+            'ref_type_service': {'write_only': True},
+            'ref_article': {'write_only': True},
+            'ref_mensuration': {'write_only': True},
         }
+
+    def get_type_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_type_service)
+        return serializer.data
+
+    def get_article(self, instance):
+        if instance.ref_article is not None:
+            serializer = UserArticleSerializer(instance.ref_article)
+            return serializer.data
+        else:
+            return None
+
+    def get_mensuration(self, instance):
+        if instance.ref_mensuration is not None:
+            serializer = UserMensurationSerializer(instance.ref_mensuration)
+            return serializer.data
+        else:
+            return None
 
 
 class UserDevisSerializer(serializers.ModelSerializer):
@@ -79,11 +126,16 @@ class ProfilSerializer(serializers.ModelSerializer):
 
 
 class UserMensurationSerializer(serializers.ModelSerializer):
-    # id = serializers.IntegerField(read_only=True)
+    mesures = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = UserMensuration
         exclude = ['ref_user']
+
+    def get_mesures(self, instance):
+        queryset = UserMensurationMesure.objects.filter(ref_user_mensuration=instance)
+        serializer = UserMensurationMesureSerializer(queryset, many=True)
+        return serializer.data
 
 
 class UserMensurationMesureSerializer(serializers.ModelSerializer):
