@@ -123,7 +123,8 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
             'ref_user': {'read_only': True},
             'ref_type_service': {'write_only': True},
             'ref_article': {'write_only': True},
-            'ref_mercerie_options': {'write_only': True}
+            'ref_mercerie_options': {'write_only': True},
+            'ref_mensuration': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
@@ -150,8 +151,11 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_mensuration(self, instance):
-        serializer = AdminUserMensurationSerializer(instance.ref_mensuration)
-        return serializer.data
+        if instance.ref_mensuration is not None:
+            serializer = AdminUserMensurationSerializer(instance.ref_mensuration)
+            return serializer.data
+        else:
+            return None
 
     # noinspection PyMethodMayBeStatic
     def get_mercerie_options(self, instance):
