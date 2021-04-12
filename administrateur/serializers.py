@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework.fields import CurrentUserDefault
 
 from lemka.models import (
     Pays, Ville, EntrepriseLemka, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
@@ -87,6 +86,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     numero_demande_devis = serializers.StringRelatedField(read_only=True)
     utilisateur = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
+    article = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
@@ -94,6 +94,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'ref_user': {'read_only': True},
             'ref_type_service': {'write_only': True},
+            'ref_article': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
@@ -108,6 +109,15 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     def get_type_service(self, instance):
         serializer = TypeServiceSerializer(instance.ref_type_service)
         return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_article(self, instance):
+        if instance.ref_article is not None:
+            print(instance.ref_article)
+            serializer = ArticleSerializer(instance.ref_article)
+            return serializer.data
+        else:
+            return None
 
 
 class AdminDevisSerializer(serializers.ModelSerializer):
@@ -273,7 +283,6 @@ class ArticleImageSerializer(serializers.ModelSerializer):
 
 class ArticleSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField(read_only=True)
-    utilisateur_a_like = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
     catalogue = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
@@ -296,10 +305,6 @@ class ArticleSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_likes_count(self, instance):
         return instance.likes.count()
-
-    def get_utilisateur_a_like(self, instance):
-        request = self.context.get("request")
-        return instance.likes.filter(pk=request.user.pk).exists()
 
     # noinspection PyMethodMayBeStatic
     def get_images_count(self, instance):
