@@ -95,6 +95,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
             'ref_user': {'read_only': True},
             'ref_type_service': {'write_only': True},
             'ref_article': {'write_only': True},
+            'ref_type_service': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
