@@ -3,7 +3,7 @@ from rest_framework import serializers
 from lemka.models import (
     Pays, Ville, EntrepriseLemka, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
     Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieOption, MercerieOptionImage,
-    MercerieOptionCaracteristique, UserMensuration
+    MercerieOptionCaracteristique, UserMensuration, UserMensurationMesure
 )
 
 
@@ -82,11 +82,38 @@ class UserSerializer(serializers.ModelSerializer):
         return instance.updated_at.strftime("%d %b %Y")
 
 
+class AdminUserMensurationMesureSerializer(serializers.ModelSerializer):
+    mensuration = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = UserMensurationMesure
+        exclude = ['ref_user_mensuration', 'ref_mensuration']
+
+    # noinspection PyMethodMayBeStatic
+    def get_mensuration(self, instance):
+        return instance.ref_mensuration.nom
+
+
+class AdminUserMensurationSerializer(serializers.ModelSerializer):
+    mesures = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = UserMensuration
+        exclude = ['ref_user']
+
+    # noinspection PyMethodMayBeStatic
+    def get_mesures(self, instance):
+        queryset = UserMensurationMesure.objects.filter(ref_user_mensuration=instance)
+        serializer = AdminUserMensurationMesureSerializer(queryset, many=True)
+        return serializer.data
+
+
 class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     numero_demande_devis = serializers.StringRelatedField(read_only=True)
     utilisateur = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
     article = serializers.SerializerMethodField(read_only=True)
+    mensuration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
@@ -118,6 +145,11 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
             return serializer.data
         else:
             return None
+
+    # noinspection PyMethodMayBeStatic
+    def get_mensuration(self, instance):
+        serializer = AdminUserMensurationSerializer(instance.ref_mensuration)
+        return serializer.data
 
 
 class AdminDevisSerializer(serializers.ModelSerializer):
@@ -279,12 +311,6 @@ class ArticleImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleImage
         exclude = ['ref_article']
-
-
-class AdminUserMensurationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserMensuration
-        fields = '__all__'
 
 
 class ArticleSerializer(serializers.ModelSerializer):
