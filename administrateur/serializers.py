@@ -3,9 +3,8 @@ from rest_framework import serializers
 from lemka.models import (
     Pays, Ville, EntrepriseLemka, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
     Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieOption, MercerieOptionImage,
-    MercerieOptionCaracteristique
+    MercerieOptionCaracteristique, UserMensuration
 )
-from utilisateur.serializers import UserMensurationSerializer
 
 
 class PaysSerializer(serializers.ModelSerializer):
@@ -88,7 +87,6 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     utilisateur = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
     article = serializers.SerializerMethodField(read_only=True)
-    mensuration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
@@ -117,13 +115,6 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
         if instance.ref_article is not None:
             print(instance.ref_article)
             serializer = ArticleSerializer(instance.ref_article)
-            return serializer.data
-        else:
-            return None
-
-    def get_mensuration(self, instance):
-        if instance.ref_mensuration is not None:
-            serializer = UserMensurationSerializer(instance.ref_mensuration)
             return serializer.data
         else:
             return None
@@ -288,6 +279,12 @@ class ArticleImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleImage
         exclude = ['ref_article']
+
+
+class AdminUserMensurationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserMensuration
+        fields = '__all__'
 
 
 class ArticleSerializer(serializers.ModelSerializer):
