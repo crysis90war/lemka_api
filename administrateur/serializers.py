@@ -300,6 +300,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             'slug': {'read_only': True},
             'ref_catalogue': {'write_only': True},
             'ref_article': {'write_only': True},
+            'ref_type_service': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
