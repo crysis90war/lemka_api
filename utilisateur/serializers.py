@@ -21,10 +21,12 @@ class UserArticleSerializer(serializers.ModelSerializer):
             'ref_type_service': {'write_only': True},
         }
 
+    # noinspection PyMethodMayBeStatic
     def get_catalogue(self, instance):
         serializer = CatalogueSerializer(instance.ref_catalogue)
         return serializer.data
 
+    # noinspection PyMethodMayBeStatic
     def get_type_service(self, instance):
         serializer = TypeServiceSerializer(instance.ref_type_service)
         return serializer.data
@@ -54,10 +56,12 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
             'ref_mensuration': {'write_only': True},
         }
 
+    # noinspection PyMethodMayBeStatic
     def get_type_service(self, instance):
         serializer = TypeServiceSerializer(instance.ref_type_service)
         return serializer.data
 
+    # noinspection PyMethodMayBeStatic
     def get_article(self, instance):
         if instance.ref_article is not None:
             serializer = UserArticleSerializer(instance.ref_article)
@@ -65,6 +69,7 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
         else:
             return None
 
+    # noinspection PyMethodMayBeStatic
     def get_mensuration(self, instance):
         if instance.ref_mensuration is not None:
             serializer = UserMensurationSerializer(instance.ref_mensuration)
@@ -98,6 +103,7 @@ class AdresseSerializer(serializers.ModelSerializer):
             'ref_ville': {'write_only': True}
         }
 
+    # noinspection PyMethodMayBeStatic
     def get_ville(self, instance):
         if instance.ref_ville is not None:
             serializer = VilleSerializer(instance.ref_ville)
@@ -124,6 +130,7 @@ class ProfilSerializer(serializers.ModelSerializer):
             'ref_genre': {'write_only': True}
         }
 
+    # noinspection PyMethodMayBeStatic
     def get_genre(self, instance):
         if instance.ref_genre is not None:
             serializer = GenreSerializer(instance.ref_genre)
@@ -139,6 +146,7 @@ class UserMensurationSerializer(serializers.ModelSerializer):
         model = UserMensuration
         exclude = ['ref_user']
 
+    # noinspection PyMethodMayBeStatic
     def get_mesures(self, instance):
         queryset = UserMensurationMesure.objects.filter(ref_user_mensuration=instance)
         serializer = UserMensurationMesureSerializer(queryset, many=True)
