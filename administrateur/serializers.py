@@ -114,7 +114,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     type_service = serializers.SerializerMethodField(read_only=True)
     article = serializers.SerializerMethodField(read_only=True)
     mensuration = serializers.SerializerMethodField(read_only=True)
-    mercerie_option = serializers.SerializerMethodField(read_only=True)
+    mercerie_options = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
@@ -151,6 +151,10 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     def get_mensuration(self, instance):
         serializer = AdminUserMensurationSerializer(instance.ref_mensuration)
         return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_mercerie_options(self, instance):
+        return ""
 
 
 class AdminDevisSerializer(serializers.ModelSerializer):
