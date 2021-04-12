@@ -154,7 +154,8 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_mercerie_options(self, instance):
-        return ""
+        serializer = MercerieOptionSerializer(instance.ref_mercerie_options, many=True)
+        return serializer.data
 
 
 class AdminDevisSerializer(serializers.ModelSerializer):
