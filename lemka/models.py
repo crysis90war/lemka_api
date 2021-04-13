@@ -327,7 +327,6 @@ class DemandeDevis(models.Model):
     remarque = models.TextField()
     est_urgent = models.BooleanField(default=False)
     est_soumis = models.BooleanField(default=False)
-    en_cours = models.BooleanField(default=False)
     est_traite = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -471,8 +470,7 @@ class RendezVous(models.Model):
     est_annule = models.BooleanField(default=0)
 
     ref_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Utilisateur')
-    ref_type_service = models.ForeignKey(TypeService, null=False, blank=False, on_delete=models.CASCADE,
-                                         verbose_name='Raison')
+    ref_type_service = models.ForeignKey(TypeService, null=False, blank=False, on_delete=models.CASCADE, verbose_name='Raison')
 
     ref_devis = models.ManyToManyField(Devis, blank=True, related_name='devis')
 
@@ -481,9 +479,3 @@ class RendezVous(models.Model):
         jour_rdv = self.date
         heure_rdv = self.start
         return f'{utilisateur} {jour_rdv} {heure_rdv}'
-
-
-class TestClass(models.Model):
-    title = models.CharField(max_length=255)
-    text = models.TextField()
-    is_done = models.BooleanField(default=False)
