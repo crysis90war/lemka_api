@@ -131,7 +131,11 @@ class UserMensurationMesure(models.Model):
         ordering = ['ref_user_mensuration__ref_user__username', '-ref_user_mensuration__is_main', 'ref_mensuration__id']
 
     def __str__(self):
-        return f'{self.ref_user_mensuration.ref_user.username} | {self.ref_user_mensuration.titre} - {self.ref_mensuration.nom} - {self.mesure} cm'
+        username = self.ref_user_mensuration.ref_user.username
+        titre = self.ref_user_mensuration.titre
+        nom = self.ref_mensuration.nom
+        mesure = self.mesure
+        return f'{username} | {titre} - {nom} - {mesure} cm'
 
 
 class Rayon(models.Model):
@@ -284,7 +288,8 @@ class MercerieOption(models.Model):
 
 
 class MercerieOptionCaracteristique(models.Model):
-    ref_mercerie_option = models.ForeignKey(MercerieOption, null=False, blank=False, on_delete=models.CASCADE, related_name='catacteristiques')
+    ref_mercerie_option = models.ForeignKey(MercerieOption, null=False, blank=False, on_delete=models.CASCADE,
+                                            related_name='catacteristiques')
     ref_caracteristique = models.ForeignKey(Caracteristique, null=False, blank=False, on_delete=models.CASCADE)
     valeur = models.DecimalField(max_digits=10, decimal_places=2,
                                  validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
@@ -327,6 +332,7 @@ class DemandeDevis(models.Model):
     remarque = models.TextField()
     est_urgent = models.BooleanField(default=False)
     est_soumis = models.BooleanField(default=False)
+    en_cours = models.BooleanField(default=False)
     est_traite = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
