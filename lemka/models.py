@@ -338,7 +338,7 @@ class DemandeDevis(models.Model):
     ref_mercerie_options = models.ManyToManyField(MercerieOption, blank=True, related_name='merceries')
 
     class Meta:
-        ordering = ['-est_soumis', '-created_at']
+        ordering = ['-created_at']
 
     def __str__(self):
         numero = self.numero_demande_devis
