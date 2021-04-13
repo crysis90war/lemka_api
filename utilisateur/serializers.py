@@ -41,6 +41,7 @@ class UserArticleSerializer(serializers.ModelSerializer):
 class UserDemandeDevisSerializer(serializers.ModelSerializer):
     est_urgent = serializers.BooleanField(default=False)
     est_soumis = serializers.BooleanField(default=False)
+    en_cours = serializers.BooleanField(default=False, read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
     article = serializers.SerializerMethodField(read_only=True)
     mensuration = serializers.SerializerMethodField(read_only=True)
@@ -51,7 +52,6 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'numero_demande_devis': {'read_only': True},
             'est_traite': {'read_only': True, 'default': False},
-            'en_cours': {'read_only': True, 'default': False},
             'ref_type_service': {'write_only': True},
             'ref_article': {'write_only': True},
             'ref_mensuration': {'write_only': True},
