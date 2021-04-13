@@ -481,3 +481,9 @@ class RendezVous(models.Model):
         jour_rdv = self.date
         heure_rdv = self.start
         return f'{utilisateur} {jour_rdv} {heure_rdv}'
+
+
+class TestClass(models.Model):
+    title = models.CharField(max_length=255)
+    text = models.TextField()
+    is_done = models.BooleanField(default=False)
