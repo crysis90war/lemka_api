@@ -327,7 +327,6 @@ class DemandeDevis(models.Model):
     remarque = models.TextField()
     est_urgent = models.BooleanField(default=False)
     est_soumis = models.BooleanField(default=False)
-    en_cours = models.BooleanField(default=False)
     est_traite = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -41,7 +41,6 @@ class UserArticleSerializer(serializers.ModelSerializer):
 class UserDemandeDevisSerializer(serializers.ModelSerializer):
     est_urgent = serializers.BooleanField(default=False)
     est_soumis = serializers.BooleanField(default=False)
-    en_cours = serializers.BooleanField(default=False, read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
     article = serializers.SerializerMethodField(read_only=True)
     mensuration = serializers.SerializerMethodField(read_only=True)
