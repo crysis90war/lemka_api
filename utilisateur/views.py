@@ -104,6 +104,7 @@ class AdresseCreateAPIView(generics.CreateAPIView):
 class AdresseRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Adresse.objects.all()
     serializer_class = AdresseSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         adresse_object = get_object_or_404(Adresse, ref_user=self.request.user)
