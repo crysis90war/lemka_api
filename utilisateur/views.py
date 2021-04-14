@@ -86,9 +86,7 @@ class UserMensurationMesureRUApiView(generics.RetrieveUpdateAPIView):
 
     def get_queryset(self):
         kwarg_ref_user_mensuration_id = self.kwargs.get('ref_user_mensuration_id')
-        return UserMensurationMesure.objects.filter(
-            ref_user_mensuration_id=kwarg_ref_user_mensuration_id,
-        )
+        return UserMensurationMesure.objects.filter(ref_user_mensuration_id=kwarg_ref_user_mensuration_id)
 
 
 class AdresseCreateAPIView(generics.CreateAPIView):
@@ -99,8 +97,7 @@ class AdresseCreateAPIView(generics.CreateAPIView):
         request_user = self.request.user
 
         if Adresse.objects.filter(ref_user=request_user).exists():
-            raise ValidationError("Adresse existe déja !")
-
+            raise ValidationError(detail={"detail": "Vous avez déja une adresse !"})
         serializer.save(ref_user=request_user)
 
 
@@ -113,10 +110,16 @@ class AdresseRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
         return adresse_object
 
     def get(self, request, *args, **kwargs):
-        adresse = self.get_object()
-        serializer_context = {'request': request}
-        serializer = self.serializer_class(adresse, context=serializer_context)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if Adresse.objects.filter(ref_user=self.request.user).exists():
+            test = Adresse.objects.get(ref_user=self.request.user)
+            serializer = self.serializer_class(test)
+            return Response(serializer.data)
+            # adresse = self.get_object()
+            # serializer_context = {'request': request}
+            # serializer = self.serializer_class(adresse, context=serializer_context)
+            # return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            raise ValidationError(detail={"detail": "Vous n'avez pas d'adresse enregistrée !"})
 
 
 class UserDemandeDevisListCreateApiView(generics.ListCreateAPIView):
