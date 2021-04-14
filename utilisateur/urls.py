@@ -6,7 +6,7 @@ urlpatterns = [
     path('profil/', ProfilAPIView.as_view()),
     path('articles/<slug:slug>/like/', ArticleLikeAPIView.as_view(), name='article-like'),
 
-    path('profil/adresse/create', AdresseCreateAPIView.as_view()),  # CREATE adresse
+    path('profil/adresse/create/', AdresseCreateAPIView.as_view()),  # CREATE adresse
     path('profil/adresse/', AdresseRUDAPIView.as_view()),  # GET PUT PATCH DELETE adresse
 
     path('profil/mensurations/', UserMensurationListCreateAPIView.as_view()),
