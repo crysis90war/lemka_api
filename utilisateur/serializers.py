@@ -4,7 +4,7 @@ from administrateur.serializers import (
     GenreSerializer, VilleSerializer, TypeServiceSerializer, CatalogueSerializer, ArticleImageSerializer, MercerieOptionSerializer
 )
 from lemka.models import (
-    DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis, Article, ArticleImage, MercerieOption
+    DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis, Article, ArticleImage
 )
 
 
@@ -80,6 +80,7 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
         else:
             return None
 
+    # noinspection PyMethodMayBeStatic
     def get_mercerie_options(self, instance):
         serializer = MercerieOptionSerializer(instance.ref_mercerie_options, many=True)
         return serializer.data

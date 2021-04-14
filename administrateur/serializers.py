@@ -408,6 +408,7 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
     caracteristiques = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = MercerieOption
@@ -431,6 +432,12 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_images_count(self, instance):
         return instance.images.count()
+
+    # noinspection PyMethodMayBeStatic
+    def get_images(self, instance):
+        data = MercerieOptionImage.objects.filter(ref_mercerie_option=instance).order_by('is_main')
+        serializer = MercerieOptionImageSerializer(data, many=True)
+        return serializer.data
 
 
 class MercerieOptionImageSerializer(serializers.ModelSerializer):
