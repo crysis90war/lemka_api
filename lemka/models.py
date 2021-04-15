@@ -399,8 +399,8 @@ class Devis(models.Model):
 
 
 class Discussion(models.Model):
-    message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    message = models.TextField()
     est_vue = models.BooleanField(default=False)
 
     ref_devis = models.ForeignKey(Devis, on_delete=models.CASCADE)
@@ -474,12 +474,12 @@ class RendezVous(models.Model):
     start = models.TimeField(null=True, blank=True)
     end = models.TimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    est_annule = models.BooleanField(default=0)
+    est_annule = models.BooleanField(default=False)
 
     ref_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Utilisateur')
-    ref_type_service = models.ForeignKey(TypeService, null=False, blank=False, on_delete=models.CASCADE, verbose_name='Raison')
+    ref_type_service = models.ForeignKey(TypeService, null=False, blank=False, on_delete=models.CASCADE, verbose_name='service')
 
-    ref_devis = models.ManyToManyField(Devis, blank=True, related_name='devis')
+    ref_devis = models.ForeignKey(Devis, null=True, blank=True, on_delete=models.SET_NULL, related_name='devis')
 
     def __str__(self):
         utilisateur = self.ref_user.username
