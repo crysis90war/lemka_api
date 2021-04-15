@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from administrateur.serializers import MercerieOptionCaracteristiqueSerializer, MercerieOptionImageSerializer, TvaSertializer
+from administrateur.serializers import MercerieOptionCaracteristiqueSerializer, MercerieOptionImageSerializer, TvaSertializer, \
+    CouleurSerializer
 from lemka.models import *
 
 
@@ -10,12 +11,14 @@ class GlobalMerceriesSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField(read_only=True)
     name = serializers.SerializerMethodField(read_only=True)
     tva = serializers.SerializerMethodField(read_only=True)
+    couleur = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = MercerieOption
         fields = '__all__'
         extra_kwarges = {
-            'ref_tva': {'write_only': True}
+            'ref_tva': {'write_only': True},
+            'ref_couleur': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
@@ -40,4 +43,9 @@ class GlobalMerceriesSerializer(serializers.ModelSerializer):
     def get_tva(self, instance):
         seralizer = TvaSertializer(instance.ref_tva)
         return seralizer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_couleur(self, instance):
+        serializer = CouleurSerializer(instance.ref_couleur)
+        return serializer.data
 
