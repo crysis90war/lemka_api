@@ -466,6 +466,9 @@ class MercerieOptionCaracteristiqueSerializer(serializers.ModelSerializer):
     class Meta:
         model = MercerieOptionCaracteristique
         exclude = ['ref_mercerie_option']
+        extra_kwargs = {
+            'ref_caracteristique': {'write_only': True}
+        }
 
     # noinspection PyMethodMayBeStatic
     def get_caracteristique(self, instance):
