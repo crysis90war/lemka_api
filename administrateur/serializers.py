@@ -409,12 +409,14 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
     caracteristiques = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
+    tva = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = MercerieOption
         exclude = ['ref_mercerie']
         extra_kwargs = {
-            'id': {'read_only': True}
+            'id': {'read_only': True},
+            'ref_tva': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
@@ -438,6 +440,11 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
         data = MercerieOptionImage.objects.filter(ref_mercerie_option=instance).order_by('is_main')
         serializer = MercerieOptionImageSerializer(data, many=True)
         return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_tva(self, instance):
+        seralizer = TvaSertializer(instance.ref_tva)
+        return seralizer.data
 
 
 class MercerieOptionImageSerializer(serializers.ModelSerializer):

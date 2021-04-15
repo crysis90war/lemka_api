@@ -23,6 +23,17 @@ class Genre(models.Model):
         return f'{self.genre}'
 
 
+class Tva(models.Model):
+    taux = models.FloatField(unique=True)
+
+    class Meta:
+        ordering = ['taux']
+
+    def __str__(self):
+        taux_en_pct = self.taux * 100
+        return f'{taux_en_pct} %'
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True, verbose_name='Nom public')
     email = models.EmailField(max_length=255, unique=True, db_index=True)
@@ -277,6 +288,7 @@ class MercerieOption(models.Model):
                                     validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
     stock = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
 
+    ref_tva = models.ForeignKey(Tva, on_delete=models.CASCADE, related_name='tva')
     ref_mercerie = models.ForeignKey(Mercerie, on_delete=models.CASCADE, related_name='options')
     ref_couleur = models.ForeignKey(Couleur, on_delete=models.CASCADE)
 
@@ -404,17 +416,6 @@ class Discussion(models.Model):
         receveur = self.ref_user_receveur.username
         date = self.created_at.strftime("%D %M %Y %H:%M:%S")
         return f'{devis} | {envoyeur} -> {receveur} ({date})'
-
-
-class Tva(models.Model):
-    taux = models.FloatField(unique=True)
-
-    class Meta:
-        ordering = ['taux']
-
-    def __str__(self):
-        taux_en_pct = self.taux * 100
-        return f'{taux_en_pct} %'
 
 
 class Detail(models.Model):

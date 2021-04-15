@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from administrateur.serializers import MercerieOptionCaracteristiqueSerializer, MercerieOptionImageSerializer
+from administrateur.serializers import MercerieOptionCaracteristiqueSerializer, MercerieOptionImageSerializer, TvaSertializer
 from lemka.models import *
 
 
@@ -9,10 +9,14 @@ class GlobalMerceriesSerializer(serializers.ModelSerializer):
     reference = serializers.CharField()
     images = serializers.SerializerMethodField(read_only=True)
     name = serializers.SerializerMethodField(read_only=True)
+    tva = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = MercerieOption
         fields = '__all__'
+        extra_kwarges = {
+            'ref_tva': {'write_only': True}
+        }
 
     # noinspection PyMethodMayBeStatic
     def get_name(self, instance):
@@ -31,3 +35,9 @@ class GlobalMerceriesSerializer(serializers.ModelSerializer):
         data = MercerieOptionImage.objects.filter(ref_mercerie_option=instance).order_by('is_main')
         serializer = MercerieOptionImageSerializer(data, many=True)
         return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_tva(self, instance):
+        seralizer = TvaSertializer(instance.ref_tva)
+        return seralizer.data
+
