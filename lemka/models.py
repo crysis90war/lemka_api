@@ -217,7 +217,7 @@ class Article(models.Model):
     ref_type_service = models.ForeignKey(TypeService, on_delete=models.CASCADE)
     ref_catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE, default=None)
 
-    ref_tag = models.ManyToManyField(Tag, blank=True, related_name='tags')
+    ref_tag = models.ManyToManyField(Tag, null=True, blank=True, related_name='tags')
     likes = models.ManyToManyField(User, blank=True, related_name='likes')
 
     def __str__(self):

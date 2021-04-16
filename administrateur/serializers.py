@@ -333,6 +333,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     section = serializers.SerializerMethodField(read_only=True)
     type_produit = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
+    tags = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Article
@@ -344,6 +345,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             'ref_catalogue': {'write_only': True},
             'ref_article': {'write_only': True},
             'ref_type_service': {'write_only': True},
+            'ref_tag': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
@@ -382,6 +384,13 @@ class ArticleSerializer(serializers.ModelSerializer):
         data = ArticleImage.objects.filter(ref_article=instance).order_by('is_main')
         serializer = ArticleImageSerializer(data, many=True)
         return serializer.data
+
+    def get_tags(self, instance):
+        if instance.ref_tag is not None:
+            serializer = TagSerializer(instance.ref_tag, many=True)
+            return serializer.data
+        else:
+            return []
 
 
 class MercerieSerializer(serializers.ModelSerializer):
