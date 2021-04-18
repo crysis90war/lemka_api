@@ -227,9 +227,20 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class AdminAdresseSerializer(serializers.ModelSerializer):
+    ville = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Adresse
         exclude = ['ref_user']
+        extra_kwargs = {
+            'ref_ville': {'write_only': True}
+        }
+
+    # noinspection PyMethodMayBeStatic
+    def get_ville(self, instance):
+        if instance and instance.ref_ville:
+            serializer = VilleSerializer(instance.ref_ville)
+            return serializer.data
 
 
 class CaracteristiqueSerializer(serializers.ModelSerializer):
