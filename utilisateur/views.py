@@ -21,8 +21,7 @@ from utilisateur.serializers import (
 class ProfilAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = ProfilSerializer
-
-    # permission_classes = [IsAuthenticated, UserRUDPermission, ]
+    permission_classes = [IsAuthenticated, ]
 
     # parser_classes = (MultiPartParser, FormParser,)
 
