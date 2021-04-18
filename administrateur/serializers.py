@@ -385,6 +385,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         serializer = ArticleImageSerializer(data, many=True)
         return serializer.data
 
+    # noinspection PyMethodMayBeStatic
     def get_tags(self, instance):
         if instance.ref_tag is not None:
             serializer = TagSerializer(instance.ref_tag, many=True)
