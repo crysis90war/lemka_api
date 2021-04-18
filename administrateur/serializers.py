@@ -60,7 +60,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        exclude = ['password', 'user_permissions', 'groups']
+        exclude = ['password', 'user_permissions', 'groups', 'last_login']
         extra_kwargs = {
             'ref_genre': {'write_only': True}
         }
