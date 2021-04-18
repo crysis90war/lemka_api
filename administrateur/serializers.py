@@ -56,22 +56,18 @@ class GenreSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     mensurations_count = serializers.SerializerMethodField(read_only=True)
-    adresses_count = serializers.SerializerMethodField(read_only=True)
     created_at = serializers.SerializerMethodField(read_only=True)
-
-    # updated_at = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
         exclude = ['password', 'user_permissions', 'groups']
+        extra_kwargs = {
+            'ref_genre': {'write_only': True}
+        }
 
     # noinspection PyMethodMayBeStatic
     def get_mensurations_count(self, instance):
         return instance.mensurations.count()
-
-    # noinspection PyMethodMayBeStatic
-    def get_adresses_count(self, instance):
-        return instance.adresses.count()
 
     # noinspection PyMethodMayBeStatic
     def get_created_at(self, instance):
