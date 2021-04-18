@@ -57,6 +57,7 @@ class GenreSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     mensurations_count = serializers.SerializerMethodField(read_only=True)
     genre = serializers.SerializerMethodField(read_only=True)
+    # adresse = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -76,6 +77,13 @@ class UserSerializer(serializers.ModelSerializer):
             return serializer.data
         else:
             return None
+
+    # # noinspection PyMethodMayBeStatic
+    # def get_adresse(self, instance):
+    #     if Adresse.objects.filter(ref_user=instance).exists():
+    #         queryset = Adresse.objects.get(ref_user=instance)
+    #         serializer = AdminAdresseSerializer(queryset)
+    #         return serializer.data
 
 
 class AdminUserMensurationMesureSerializer(serializers.ModelSerializer):
