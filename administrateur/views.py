@@ -333,7 +333,7 @@ class MercerieOptionCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIV
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAdminUser, ]
+    # permission_classes = [IsAdminUser, ]
 
     def get_queryset(self):
         return User.objects.filter(is_superuser=False)

@@ -56,7 +56,7 @@ class GenreSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     mensurations_count = serializers.SerializerMethodField(read_only=True)
-    created_at = serializers.SerializerMethodField(read_only=True)
+    genre = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -70,12 +70,12 @@ class UserSerializer(serializers.ModelSerializer):
         return instance.mensurations.count()
 
     # noinspection PyMethodMayBeStatic
-    def get_created_at(self, instance):
-        return instance.created_at.strftime("%d %b %Y")
-
-    # noinspection PyMethodMayBeStatic
-    def get_updated_at(self, instance):
-        return instance.updated_at.strftime("%d %b %Y")
+    def get_genre(self, instance):
+        if instance.ref_genre is not None:
+            serializer = GenreSerializer(instance.ref_genre)
+            return serializer.data
+        else:
+            return None
 
 
 class AdminUserMensurationMesureSerializer(serializers.ModelSerializer):
