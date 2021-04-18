@@ -343,7 +343,6 @@ class UserRetrieveAPIView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = "username"
-    permission_classes = [IsAdminUser]
 
     def get_object(self):
         queryset = self.get_queryset()
