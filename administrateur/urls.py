@@ -58,7 +58,7 @@ urlpatterns = [
     path('utilisateurs/', UserListAPIView.as_view(), name='customuser-list'),
     path('utilisateurs/<str:username>/', UserRetrieveAPIView.as_view(), name='customuser-detail'),
 
-    path('utilisateurs/<str:username>/adresses/', UserAdresseRUDApiView.as_view()),
+    path('utilisateurs/<str:username>/adresse/', UserAdresseRUDApiView.as_view()),
 
     path('check/<str:username>/', CheckUserAPIView.as_view(), name='very-user-exists'),
     path('admin-dashboard/', Dashboard.as_view(), name='admin-dashboard')
