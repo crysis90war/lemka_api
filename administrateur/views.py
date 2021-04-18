@@ -354,7 +354,6 @@ class UserRetrieveAPIView(generics.RetrieveUpdateAPIView):
 class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
     queryset = Adresse.objects.all()
     serializer_class = AdminAdresseSerializer
-    permission_classes = [IsAdminUser]
 
     def get_object(self):
         queryset = self.get_queryset()
