@@ -30,12 +30,12 @@ router.register('horaire', HoraireViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 
-    path('articles/', ArticleListCreateAPIView.as_view(), name='article-list'),
-    path('articles/<slug:slug>/', ArticleRUDApiView.as_view(), name='article-rud'),
+    path('articles/', ArticleListCreateAPIView.as_view()),
+    path('articles/<slug:slug>/', ArticleRUDApiView.as_view()),
 
     # Récupération, création et détail avec update et supprésion d'images pour un article donné
-    path('articles/<slug:slug>/images/', ArticleImageListCreateAPIView.as_view(), name='article-image-list-create'),
-    path('articles/<slug:slug>/images/<int:pk>/', ArticleImageRUDAPIView.as_view(), name='article-image-detail'),
+    path('articles/<slug:slug>/images/', ArticleImageListCreateAPIView.as_view()),
+    path('articles/<slug:slug>/images/<int:pk>/', ArticleImageRUDAPIView.as_view()),
 
     # Récupération, création et détail avec update et supprésion d'images pour un mercerie donné
     path('devis/<str:numero_devis>/details/', DetailsListCreateApiView.as_view()),
@@ -55,11 +55,12 @@ urlpatterns = [
     path('mercerie_options/<int:mercerie_option_id>/caracteristiques/<int:pk>/', MercerieOptionCaracteristiqueRUDApiView.as_view()),
 
     # Récupération, détail et update d'utilisateurs
-    path('utilisateurs/', UserListAPIView.as_view(), name='customuser-list'),
-    path('utilisateurs/<str:username>/', UserRetrieveAPIView.as_view(), name='customuser-detail'),
+    path('utilisateurs/', UserListAPIView.as_view()),
+    path('utilisateurs/<str:username>/', UserRetrieveAPIView.as_view()),
 
     path('utilisateurs/<str:username>/adresse/', UserAdresseRUDApiView.as_view()),
+    path('utilisateurs/<str:username>/mensurations/', UserMensurationsListApiView.as_view()),
 
-    path('check/<str:username>/', CheckUserAPIView.as_view(), name='very-user-exists'),
-    path('admin-dashboard/', Dashboard.as_view(), name='admin-dashboard')
+    path('check/<str:username>/', CheckUserAPIView.as_view()),
+    path('admin-dashboard/', Dashboard.as_view())
 ]

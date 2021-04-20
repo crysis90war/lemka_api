@@ -15,10 +15,11 @@ from administrateur.serializers import (
 from lemka.models import (
     Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, Catalogue, User, Article, Mercerie, DemandeDevis, Devis,
     RendezVous, Tag, Couleur, Categorie, EntrepriseLemka, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse,
-    MercerieOptionCaracteristique, MercerieOption, MercerieOptionImage
+    MercerieOptionCaracteristique, MercerieOption, MercerieOptionImage, UserMensuration
 )
 from lemka.pagination import SmallSetPagination
 from lemka.permissions import IsAdminOrReadOnly
+from utilisateur.serializers import UserMensurationSerializer
 
 
 class CommonFields(viewsets.ModelViewSet):
@@ -360,6 +361,15 @@ class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
         obj = get_object_or_404(queryset, ref_user__username=kwarg_username)
         return obj
 
+
+class UserMensurationsListApiView(generics.ListAPIView):
+    queryset = UserMensuration.objects.all()
+    serializer_class = UserMensurationSerializer
+
+    def get_queryset(self):
+        kwarg_username = self.kwargs.get('username')
+        queryset = UserMensuration.objects.filter(ref_user__username=kwarg_username).order_by('-is_main')
+        return queryset
 
 # endregion
 
