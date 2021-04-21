@@ -21,7 +21,6 @@ urlpatterns = [
     # path('profil/devis/<str:devis_numero>/details/'),
     # path('profil/devis/<str:devis_numero>/details/<int:pk>/'),
 
-    path('/')
     # TODO - Devis
     # TODO - Rendez-vous
 ]

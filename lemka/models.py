@@ -396,26 +396,6 @@ class Devis(models.Model):
         return f'{devis} | {email} ({date})'
 
 
-class Discussion(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    message = models.TextField()
-    est_vue = models.BooleanField(default=False)
-
-    ref_devis = models.ForeignKey(Devis, on_delete=models.CASCADE)
-    ref_user_envoyeur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s_envoyeur')
-    ref_user_receveur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s_receveur')
-
-    class Meta:
-        ordering = ['ref_devis__numero_devis', '-created_at']
-
-    def __str__(self):
-        devis = self.ref_devis.numero_devis
-        envoyeur = self.ref_user_envoyeur.username
-        receveur = self.ref_user_receveur.username
-        date = self.created_at.strftime("%D %M %Y %H:%M:%S")
-        return f'{devis} | {envoyeur} -> {receveur} ({date})'
-
-
 class Detail(models.Model):
     designation = models.CharField(max_length=255)
     prix_u_ht = models.DecimalField(max_digits=10, decimal_places=2)
