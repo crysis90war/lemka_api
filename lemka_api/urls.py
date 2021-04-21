@@ -29,7 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('lemka.urls')),
     path('api/', include('administrateur.urls')),
-    path('api/', include('utilisateur.urls')),
+    path('api/profil/', include('utilisateur.urls')),
     path('api/', include('authentication.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
