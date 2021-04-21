@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    auth_provider = models.CharField(max_length=255, blank=False,null=False, default=AUTH_PROVIDERS.get('email'))
+    auth_provider = models.CharField(max_length=255, blank=False, null=False, default=AUTH_PROVIDERS.get('email'))
 
     ref_genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Sexe')
 
@@ -215,7 +215,7 @@ class Article(models.Model):
     ref_type_service = models.ForeignKey(TypeService, on_delete=models.CASCADE)
     ref_catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE, default=None)
 
-    ref_tag = models.ManyToManyField(Tag, null=True, blank=True, related_name='tags')
+    ref_tag = models.ManyToManyField(Tag, blank=True, related_name='tags')
     likes = models.ManyToManyField(User, blank=True, related_name='likes')
 
     def __str__(self):
