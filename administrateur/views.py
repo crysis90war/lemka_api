@@ -6,25 +6,20 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from administrateur.serializers import (
-    GenreSerializer, VilleSerializer, PaysSerializer, EntrepriseLemkaSerializer, UserSerializer, AdminDemandeDevisSerializer,
-    AdminDevisSerializer, TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer,
-    SectionSerializer, TypeProduitSerializer, CatalogueSerializer, CouleurSerializer, CategorieSerializer,
-    HoraireSerializer, DetailSerialiser, TvaSertializer, MensurationSerializer, ArticleSerializer, ArticleImageSerializer,
-    MercerieSerializer, MercerieOptionSerializer, MercerieOptionImageSerializer, MercerieOptionCaracteristiqueSerializer
+    GenreSerializer, VilleSerializer, PaysSerializer, EntrepriseLemkaSerializer, UserSerializer, AdminDemandeDevisSerializer, AdminDevisSerializer,
+    TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer, SectionSerializer,
+    TypeProduitSerializer, CatalogueSerializer, CouleurSerializer, CategorieSerializer, HoraireSerializer, DetailSerialiser, TvaSertializer,
+    MensurationSerializer, ArticleSerializer, ArticleImageSerializer, MercerieImageSerializer,
+    MercerieCaracteristiqueSerializer, MercerieSerializer
 )
 from lemka.models import (
     Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, Catalogue, User, Article, Mercerie, DemandeDevis, Devis,
-    RendezVous, Tag, Couleur, Categorie, EntrepriseLemka, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse,
-    MercerieOptionCaracteristique, MercerieOption, MercerieOptionImage, UserMensuration
+    RendezVous, Tag, Couleur, Categorie, EntrepriseLemka, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse, MercerieCaracteristique,
+    MercerieImage, UserMensuration
 )
 from lemka.pagination import SmallSetPagination
 from lemka.permissions import IsAdminOrReadOnly
 from utilisateur.serializers import UserMensurationSerializer
-
-
-class CommonFields(viewsets.ModelViewSet):
-    lookup_field = 'pk'
-    permission_classes = [IsAdminUser, ]
 
 
 class PaysViewSet(viewsets.ModelViewSet):
@@ -111,9 +106,11 @@ class CouleurViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
-class CategorieViewSet(CommonFields):
+class CategorieViewSet(viewsets.ModelViewSet):
     queryset = Categorie.objects.all()
     serializer_class = CategorieSerializer
+    lookup_field = 'pk'
+    permission_classes = [IsAdminUser, ]
 
 
 class DevisViewSet(viewsets.ModelViewSet):
@@ -148,7 +145,7 @@ class HoraireViewSet(viewsets.ModelViewSet):
 class DetailViewSet(viewsets.ModelViewSet):
     queryset = Detail.objects.all()
     serializer_class = DetailSerialiser
-    # permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
 
 
 class TvaViewSet(viewsets.ModelViewSet):
@@ -165,18 +162,17 @@ class MensurationViewSet(viewsets.ModelViewSet):
 
 class DetailsListCreateApiView(generics.ListCreateAPIView):
     queryset = Detail.objects.all()
-    lookup_field = 'numero_devis'
     serializer_class = DetailSerialiser
-    # permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
 
     def get_queryset(self):
-        kwarg_devis = self.kwargs.get('numero_devis')
-        devis = Detail.objects.filter(ref_devis__numero_devis=kwarg_devis)
+        kwarg_devis_id = self.kwargs.get('devis_id')
+        devis = Detail.objects.filter(ref_devis__numero_devis=kwarg_devis_id)
         return devis
 
     def perform_create(self, serializer):
-        kwarg_devis = self.kwargs.get("numero_devis")
-        devis = get_object_or_404(Devis, numero_devis=kwarg_devis)
+        kwarg_devis_id = self.kwargs.get("devis_id")
+        devis = get_object_or_404(Devis, numero_devis=kwarg_devis_id)
         serializer.save(ref_devis=devis)
 
 
@@ -242,14 +238,15 @@ class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ArticleImageSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
-
 # endregion
 
 
 # region Traitement Mercerie
+
 class MercerieListCreateApiView(generics.ListCreateAPIView):
     queryset = Mercerie.objects.all()
     serializer_class = MercerieSerializer
+    permission_classes = [IsAdminUser]
 
 
 class MercerieRUDApiView(generics.RetrieveUpdateDestroyAPIView):
@@ -257,13 +254,13 @@ class MercerieRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MercerieSerializer
 
 
-class MercerieOptionListCreateApiView(generics.ListCreateAPIView):
-    queryset = MercerieOption.objects.all()
-    serializer_class = MercerieOptionSerializer
+class MercerieImageListCreateApiView(generics.ListCreateAPIView):
+    queryset = MercerieImage.objects.all()
+    serializer_class = MercerieImageSerializer
 
     def get_queryset(self):
         kwarg_mercerie_id = self.kwargs.get('mercerie_id')
-        return MercerieOption.objects.filter(ref_mercerie=kwarg_mercerie_id)
+        return MercerieImage.objects.filter(ref_mercerie=kwarg_mercerie_id)
 
     def perform_create(self, serializer):
         kwarg_mercerie_id = self.kwargs.get('mercerie_id')
@@ -271,66 +268,34 @@ class MercerieOptionListCreateApiView(generics.ListCreateAPIView):
         serializer.save(ref_mercerie=mercerie)
 
 
-class MercerieOptionRUDApiView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = MercerieOption.objects.all()
-    serializer_class = MercerieOptionSerializer
+class MercerieImageRUDApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MercerieImage.objects.all()
+    serializer_class = MercerieImageSerializer
 
-    def retrieve(self, request, *args, **kwargs):
+
+class MercerieCaracteristiqueListCreateApiView(generics.ListCreateAPIView):
+    queryset = MercerieCaracteristique
+    serializer_class = MercerieCaracteristiqueSerializer
+
+    def get_queryset(self):
         kwarg_mercerie_id = self.kwargs.get('mercerie_id')
-        kwarg_pk = self.kwargs.get('pk')
+        return MercerieCaracteristique.objects.filter(ref_mercerie=kwarg_mercerie_id)
 
-        instance = get_object_or_404(MercerieOption, ref_mercerie=kwarg_mercerie_id, pk=kwarg_pk)
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
-
-    def perform_update(self, serializer):
+    def perform_create(self, serializer):
         kwarg_mercerie_id = self.kwargs.get('mercerie_id')
         mercerie = get_object_or_404(Mercerie, pk=kwarg_mercerie_id)
         serializer.save(ref_mercerie=mercerie)
 
 
-class MercerieOptionImageListCreateApiView(generics.ListCreateAPIView):
-    queryset = MercerieOptionImage.objects.all()
-    serializer_class = MercerieOptionImageSerializer
-
-    def get_queryset(self):
-        kwarg_mercerie_option_id = self.kwargs.get('mercerie_option_id')
-        return MercerieOptionImage.objects.filter(ref_mercerie_option=kwarg_mercerie_option_id)
-
-    def perform_create(self, serializer):
-        kwarg_mercerie_option_id = self.kwargs.get('mercerie_option_id')
-        mercerie_option = get_object_or_404(MercerieOption, pk=kwarg_mercerie_option_id)
-        serializer.save(ref_mercerie_option=mercerie_option)
-
-
-class MercerieOptionImageRUDApiView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = MercerieOptionImage.objects.all()
-    serializer_class = MercerieOptionImageSerializer
-
-
-class MercerieOptionCaracteristiqueListCreateApiView(generics.ListCreateAPIView):
-    queryset = MercerieOptionCaracteristique
-    serializer_class = MercerieOptionCaracteristiqueSerializer
-
-    def get_queryset(self):
-        kwarg_mercerie_option_id = self.kwargs.get('mercerie_option_id')
-        return MercerieOptionCaracteristique.objects.filter(ref_mercerie_option=kwarg_mercerie_option_id)
-
-    def perform_create(self, serializer):
-        kwarg_mercerie_option_id = self.kwargs.get('mercerie_option_id')
-        mercerie_option = get_object_or_404(MercerieOption, pk=kwarg_mercerie_option_id)
-        serializer.save(ref_mercerie_option=mercerie_option)
-
-
-class MercerieOptionCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = MercerieOptionCaracteristique.objects.all()
-    serializer_class = MercerieOptionCaracteristiqueSerializer
-
+class MercerieCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MercerieCaracteristique.objects.all()
+    serializer_class = MercerieCaracteristiqueSerializer
 
 # endregion
 
 
 # region Traitement de l'utilisateur
+
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer

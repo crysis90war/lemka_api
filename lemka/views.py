@@ -2,8 +2,8 @@ from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
 
 from administrateur.serializers import ArticleSerializer
-from lemka.models import Article, MercerieOption
-from lemka.serializers import GlobalMerceriesSerializer
+from lemka.models import Article, Mercerie
+from lemka.serializers import GlobalMercerieSerializer
 
 
 class ArticleServiceListAPIView(generics.ListAPIView):
@@ -48,7 +48,7 @@ class ArticleTypeProduitListAPIView(ArticleServiceListAPIView):
 
 
 class GlobalMercerieListApiView(generics.ListAPIView):
-    queryset = MercerieOption.objects.all().filter(est_publie=True, ref_mercerie__est_publie=True)
-    serializer_class = GlobalMerceriesSerializer
+    queryset = Mercerie.objects.all().filter(est_publie=True)
+    serializer_class = GlobalMercerieSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['reference', 'description', 'ref_mercerie__nom', 'ref_couleur__nom']

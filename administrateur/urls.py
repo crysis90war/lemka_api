@@ -30,29 +30,26 @@ router.register('horaire', HoraireViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 
+    # Récupération, création et détail avec update et supprésion d'images pour un article donné
     path('articles/', ArticleListCreateAPIView.as_view()),
     path('articles/<slug:slug>/', ArticleRUDApiView.as_view()),
 
-    # Récupération, création et détail avec update et supprésion d'images pour un article donné
     path('articles/<slug:slug>/images/', ArticleImageListCreateAPIView.as_view()),
     path('articles/<slug:slug>/images/<int:pk>/', ArticleImageRUDAPIView.as_view()),
 
     # Récupération, création et détail avec update et supprésion d'images pour un mercerie donné
-    path('devis/<str:numero_devis>/details/', DetailsListCreateApiView.as_view()),
-    path('devis/<str:numero_devis>/details/<int:pk>/', DetailRUDApiView.as_view()),
+    path('devis/<str:devis_id>/details/', DetailsListCreateApiView.as_view()),
+    path('devis/<str:devis_id>/details/<int:pk>/', DetailRUDApiView.as_view()),
 
     # Récupération, création et détail avec update et suppréssion de mercerie
     path('merceries/', MercerieListCreateApiView.as_view()),
     path('merceries/<int:pk>/', MercerieRUDApiView.as_view()),
 
-    path('merceries/<int:mercerie_id>/options/', MercerieOptionListCreateApiView.as_view()),
-    path('merceries/<int:mercerie_id>/options/<int:pk>/', MercerieOptionRUDApiView.as_view()),
+    path('merceries/<int:mercerie_id>/images/', MercerieImageListCreateApiView.as_view()),
+    path('merceries/<int:mercerie_id>/images/<int:pk>/', MercerieImageRUDApiView.as_view()),
 
-    path('mercerie_options/<int:mercerie_option_id>/images/', MercerieOptionImageListCreateApiView.as_view()),
-    path('mercerie_options/<int:mercerie_option_id>/images/<int:pk>/', MercerieOptionImageRUDApiView.as_view()),
-
-    path('mercerie_options/<int:mercerie_option_id>/caracteristiques/', MercerieOptionCaracteristiqueListCreateApiView.as_view()),
-    path('mercerie_options/<int:mercerie_option_id>/caracteristiques/<int:pk>/', MercerieOptionCaracteristiqueRUDApiView.as_view()),
+    path('merceries/<int:mercerie_id>/caracteristiques/', MercerieCaracteristiqueListCreateApiView.as_view()),
+    path('merceries/<int:mercerie_id>/caracteristiques/<int:pk>/', MercerieCaracteristiqueRUDApiView.as_view()),
 
     # Récupération, détail et update d'utilisateurs
     path('utilisateurs/', UserListAPIView.as_view()),

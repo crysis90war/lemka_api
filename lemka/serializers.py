@@ -1,20 +1,23 @@
 from rest_framework import serializers
 
-from administrateur.serializers import MercerieOptionCaracteristiqueSerializer, MercerieOptionImageSerializer, TvaSertializer, \
-    CouleurSerializer
-from lemka.models import *
+from administrateur.serializers import (
+    MercerieCaracteristiqueSerializer, MercerieImageSerializer, TvaSertializer, CouleurSerializer
+)
+from lemka.models import (
+    Mercerie, MercerieImage
+)
 
 
-class GlobalMerceriesSerializer(serializers.ModelSerializer):
+class GlobalMercerieSerializer(serializers.ModelSerializer):
     caracteristiques = serializers.SerializerMethodField(read_only=True)
-    reference = serializers.CharField()
+    reference = serializers.CharField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
     name = serializers.SerializerMethodField(read_only=True)
     tva = serializers.SerializerMethodField(read_only=True)
     couleur = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = MercerieOption
+        model = Mercerie
         fields = '__all__'
         extra_kwarges = {
             'ref_tva': {'write_only': True},
@@ -29,14 +32,14 @@ class GlobalMerceriesSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_caracteristiques(self, instance):
-        data = instance.catacteristiques.filter(ref_mercerie_option=instance)
-        serializer = MercerieOptionCaracteristiqueSerializer(data, many=True)
+        data = instance.catacteristiques.filter(ref_mercerie=instance)
+        serializer = MercerieCaracteristiqueSerializer(data, many=True)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
     def get_images(self, instance):
-        data = MercerieOptionImage.objects.filter(ref_mercerie_option=instance).order_by('is_main')
-        serializer = MercerieOptionImageSerializer(data, many=True)
+        data = MercerieImage.objects.filter(ref_mercerie=instance).order_by('is_main')
+        serializer = MercerieImageSerializer(data, many=True)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -48,4 +51,3 @@ class GlobalMerceriesSerializer(serializers.ModelSerializer):
     def get_couleur(self, instance):
         serializer = CouleurSerializer(instance.ref_couleur)
         return serializer.data
-

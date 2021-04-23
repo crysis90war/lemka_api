@@ -43,13 +43,13 @@ def path_and_rename_article_image(instance, filename):
     return os.path.join(upload_to, filename)
 
 
-def path_and_rename_mercerie_couleur_image(instance, filename):
+def path_and_rename_mercerie_image(instance, filename):
     upload_to = ''
     ext = filename.split('.')[-1]
-    if instance.ref_mercerie_options.reference:
+    if instance.ref_mercerie.reference:
         dossier = 'mercerie'
-        mercerie = instance.ref_mercerie_options.reference
-        couleur = instance.ref_mercerie_options.ref_couleur.nom
+        mercerie = instance.ref_mercerie.reference
+        couleur = instance.ref_mercerie.ref_couleur.nom
         upload_to = f'{dossier}/{mercerie}'
         filename = f'{mercerie}-{couleur}-{Utils.generate_random_string()}.{ext}'
     else:

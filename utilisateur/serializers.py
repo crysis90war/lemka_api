@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from administrateur.serializers import (
-    GenreSerializer, VilleSerializer, TypeServiceSerializer, CatalogueSerializer, ArticleImageSerializer, MercerieOptionSerializer
+    GenreSerializer, VilleSerializer, TypeServiceSerializer, CatalogueSerializer, ArticleImageSerializer, MercerieSerializer
 )
 from lemka.models import (
     DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis, Article, ArticleImage
@@ -45,7 +45,7 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
     type_service = serializers.SerializerMethodField(read_only=True)
     article = serializers.SerializerMethodField(read_only=True)
     mensuration = serializers.SerializerMethodField(read_only=True)
-    mercerie_options = serializers.SerializerMethodField(read_only=True)
+    merceries = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
@@ -56,7 +56,7 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
             'ref_type_service': {'write_only': True},
             'ref_article': {'write_only': True},
             'ref_mensuration': {'write_only': True},
-            'ref_mercerie_options': {'write_only': True},
+            'ref_merceries': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
@@ -81,8 +81,8 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
             return None
 
     # noinspection PyMethodMayBeStatic
-    def get_mercerie_options(self, instance):
-        serializer = MercerieOptionSerializer(instance.ref_mercerie_options, many=True)
+    def get_merceries(self, instance):
+        serializer = MercerieSerializer(instance.ref_merceries, many=True)
         return serializer.data
 
 

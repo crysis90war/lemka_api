@@ -25,22 +25,26 @@ class Genre(models.Model):
 
 class Tva(models.Model):
     taux = models.FloatField(unique=True)
+    applicable = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['taux']
 
     def __str__(self):
         taux_en_pct = self.taux * 100
-        return f'{taux_en_pct} %'
+        if self.applicable is True:
+            return f'[V]{taux_en_pct} %'
+        else:
+            return f'[X]{taux_en_pct} %'
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=255, unique=True, db_index=True, verbose_name='Nom public')
+    username = models.CharField(max_length=255, unique=True, db_index=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     image = models.ImageField(default='default.jpg', upload_to=path_and_rename_user_image)
-    first_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Prénom')
-    last_name = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Nom')
-    numero_tel = models.CharField(max_length=255, blank=True, null=False, default='', verbose_name='Numéro tel.')
+    first_name = models.CharField(max_length=255, blank=True, null=False, default='')
+    last_name = models.CharField(max_length=255, blank=True, null=False, default='')
+    numero_tel = models.CharField(max_length=255, blank=True, null=False, default='')
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -205,17 +209,15 @@ class Tag(models.Model):
 class Article(models.Model):
     titre = models.CharField(max_length=255)
     description = models.TextField()
-
     slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
     est_active = models.BooleanField(default=False)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     ref_type_service = models.ForeignKey(TypeService, on_delete=models.CASCADE)
     ref_catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE, default=None)
 
-    ref_tag = models.ManyToManyField(Tag, blank=True, related_name='tags')
+    ref_tags = models.ManyToManyField(Tag, blank=True, related_name='tags')
     likes = models.ManyToManyField(User, blank=True, related_name='likes')
 
     def __str__(self):
@@ -234,9 +236,6 @@ class ArticleImage(models.Model):
     def save(self, *args, **kwargs):
         super(ArticleImage, self).save(*args, **kwargs)
 
-        # if self.image:
-        #     Utils.resize_image(self.image.path, (720, 1008))
-
     def __str__(self):
         if self.is_main is True:
             return f'Principale - {self.ref_article.slug}'
@@ -245,7 +244,7 @@ class ArticleImage(models.Model):
 
 
 class Categorie(models.Model):
-    nom = models.CharField(max_length=255, null=False, blank=True, unique=True)
+    nom = models.CharField(max_length=255, null=False, blank=False, unique=True)
 
     class Meta:
         ordering = ['nom']
@@ -255,10 +254,29 @@ class Categorie(models.Model):
 
 
 class Couleur(models.Model):
-    nom = models.CharField(max_length=255)
+    nom = models.CharField(max_length=255, null=False, blank=False, unique=True)
 
     def __str__(self):
         return f'{self.nom}'
+
+
+class Mercerie(models.Model):
+    reference = models.CharField(max_length=255, unique=True)
+    nom = models.CharField(max_length=255, null=False, blank=False)
+    est_publie = models.BooleanField(default=False)
+    description = models.TextField(default="")
+    prix_u_ht = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
+    stock = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
+
+    ref_tva = models.ForeignKey(Tva, on_delete=models.CASCADE, related_name='tva')
+    ref_couleur = models.ForeignKey(Couleur, on_delete=models.CASCADE)
+    ref_categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['nom', 'ref_couleur__nom']
+
+    def __str__(self):
+        return f'{self.reference} | {self.nom} - {self.ref_couleur.nom}'
 
 
 class Caracteristique(models.Model):
@@ -268,68 +286,37 @@ class Caracteristique(models.Model):
         return self.nom
 
 
-class Mercerie(models.Model):
-    nom = models.CharField(max_length=255)
-    est_publie = models.BooleanField(default=False)
-
-    ref_categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.nom}'
-
-
-class MercerieOption(models.Model):
-    reference = models.CharField(max_length=255, unique=True)
-    est_publie = models.BooleanField(default=False)
-    description = models.TextField(default="")
-    prix_u_ht = models.DecimalField(max_digits=10, decimal_places=2,
-                                    validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
-    stock = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
-
-    ref_tva = models.ForeignKey(Tva, on_delete=models.CASCADE, related_name='tva')
-    ref_mercerie = models.ForeignKey(Mercerie, on_delete=models.CASCADE, related_name='options')
-    ref_couleur = models.ForeignKey(Couleur, on_delete=models.CASCADE)
-
-    class Meta:
-        ordering = ['ref_mercerie__nom', 'ref_couleur__nom']
-
-    def __str__(self):
-        return f'{self.reference} | {self.ref_mercerie.nom} - {self.ref_couleur.nom}'
-
-
-class MercerieOptionCaracteristique(models.Model):
-    ref_mercerie_option = models.ForeignKey(MercerieOption, null=False, blank=False, on_delete=models.CASCADE,
-                                            related_name='catacteristiques')
+class MercerieCaracteristique(models.Model):
+    ref_mercerie = models.ForeignKey(Mercerie, null=False, blank=False, on_delete=models.CASCADE, related_name='catacteristiques')
     ref_caracteristique = models.ForeignKey(Caracteristique, null=False, blank=False, on_delete=models.CASCADE)
-    valeur = models.DecimalField(max_digits=10, decimal_places=2,
-                                 validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
+    valeur = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
 
     class Meta:
-        ordering = ['ref_mercerie_option__ref_mercerie__nom']
+        ordering = ['ref_mercerie__nom']
 
     def __str__(self):
-        return f'{self.ref_mercerie_option.ref_mercerie.nom} | {self.ref_caracteristique.nom} - {self.valeur}'
+        return f'{self.ref_mercerie.nom} | {self.ref_caracteristique.nom} - {self.valeur}'
 
 
-class MercerieOptionImage(models.Model):
-    image = models.ImageField(default='default.jpg', upload_to=path_and_rename_mercerie_couleur_image)
+class MercerieImage(models.Model):
+    image = models.ImageField(default='default.jpg', upload_to=path_and_rename_mercerie_image)
     is_main = models.BooleanField(default=False)
 
-    ref_mercerie_option = models.ForeignKey(MercerieOption, on_delete=models.CASCADE, related_name='images')
+    ref_mercerie = models.ForeignKey(Mercerie, null=False, blank=False, on_delete=models.CASCADE, related_name='images')
 
     class Meta:
-        ordering = ['ref_mercerie_option__ref_mercerie__nom', '-is_main']
+        ordering = ['ref_mercerie__nom', '-is_main']
 
     def save(self, *args, **kwargs):
-        super(MercerieOptionImage, self).save(*args, **kwargs)
+        super(MercerieImage, self).save(*args, **kwargs)
 
         # if self.image:
         #     Utils.resize_image(self.image.path, (720, 720))
 
     def __str__(self):
-        reference = self.ref_mercerie_option.reference
-        nom = self.ref_mercerie_option.ref_mercerie.nom
-        couleur = self.ref_mercerie_option.ref_couleur.nom
+        reference = self.ref_mercerie.reference
+        nom = self.ref_mercerie.nom
+        couleur = self.ref_mercerie.ref_couleur.nom
         if self.is_main is True:
             return f'{reference} | {nom} {couleur} - Principale'
         else:
@@ -351,7 +338,7 @@ class DemandeDevis(models.Model):
     ref_article = models.ForeignKey(Article, blank=True, null=True, on_delete=models.SET_NULL)
     ref_mensuration = models.ForeignKey(UserMensuration, blank=True, null=True, on_delete=models.SET_NULL)
 
-    ref_mercerie_options = models.ManyToManyField(MercerieOption, blank=True, related_name='merceries')
+    ref_merceries = models.ManyToManyField(Mercerie, blank=True, related_name='merceries')
 
     class Meta:
         ordering = ['-created_at']

@@ -2,8 +2,8 @@ from rest_framework import serializers
 
 from lemka.models import (
     Pays, Ville, EntrepriseLemka, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
-    Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieOption, MercerieOptionImage,
-    MercerieOptionCaracteristique, UserMensuration, UserMensurationMesure
+    Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieImage, MercerieCaracteristique,
+    UserMensuration, UserMensurationMesure
 )
 
 
@@ -57,6 +57,7 @@ class GenreSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     mensurations_count = serializers.SerializerMethodField(read_only=True)
     genre = serializers.SerializerMethodField(read_only=True)
+
     # adresse = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -118,7 +119,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
     type_service = serializers.SerializerMethodField(read_only=True)
     article = serializers.SerializerMethodField(read_only=True)
     mensuration = serializers.SerializerMethodField(read_only=True)
-    mercerie_options = serializers.SerializerMethodField(read_only=True)
+    merceries = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = DemandeDevis
@@ -127,7 +128,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
             'ref_user': {'read_only': True},
             'ref_type_service': {'write_only': True},
             'ref_article': {'write_only': True},
-            'ref_mercerie_options': {'write_only': True},
+            'ref_merceries': {'write_only': True},
             'ref_mensuration': {'write_only': True},
         }
 
@@ -162,8 +163,8 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
             return None
 
     # noinspection PyMethodMayBeStatic
-    def get_mercerie_options(self, instance):
-        serializer = MercerieOptionSerializer(instance.ref_mercerie_options, many=True)
+    def get_merceries(self, instance):
+        serializer = MercerieSerializer(instance.ref_merceries, many=True)
         return serializer.data
 
 
@@ -410,26 +411,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class MercerieSerializer(serializers.ModelSerializer):
-    nom = serializers.CharField()
-    est_publie = serializers.BooleanField(default=False)
-    categorie = serializers.SerializerMethodField(read_only=True)
-    options_count = serializers.SerializerMethodField(read_only=True)
-    ref_categorie = CategorieSerializer
-
-    class Meta:
-        model = Mercerie
-        fields = '__all__'
-
-    # noinspection PyMethodMayBeStatic
-    def get_categorie(self, instance):
-        return instance.ref_categorie.nom
-
-    # noinspection PyMethodMayBeStatic
-    def get_options_count(self, instance):
-        return instance.options.count()
-
-
-class MercerieOptionSerializer(serializers.ModelSerializer):
+    reference = serializers.CharField(read_only=True)
     name = serializers.SerializerMethodField(read_only=True)
     caracteristiques = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
@@ -438,8 +420,8 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
     couleur = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = MercerieOption
-        exclude = ['ref_mercerie']
+        model = Mercerie
+        fields = '__all__'
         extra_kwargs = {
             'id': {'read_only': True},
             'ref_tva': {'write_only': True},
@@ -454,8 +436,8 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_caracteristiques(self, instance):
-        data = instance.catacteristiques.filter(ref_mercerie_option=instance)
-        serializer = MercerieOptionCaracteristiqueSerializer(data, many=True)
+        data = instance.catacteristiques.filter(ref_mercerie=instance)
+        serializer = MercerieCaracteristiqueSerializer(data, many=True)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -464,8 +446,8 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_images(self, instance):
-        data = MercerieOptionImage.objects.filter(ref_mercerie_option=instance).order_by('is_main')
-        serializer = MercerieOptionImageSerializer(data, many=True)
+        data = MercerieImage.objects.filter(ref_mercerie=instance).order_by('is_main')
+        serializer = MercerieImageSerializer(data, many=True)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -479,18 +461,18 @@ class MercerieOptionSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
-class MercerieOptionImageSerializer(serializers.ModelSerializer):
+class MercerieImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MercerieOptionImage
+        model = MercerieImage
         fields = "__all__"
 
 
-class MercerieOptionCaracteristiqueSerializer(serializers.ModelSerializer):
+class MercerieCaracteristiqueSerializer(serializers.ModelSerializer):
     caracteristique = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = MercerieOptionCaracteristique
-        exclude = ['ref_mercerie_option']
+        model = MercerieCaracteristique
+        exclude = ['ref_mercerie']
         extra_kwargs = {
             'ref_caracteristique': {'write_only': True}
         }
