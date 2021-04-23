@@ -12,7 +12,8 @@ Travail de fin d’études en vue de l’obtention du Diplôme de bachelier en I
 > - python manage.py migrate
 > - python manage.py createsuperuser
 > - python manage.py dumpdata app.class > class.json
-> - python manage.py loaddata app.class > class.json
+> - python manage.py loaddata app.class < class.json
+> - python manage.py loaddata class.json
   
 </details>
 
