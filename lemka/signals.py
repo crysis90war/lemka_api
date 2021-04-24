@@ -15,10 +15,20 @@ def ajouter_slug_article(sender, instance, *args, **kwargs):
         ajout_du_slug(instance, slug)
 
 
+@receiver(pre_save, sender=Mercerie)
+def ajouter_reference_mercerie(sender, instance, *args, **kwargs):
+    if instance and not instance.reference:
+        string = 'MERC'
+        date = datetime.datetime.now().strftime("%Y%m%d")
+        random = Utils.generate_random_numbers()
+        reference = string + date + random
+        instance.reference = reference
+
+
 @receiver(pre_save, sender=DemandeDevis)
 def ajout_numero_demande_devis(sender, instance, *args, **kwargs):
     if instance and not instance.numero_demande_devis:
-        date = datetime.datetime.now().strftime ("%Y%m%d")
+        date = datetime.datetime.now().strftime("%Y%m%d")
         numero_demande_devis = date + Utils.generate_random_numbers()
         instance.numero_demande_devis = numero_demande_devis
 
@@ -26,7 +36,7 @@ def ajout_numero_demande_devis(sender, instance, *args, **kwargs):
 @receiver(pre_save, sender=Devis)
 def ajout_numero_devis(sender, instance, *args, **kwargs):
     if instance and not instance.numero_devis:
-        date = datetime.datetime.now().strftime ("%Y%m%d")
+        date = datetime.datetime.now().strftime("%Y%m%d")
         numero_devis = date + Utils.generate_random_numbers()
         instance.numero_devis = numero_devis
 
@@ -50,7 +60,6 @@ def article_image_is_main(sender, instance, *args, **kwargs):
                 article_image.save()
             if not a_i_is_main_true and not a_i_is_main_false:
                 instance.is_main = True
-
 
 # @receiver(pre_save, sender=Rayon)
 # def ajout_rayon_slug(sender, instance, *args, **kwargs):

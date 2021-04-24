@@ -79,13 +79,6 @@ class UserSerializer(serializers.ModelSerializer):
         else:
             return None
 
-    # # noinspection PyMethodMayBeStatic
-    # def get_adresse(self, instance):
-    #     if Adresse.objects.filter(ref_user=instance).exists():
-    #         queryset = Adresse.objects.get(ref_user=instance)
-    #         serializer = AdminAdresseSerializer(queryset)
-    #         return serializer.data
-
 
 class AdminUserMensurationMesureSerializer(serializers.ModelSerializer):
     mensuration = serializers.SerializerMethodField(read_only=True)
@@ -464,7 +457,7 @@ class MercerieSerializer(serializers.ModelSerializer):
 class MercerieImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = MercerieImage
-        fields = "__all__"
+        exclude = ['ref_mercerie']
 
 
 class MercerieCaracteristiqueSerializer(serializers.ModelSerializer):

@@ -52,7 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
     auth_provider = models.CharField(max_length=255, blank=False, null=False, default=AUTH_PROVIDERS.get('email'))
 
-    ref_genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Sexe')
+    ref_genre = models.ForeignKey(Genre, blank=True, null=True, on_delete=models.SET_NULL)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
