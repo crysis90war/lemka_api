@@ -404,28 +404,23 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class MercerieSerializer(serializers.ModelSerializer):
-    reference = serializers.CharField(read_only=True)
-    name = serializers.SerializerMethodField(read_only=True)
-    caracteristiques = serializers.SerializerMethodField(read_only=True)
-    images_count = serializers.SerializerMethodField(read_only=True)
-    images = serializers.SerializerMethodField(read_only=True)
     tva = serializers.SerializerMethodField(read_only=True)
     couleur = serializers.SerializerMethodField(read_only=True)
+    categorie = serializers.SerializerMethodField(read_only=True)
+    caracteristiques = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField(read_only=True)
+    images_count = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Mercerie
         fields = '__all__'
         extra_kwargs = {
             'id': {'read_only': True},
+            'reference': {'read_only': True},
             'ref_tva': {'write_only': True},
             'ref_couleur': {'write_only': True},
+            'ref_categorie': {'write_only': True},
         }
-
-    # noinspection PyMethodMayBeStatic
-    def get_name(self, instance):
-        name = instance.ref_mercerie.nom
-        couleur = instance.ref_couleur.nom
-        return f'{name} - {couleur}'
 
     # noinspection PyMethodMayBeStatic
     def get_caracteristiques(self, instance):
@@ -451,6 +446,11 @@ class MercerieSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_couleur(self, instance):
         serializer = CouleurSerializer(instance.ref_couleur)
+        return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_categorie(self, instance):
+        serializer = CategorieSerializer(instance.ref_categorie)
         return serializer.data
 
 
