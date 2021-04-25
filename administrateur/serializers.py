@@ -472,4 +472,6 @@ class MercerieCaracteristiqueSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_caracteristique(self, instance):
-        return instance.ref_caracteristique.nom
+        serializer = CaracteristiqueSerializer(instance.ref_caracteristique)
+        data = serializer.data
+        return data
