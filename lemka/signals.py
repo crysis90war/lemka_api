@@ -61,6 +61,19 @@ def article_image_is_main(sender, instance, *args, **kwargs):
             if not a_i_is_main_true and not a_i_is_main_false:
                 instance.is_main = True
 
+
+@receiver(pre_save, sender=MercerieImage)
+def mercerie_main_image(sender, instance, *args, **kwargs):
+    if instance:
+        if MercerieImage.objects.filter(ref_mercerie=instance.ref_mercerie).exists():
+            if instance.is_main is True:
+                if MercerieImage.objects.filter(ref_mercerie=instance.ref_mercerie, is_main=True).exists():
+                    instance.is_main = False
+        else:
+            if instance.is_main is False:
+                instance.is_main = True
+
+
 # @receiver(pre_save, sender=Rayon)
 # def ajout_rayon_slug(sender, instance, *args, **kwargs):
 #     if instance and not instance.rayon_slug:
