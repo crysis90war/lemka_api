@@ -291,6 +291,7 @@ class MercerieCaracteristiqueListCreateApiView(generics.ListCreateAPIView):
 class MercerieCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MercerieCaracteristique.objects.all()
     serializer_class = MercerieCaracteristiqueSerializer
+    permission_classes = [IsAdminUser, ]
 
 # endregion
 
