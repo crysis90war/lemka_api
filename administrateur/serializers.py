@@ -281,6 +281,12 @@ class CatalogueSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
+class HoraireSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Horaire
+        fields = "__all__"
+
+
 class CouleurSerializer(serializers.ModelSerializer):
     class Meta:
         model = Couleur
@@ -290,12 +296,6 @@ class CouleurSerializer(serializers.ModelSerializer):
 class CategorieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categorie
-        fields = "__all__"
-
-
-class HoraireSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Horaire
         fields = "__all__"
 
 
@@ -434,7 +434,7 @@ class MercerieSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_images(self, instance):
-        data = MercerieImage.objects.filter(ref_mercerie=instance).order_by('is_main')
+        data = MercerieImage.objects.filter(ref_mercerie=instance).order_by('-is_main')
         serializer = MercerieImageSerializer(data, many=True)
         return serializer.data
 
