@@ -276,6 +276,7 @@ class MercerieImageRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 class MercerieCaracteristiqueListCreateApiView(generics.ListCreateAPIView):
     queryset = MercerieCaracteristique
     serializer_class = MercerieCaracteristiqueSerializer
+    permission_classes = [IsAdminUser, ]
 
     def get_queryset(self):
         kwarg_mercerie_id = self.kwargs.get('mercerie_id')
