@@ -269,14 +269,10 @@ class MercerieImageDestroyAPIView(generics.DestroyAPIView):
     serializer_class = MercerieImageSerializer
 
 
-class MercerieCaracteristiqueListCreateApiView(generics.ListCreateAPIView):
+class MercerieCaracteristiqueCreateApiView(generics.CreateAPIView):
     queryset = MercerieCaracteristique
     serializer_class = MercerieCaracteristiqueSerializer
     permission_classes = [IsAdminUser, ]
-
-    def get_queryset(self):
-        kwarg_mercerie_id = self.kwargs.get('mercerie_id')
-        return MercerieCaracteristique.objects.filter(ref_mercerie=kwarg_mercerie_id)
 
     def perform_create(self, serializer):
         kwarg_mercerie_id = self.kwargs.get('mercerie_id')

@@ -48,7 +48,7 @@ urlpatterns = [
     path('merceries/<int:mercerie_id>/images/', MercerieImageCreateApiView.as_view()),
     path('merceries/<int:mercerie_id>/images/<int:pk>/', MercerieImageDestroyAPIView.as_view()),
 
-    path('merceries/<int:mercerie_id>/characteristiques/', MercerieCaracteristiqueListCreateApiView.as_view()),
+    path('merceries/<int:mercerie_id>/characteristiques/', MercerieCaracteristiqueCreateApiView.as_view()),
     path('merceries/<int:mercerie_id>/characteristiques/<int:pk>/', MercerieCaracteristiqueRUDApiView.as_view()),
 
     # Récupération, détail et update d'utilisateurs
