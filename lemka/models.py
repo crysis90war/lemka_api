@@ -266,7 +266,6 @@ class Mercerie(models.Model):
     est_publie = models.BooleanField(default=False)
     description = models.TextField(default="")
     prix_u_ht = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
-    stock = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999.9)])
 
     ref_tva = models.ForeignKey(Tva, on_delete=models.CASCADE, related_name='tva')
     ref_couleur = models.ForeignKey(Couleur, on_delete=models.CASCADE)
