@@ -45,8 +45,8 @@ urlpatterns = [
     path('merceries/', MercerieListCreateApiView.as_view()),
     path('merceries/<int:pk>/', MercerieRUDApiView.as_view()),
 
-    path('merceries/<int:mercerie_id>/images/', MercerieImageListCreateApiView.as_view()),
-    path('merceries/<int:mercerie_id>/images/<int:pk>/', MercerieImageRUDApiView.as_view()),
+    path('merceries/<int:mercerie_id>/images/', MercerieImageCreateApiView.as_view()),
+    path('merceries/<int:mercerie_id>/images/<int:pk>/', MercerieImageDestroyAPIView.as_view()),
 
     path('merceries/<int:mercerie_id>/characteristiques/', MercerieCaracteristiqueListCreateApiView.as_view()),
     path('merceries/<int:mercerie_id>/characteristiques/<int:pk>/', MercerieCaracteristiqueRUDApiView.as_view()),
