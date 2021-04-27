@@ -354,7 +354,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             'ref_catalogue': {'write_only': True},
             'ref_article': {'write_only': True},
             'ref_type_service': {'write_only': True},
-            'ref_tag': {'write_only': True},
+            'ref_tags': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
@@ -397,7 +397,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_tags(self, instance):
         if instance.ref_tag is not None:
-            serializer = TagSerializer(instance.ref_tag, many=True)
+            serializer = TagSerializer(instance.ref_tags, many=True)
             return serializer.data
         else:
             return []
