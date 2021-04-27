@@ -15,7 +15,7 @@ class UserArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        exclude = ['ref_tag', 'likes']
+        exclude = ['ref_tags', 'likes']
         extra_kwargs = {
             'ref_catalogue': {'write_only': True},
             'ref_type_service': {'write_only': True},
