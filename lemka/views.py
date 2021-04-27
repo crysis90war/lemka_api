@@ -51,4 +51,4 @@ class GlobalMercerieListApiView(generics.ListAPIView):
     queryset = Mercerie.objects.all().filter(est_publie=True)
     serializer_class = GlobalMercerieSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['reference', 'description', 'ref_mercerie__nom', 'ref_couleur__nom']
+    search_fields = ['reference', 'description', 'nom', 'ref_couleur__nom', 'ref_categorie__nom']
