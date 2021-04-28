@@ -183,7 +183,7 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        kwarg_devis = self.kwargs.get('numero_devis')
+        kwarg_devis = self.kwargs.get('devis_id')
         kwarg_id = self.kwargs.get('pk')
         try:
             obj = get_object_or_404(queryset, ref_devis__numero_devis=kwarg_devis, pk=kwarg_id)
