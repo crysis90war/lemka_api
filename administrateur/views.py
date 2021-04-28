@@ -194,7 +194,7 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
         kwarg_devis = self.kwargs.get('devis_id')
         kwarg_id = self.kwargs.get('pk')
         detail = get_object_or_404(Detail, ref_devis__pk=kwarg_devis, pk=kwarg_id)
-        serializer.save(detail)
+        serializer.save(pk=detail)
 
 
 # region Traitement Article
