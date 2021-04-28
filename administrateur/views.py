@@ -178,7 +178,7 @@ class DetailsListCreateApiView(generics.ListCreateAPIView):
 class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Detail.objects.all()
     serializer_class = DetailSerialiser
-    # permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
 
     def get_object(self):
         queryset = self.get_queryset()
