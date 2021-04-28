@@ -186,7 +186,7 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
         kwarg_devis = self.kwargs.get('devis_id')
         kwarg_id = self.kwargs.get('pk')
         try:
-            obj = get_object_or_404(queryset, ref_devis__numero_devis=kwarg_devis, pk=kwarg_id)
+            obj = get_object_or_404(queryset, ref_devis__pk=kwarg_devis, pk=kwarg_id)
             return obj
         except Exception as e:
             raise ValidationError(e)
