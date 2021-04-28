@@ -167,12 +167,12 @@ class DetailsListCreateApiView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         kwarg_devis_id = self.kwargs.get('devis_id')
-        devis = Detail.objects.filter(ref_devis__numero_devis=kwarg_devis_id)
+        devis = Detail.objects.filter(ref_devis__pk=kwarg_devis_id)
         return devis
 
     def perform_create(self, serializer):
         kwarg_devis_id = self.kwargs.get("devis_id")
-        devis = get_object_or_404(Devis, numero_devis=kwarg_devis_id)
+        devis = get_object_or_404(Devis, pk=kwarg_devis_id)
         serializer.save(ref_devis=devis)
 
 
