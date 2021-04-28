@@ -353,15 +353,6 @@ class DemandeDevis(models.Model):
             return f'[X] {numero} | {email} - {titre} ({date})'
 
 
-class DemadeDevisImage(models.Model):
-    image = models.ImageField(upload_to=path_and_rename_demande_devis_image)
-
-    ref_demande_devis = models.ForeignKey(DemandeDevis, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.ref_demande_devis.ref_user.email} - {self.ref_demande_devis.titre}'
-
-
 class Devis(models.Model):
     numero_devis = models.PositiveBigIntegerField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
