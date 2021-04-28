@@ -190,12 +190,6 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
         except Exception as e:
             raise ValidationError(e)
 
-    def perform_update(self, serializer):
-        kwarg_devis = self.kwargs.get('devis_id')
-        kwarg_id = self.kwargs.get('pk')
-        detail = get_object_or_404(Detail, ref_devis__pk=kwarg_devis, pk=kwarg_id)
-        serializer.save(pk=detail)
-
 
 # region Traitement Article
 class ArticleListCreateAPIView(generics.ListCreateAPIView):
