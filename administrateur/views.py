@@ -116,8 +116,7 @@ class CategorieViewSet(viewsets.ModelViewSet):
 class DevisViewSet(viewsets.ModelViewSet):
     queryset = Devis.objects.all()
     serializer_class = AdminDevisSerializer
-
-    # permission_classes = [IsAdminUser, ]
+    permission_classes = [IsAdminUser, ]
 
     def perform_create(self, serializer):
         kwarg_demande_devis = serializer.validated_data['ref_demande_devis']
@@ -190,6 +189,12 @@ class DetailRUDApiView(generics.RetrieveUpdateDestroyAPIView):
             return obj
         except Exception as e:
             raise ValidationError(e)
+
+    def perform_update(self, serializer):
+        kwarg_devis = self.kwargs.get('devis_id')
+        kwarg_id = self.kwargs.get('pk')
+        detail = get_object_or_404(Detail, ref_devis__pk=kwarg_devis, pk=kwarg_id)
+        serializer.save(detail)
 
 
 # region Traitement Article
