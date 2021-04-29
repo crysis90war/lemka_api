@@ -116,7 +116,7 @@ class CategorieViewSet(viewsets.ModelViewSet):
 class DevisViewSet(viewsets.ModelViewSet):
     queryset = Devis.objects.all()
     serializer_class = AdminDevisSerializer
-    permission_classes = [IsAdminUser, ]
+    # permission_classes = [IsAdminUser, ]
 
     def perform_create(self, serializer):
         kwarg_demande_devis = serializer.validated_data['ref_demande_devis']
@@ -336,7 +336,7 @@ class DemandeDevisViewSet(viewsets.ModelViewSet):
     queryset = DemandeDevis.objects.all().filter(est_soumis=True)
     lookup_field = "pk"
     serializer_class = AdminDemandeDevisSerializer
-    # permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
 
 
 class Dashboard(APIView):

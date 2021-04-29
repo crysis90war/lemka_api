@@ -93,7 +93,7 @@ def mercerie_image_delete(sender, instance, *args, **kwargs):
 @receiver(post_save, sender=Devis)
 def demande_devis_traite(sender, instance, *args, **kwargs):
     if instance and instance.est_soumis is True:
-        demande_devis = get_object_or_404(DemandeDevis, pk=instance.ref_demande_devis)
+        demande_devis = get_object_or_404(DemandeDevis, pk=instance.ref_demande_devis.id)
         demande_devis.est_traite = True
         demande_devis.save()
 
