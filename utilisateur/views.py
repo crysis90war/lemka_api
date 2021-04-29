@@ -14,7 +14,7 @@ from lemka.models import (
 from lemka.permissions import UserGetPostPermission
 from utilisateur.serializers import (
     UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, UserMensurationSerializer,
-    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisSerializer
+    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisSerializer, UserDevisAccepterSerializer
 )
 
 
@@ -154,14 +154,15 @@ class UserDevisListApiView(generics.ListAPIView):
         return devis
 
 
-class UserDevisRUApiView(generics.RetrieveUpdateAPIView):
+class UserDevisUpdateAPIView(generics.UpdateAPIView):
     queryset = Devis.objects.all()
-    serializer_class = UserDevisSerializer
+    serializer_class = UserDevisAccepterSerializer
+    permission_classes = [IsAuthenticated, ]
 
 
 class ArticleLikeAPIView(views.APIView):
     serializer_class = ArticleSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request, slug):
         article = get_object_or_404(Article, slug=slug)

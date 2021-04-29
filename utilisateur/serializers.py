@@ -92,6 +92,12 @@ class UserDevisSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class UserDevisAccepterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Devis
+        fields = ['est_accepte']
+
+
 class UserRendezVousSerializer(serializers.ModelSerializer):
     ref_user = serializers.StringRelatedField(read_only=True)
     end = serializers.StringRelatedField(read_only=True)
