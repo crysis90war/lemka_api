@@ -1,6 +1,6 @@
 import datetime
 
-from django.db.models.signals import pre_save, post_delete
+from django.db.models.signals import pre_save, post_delete, post_save
 from django.dispatch import receiver
 from django.utils.text import slugify
 
@@ -87,6 +87,14 @@ def mercerie_image_delete(sender, instance, *args, **kwargs):
                 mercerie_image = MercerieImage.objects.filter(ref_mercerie=instance.ref_mercerie, is_main=False).first()
                 mercerie_image.is_main = True
                 mercerie_image.save()
+
+
+@receiver(post_save, sender=Devis)
+def demande_devis_traite(sender, instance, *args, **kwargs):
+    if instance and instance.est_soumis is True:
+        demande_devis = DemandeDevis.objects.filter(pk=instance.ref_demande_devis)
+        demande_devis.est_traite = True
+        demande_devis.save()
 
 
 # @receiver(pre_save, sender=Rayon)
