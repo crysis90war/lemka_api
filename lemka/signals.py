@@ -3,6 +3,7 @@ import datetime
 from django.db.models.signals import pre_save, post_delete, post_save
 from django.dispatch import receiver
 from django.utils.text import slugify
+from rest_framework.generics import get_object_or_404
 
 from lemka.models import *
 from lemka.utils import ajout_du_slug
@@ -92,7 +93,7 @@ def mercerie_image_delete(sender, instance, *args, **kwargs):
 @receiver(post_save, sender=Devis)
 def demande_devis_traite(sender, instance, *args, **kwargs):
     if instance and instance.est_soumis is True:
-        demande_devis = DemandeDevis.objects.filter(pk=instance.ref_demande_devis)
+        demande_devis = get_object_or_404(DemandeDevis, pk=instance.ref_demande_devis)
         demande_devis.est_traite = True
         demande_devis.save()
 
