@@ -9,6 +9,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from . import views
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -27,7 +28,8 @@ urlpatterns = [
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('api/', include('lemka.urls')),
+    # path('api/', views.api_root),
+    path('api/public/', include('lemka.urls')),
     path('api/', include('administrateur.urls')),
     path('api/profil/', include('utilisateur.urls')),
     path('api/', include('authentication.urls')),
