@@ -439,5 +439,6 @@ class RendezVous(models.Model):
     def __str__(self):
         utilisateur = self.ref_user.username
         jour_rdv = self.date
-        heure_rdv = self.start
-        return f'{utilisateur} {jour_rdv} {heure_rdv}'
+        debut_rdv = self.start
+        fin_rdv = self.end
+        return f'{utilisateur} | {jour_rdv} de {debut_rdv} à {fin_rdv}'
