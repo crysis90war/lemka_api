@@ -21,6 +21,6 @@ urlpatterns = [
     path('devis/<int:pk>/', UserDevisUpdateAPIView.as_view()),
     # path('profil/devis/<str:devis_numero>/details/<int:pk>/'),
 
-    # TODO - Devis
     # TODO - Rendez-vous
+    path('rendez-vous/', RendezVousViewSet.as_view())
 ]
