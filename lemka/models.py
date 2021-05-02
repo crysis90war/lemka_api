@@ -436,7 +436,7 @@ class RendezVous(models.Model):
     ref_devis = models.ForeignKey(Devis, null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
-        ordering = ['date', 'start']
+        ordering = ['-date', '-start']
 
     def __str__(self):
         annule = self.est_annule

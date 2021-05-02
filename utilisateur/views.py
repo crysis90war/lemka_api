@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from administrateur.serializers import ArticleSerializer, AdminDevisSerializer
+from administrateur.serializers import ArticleSerializer, AdminDevisSerializer, HoraireSerializer
 from lemka.models import (
     User, UserMensuration, UserMensurationMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire, Devis
 )
@@ -269,11 +269,56 @@ class RendezVousViewSet(generics.ListCreateAPIView):
 
 
 class AvailableHours(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request, *args, **kwargs):
-        date = self.kwargs.get('date')
-        queryset = RendezVous.objects.filter(date__exact=date, est_annule=False)
-        print(queryset)
-        serializer = RendezVousExistantSerializer(queryset, many=True)
-        return Response(serializer.data)
+        date_str = self.kwargs.get('date')
+        queryset = RendezVous.objects.filter(date=date_str, est_annule=False)
+
+        jour_semaine = datetime.strptime(date_str, '%Y-%m-%d').weekday()
+        horaire = get_object_or_404(Horaire, jour_semaine=jour_semaine)
+
+        message = ""
+        available_hours = []
+
+        if horaire.est_ferme is True or horaire.sur_rdv is False:
+            if horaire.est_ferme:
+                message = f'Nous sommes fermés le {date_str}'
+            elif horaire.sur_rdv is False:
+                ouverture = horaire.heure_ouverture
+                fermeture = horaire.heure_fermeture
+                pause_midi = horaire.pause_debut
+                pause_fin = horaire.pause_fin
+                message = f'Nous sommes ouvert sans rendez-vous le {date_str} de {ouverture} à {pause_midi} et de {pause_fin} à {fermeture}'
+            available_hours = []
+
+        else:
+            start_time = datetime.strptime(str(horaire.heure_ouverture), '%H:%M:%S')
+            end_time = datetime.strptime(str(horaire.heure_fermeture), '%H:%M:%S')
+            pause_debut = datetime.strptime(str(horaire.pause_debut), '%H:%M:%S')
+            pause_fin = datetime.strptime(str(horaire.pause_fin), '%H:%M:%S')
+
+            message = f'Les heures disponible pour {date_str}'
+
+            rdv_existant = []
+            for q in queryset.iterator():
+                rdv_existant.append(q.start)
+
+            for n in range(start_time.hour, end_time.hour, 1):
+                if pause_debut.hour <= n < pause_fin.hour:
+                    pass
+                else:
+                    available_hours.append(start_time.time())
+                delta = timedelta(hours=1)
+                heure = datetime.strptime(str(start_time.time()), '%H:%M:%S')
+                start_time = heure + delta
+
+            for heure in rdv_existant:
+                if heure in available_hours:
+                    available_hours.remove(heure)
+
+        context = {
+            'message': message,
+            'available_hours': available_hours
+        }
+        return Response(context)

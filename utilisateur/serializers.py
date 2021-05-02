@@ -101,7 +101,7 @@ class UserDevisAccepterSerializer(serializers.ModelSerializer):
 class RendezVousExistantSerializer(serializers.ModelSerializer):
     class Meta:
         model = RendezVous
-        fields = ['date', 'start', 'end']
+        fields = ['start', 'end']
 
 
 class UserRendezVousSerializer(serializers.ModelSerializer):
