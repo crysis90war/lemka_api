@@ -6,6 +6,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from administrateur.serializers import ArticleSerializer, AdminDevisSerializer
 from lemka.models import (
@@ -14,7 +15,7 @@ from lemka.models import (
 from lemka.permissions import UserGetPostPermission
 from utilisateur.serializers import (
     UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, UserMensurationSerializer,
-    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisSerializer, UserDevisAccepterSerializer
+    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisSerializer, UserDevisAccepterSerializer, RendezVousExistantSerializer
 )
 
 
@@ -200,27 +201,61 @@ class RendezVousViewSet(generics.ListCreateAPIView):
         start = serializer.validated_data["start"]
         ref_type_service = serializer.validated_data["ref_type_service"]
         type_service = TypeService.objects.get(pk=ref_type_service.id)
+        if 0 <= type_service.duree_minute <= 60:
+            type_service.duree_minute = 60
+        elif 60 < type_service.duree_minute <= 120:
+            type_service.duree_minute = 120
+        elif 120 < type_service.duree_minute <= 180:
+            type_service.duree_minute = 180
         result = datetime.strptime(str(start), "%H:%M:%S") + timedelta(minutes=type_service.duree_minute)
         end_time = result.time()
         day = datetime.strptime(str(kwarg_date), "%Y-%m-%d").weekday()
         horaire = Horaire.objects.get(jour_semaine=day)
         if kwarg_date < now:
-            raise ValidationError("La date choisie ne peut pas être inférieur a celle d'aujourd'hui !")
-        elif RendezVous.objects.filter(date=kwarg_date).filter(
-                (Q(start__gte=start) & Q(start__lte=end_time) | Q(end__gte=start))):
-            raise ValidationError("Il y a déja une réservation pour ce jour, veillez choisir un autre moment !")
+            raise ValidationError(
+                detail={'detail': "La date choisie ne peut pas être inférieur a celle d'aujourd'hui !"},
+                code=status.HTTP_400_BAD_REQUEST
+            )
+        elif RendezVous.objects.filter(date=kwarg_date).filter((Q(start__gte=start) & Q(start__lte=end_time) | Q(end__gte=start))):
+            raise ValidationError(
+                detail={'detail': "Il y a déja une réservation pour ce jour, veillez choisir un autre moment !"},
+                code=status.HTTP_400_BAD_REQUEST
+            )
         elif kwarg_date == now:
-            raise ValidationError("Le rendez-vous n'est pas possible pour le jour même !")
+            raise ValidationError(
+                detail={'detail': "Le rendez-vous n'est pas possible pour le jour même !"},
+                code=status.HTTP_400_BAD_REQUEST
+            )
         elif horaire.sur_rdv is False and horaire.est_ferme is False:
-            raise ValidationError("Nous sommes ouvert ce jour sans rendez-vous, veillez choisir un autre jour !")
+            raise ValidationError(
+                detail={'detail': "Nous sommes ouvert ce jour sans rendez-vous, veillez choisir un autre jour !"},
+                code=status.HTTP_400_BAD_REQUEST
+            )
         elif horaire.est_ferme:
-            raise ValidationError("C'est fermé ce jour, choisisez un autre jour !")
-        # TODO - Compléter le test sur une réservation de rendez-vous
+            raise ValidationError(
+                detail={'detail': "C'est fermé ce jour, choisisez un autre jour !"},
+                code=status.HTTP_400_BAD_REQUEST
+            )
         elif horaire.sur_rdv is True & (start < horaire.heure_ouverture or end_time > horaire.heure_fermeture):
             ouvert = horaire.heure_ouverture
             ferme = horaire.heure_fermeture
             pause_debut = horaire.pause_debut
-            pause_fin = horaire.payse_fin
-            raise ValidationError(f'Veuillez choisir une heure de {ouvert} à {pause_debut} et de {pause_fin} à {ferme}')
+            pause_fin = horaire.pause_fin
+            raise ValidationError(
+                detail={'detail': f'Veuillez choisir une heure de {ouvert} à {pause_debut} et de {pause_fin} à {ferme}'},
+                code=status.HTTP_400_BAD_REQUEST
+            )
+        # TODO - Compléter le test sur une réservation de rendez-vous
         else:
             serializer.save(ref_user=request_user, end=end_time)
+
+
+class AvailableHours(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        date = self.kwargs.get('date')
+        queryset = RendezVous.objects.filter(date__exact=date, est_annule=False)
+        print(queryset)
+        serializer = RendezVousExistantSerializer(queryset, many=True)
+        return Response(serializer.data)

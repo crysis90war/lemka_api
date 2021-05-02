@@ -98,13 +98,38 @@ class UserDevisAccepterSerializer(serializers.ModelSerializer):
         fields = ['est_accepte']
 
 
+class RendezVousExistantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RendezVous
+        fields = ['date', 'start', 'end']
+
+
 class UserRendezVousSerializer(serializers.ModelSerializer):
-    ref_user = serializers.StringRelatedField(read_only=True)
-    end = serializers.StringRelatedField(read_only=True)
+    type_service = serializers.SerializerMethodField(read_only=True)
+    devis = serializers.SerializerMethodField(read_only=True)
+    est_annule = serializers.BooleanField(default=False)
 
     class Meta:
         model = RendezVous
-        fields = "__all__"
+        exclude = ['ref_user']
+        extra_kwargs = {
+            'end': {'read_only': True},
+            'ref_type_service': {'write_only': True},
+            'ref_devis': {'write_only': True},
+        }
+
+    # noinspection PyMethodMayBeStatic
+    def get_type_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_type_service)
+        return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_devis(self, instance):
+        if instance.ref_devis:
+            serializer = UserDevisSerializer(instance.ref_devis)
+            return serializer.data
+        else:
+            return None
 
 
 class AdresseSerializer(serializers.ModelSerializer):

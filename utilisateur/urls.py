@@ -22,5 +22,7 @@ urlpatterns = [
     # path('profil/devis/<str:devis_numero>/details/<int:pk>/'),
 
     # TODO - Rendez-vous
-    path('rendez-vous/', RendezVousViewSet.as_view())
+    path('rendez-vous/', RendezVousViewSet.as_view()),
+
+    path('available-hours/<str:date>/', AvailableHours.as_view())
 ]
