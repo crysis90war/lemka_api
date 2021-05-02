@@ -431,14 +431,20 @@ class RendezVous(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     est_annule = models.BooleanField(default=False)
 
-    ref_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Utilisateur')
-    ref_type_service = models.ForeignKey(TypeService, null=False, blank=False, on_delete=models.CASCADE, verbose_name='service')
+    ref_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ref_type_service = models.ForeignKey(TypeService, null=False, blank=False, on_delete=models.CASCADE)
+    ref_devis = models.ForeignKey(Devis, null=True, blank=True, on_delete=models.SET_NULL)
 
-    ref_devis = models.ForeignKey(Devis, null=True, blank=True, on_delete=models.SET_NULL, related_name='devis')
+    class Meta:
+        ordering = ['date', 'start']
 
     def __str__(self):
+        annule = self.est_annule
         utilisateur = self.ref_user.username
         jour_rdv = self.date
         debut_rdv = self.start
         fin_rdv = self.end
-        return f'{utilisateur} | {jour_rdv} de {debut_rdv} à {fin_rdv}'
+        if annule is True:
+            return f'[V] {utilisateur} | {jour_rdv} de {debut_rdv} à {fin_rdv}'
+        else:
+            return f'[X] {utilisateur} | {jour_rdv} de {debut_rdv} à {fin_rdv}'
