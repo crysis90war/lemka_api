@@ -8,14 +8,14 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from administrateur.serializers import ArticleSerializer, AdminDevisSerializer, HoraireSerializer
+from administrateur.serializers import ArticleSerializer, AdminDevisSerializer
 from lemka.models import (
     User, UserMensuration, UserMensurationMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire, Devis
 )
 from lemka.permissions import UserGetPostPermission
 from utilisateur.serializers import (
     UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, UserMensurationSerializer,
-    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisAccepterSerializer, RendezVousExistantSerializer
+    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisAccepterSerializer
 )
 
 
@@ -325,4 +325,4 @@ class AvailableHours(APIView):
             'message': message,
             'available_hours': available_hours
         }
-        return Response(context)
+        return Response(context, status=status.HTTP_200_OK)
