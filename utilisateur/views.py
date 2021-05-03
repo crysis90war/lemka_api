@@ -198,8 +198,7 @@ class RendezVousViewSet(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = RendezVous.objects.filter(ref_user=self.request.user)
-        serializer = UserRendezVousSerializer(queryset, many=True)
-        return serializer.data
+        return queryset
 
     def perform_create(self, serializer):
         request_user = self.request.user
