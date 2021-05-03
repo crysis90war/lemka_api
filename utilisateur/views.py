@@ -194,6 +194,12 @@ class RendezVousViewSet(generics.ListCreateAPIView):
     queryset = RendezVous.objects.all()
     lookup_field = "pk"
     serializer_class = UserRendezVousSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = RendezVous.objects.filter(ref_user=self.request.user)
+        serializer = UserRendezVousSerializer(queryset, many=True)
+        return serializer.data
 
     def perform_create(self, serializer):
         request_user = self.request.user

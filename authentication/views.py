@@ -18,6 +18,8 @@ class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
 
+    # TODO - rediriger user vers front-end avec url et token d'activation.
+
     def post(self, request):
         user = request.data
         serializer = self.serializer_class(data=user)
@@ -29,9 +31,9 @@ class RegisterView(generics.GenericAPIView):
         token = RefreshToken.for_user(user).access_token
 
         current_site = get_current_site(request).domain
-        relative_link = reverse('email-verify')
+        relative_link = reverse('users-auth-api:email-verify')
 
-        absurl = 'http://' + current_site + relative_link + '?token=' + str(token)
+        absurl = 'https://' + current_site + relative_link + '?token=' + str(token)
         email_body = f'Bonjour {user.username}, cliquez sur le lien suivant pour activer votre compte ... {absurl}'
         data = {
             'email_body': email_body,
