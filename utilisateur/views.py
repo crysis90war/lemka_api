@@ -270,7 +270,7 @@ class RendezVousViewSet(generics.ListCreateAPIView):
 
 
 class AvailableHours(APIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request, *args, **kwargs):
         date_str = self.kwargs.get('date')
