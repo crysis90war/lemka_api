@@ -187,10 +187,6 @@ class ArticleLikeAPIView(views.APIView):
 
 
 class RendezVousViewSet(generics.ListCreateAPIView):
-    """
-    TODO - url manquant
-    TODO - Compléter le test sur une réservation de rendez-vous
-    """
     queryset = RendezVous.objects.all()
     lookup_field = "pk"
     serializer_class = UserRendezVousSerializer
@@ -274,7 +270,7 @@ class RendezVousViewSet(generics.ListCreateAPIView):
 
 
 class AvailableHours(APIView):
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [AllowAny, ]
 
     def get(self, request, *args, **kwargs):
         date_str = self.kwargs.get('date')
@@ -284,10 +280,13 @@ class AvailableHours(APIView):
         horaire = get_object_or_404(Horaire, jour_semaine=jour_semaine)
 
         available_hours = []
+        rdv_existant = []
+        heures_dispos = []
 
         if horaire.est_ferme is True:
             message = f'Nous sommes fermés le {date_str}'
             available_hours = []
+            heures_dispos = available_hours
         elif horaire.sur_rdv is False:
             ouverture = horaire.heure_ouverture
             fermeture = horaire.heure_fermeture
@@ -295,6 +294,7 @@ class AvailableHours(APIView):
             pause_fin = horaire.pause_fin
             message = f'Nous sommes ouvert sans rendez-vous le {date_str} de {ouverture} à {pause_midi} et de {pause_fin} à {fermeture}'
             available_hours = []
+            heures_dispos = available_hours
 
         else:
             start_time = datetime.strptime(str(horaire.heure_ouverture), '%H:%M:%S')
@@ -305,24 +305,54 @@ class AvailableHours(APIView):
             message = f'Les heures disponible pour {date_str}'
 
             rdv_existant = []
+            '''
+            Les rendez-vous existant
+            '''
             for q in queryset.iterator():
-                rdv_existant.append(q.start)
+                existing = {
+                    'start': q.start,
+                    'end': q.end
+                }
+                rdv_existant.append(existing)
 
+            """
+            Les heures disponibles par rapport a l'horaire
+            """
             for n in range(start_time.hour, end_time.hour, 1):
                 if pause_debut.hour <= n < pause_fin.hour:
                     pass
                 else:
-                    available_hours.append(start_time.time())
+                    horaire = {
+                        'start': start_time.time(),
+                        'end': (datetime.strptime(str(start_time.time()), '%H:%M:%S') + timedelta(hours=1)).time()
+                    }
+                    available_hours.append(horaire)
                 delta = timedelta(hours=1)
                 heure = datetime.strptime(str(start_time.time()), '%H:%M:%S')
                 start_time = heure + delta
 
+            '''
+            Retirer les heures de rendez-vous existant dans les heures disponibles de l'horaire.
+            '''
             for heure in rdv_existant:
                 if heure in available_hours:
                     available_hours.remove(heure)
+                for dispo in available_hours:
+                    if dispo['start'].hour < heure['end'].hour <= dispo['end'].hour:
+                        heure_existant = {
+                            'start': heure['start'],
+                            'end': (datetime.strptime(str(heure['start']), '%H:%M:%S') + timedelta(hours=1)).time()
+                        }
+                        available_hours.remove(dispo)
+                        available_hours.remove(heure_existant)
+
+            heures_dispos = []
+            for heure in available_hours:
+                hour = datetime.strptime(str(heure['start']), '%H:%M:%S')
+                heures_dispos.append(hour.time())
 
         context = {
             'message': message,
-            'available_hours': available_hours
+            'available_hours': heures_dispos
         }
         return Response(context, status=status.HTTP_200_OK)
