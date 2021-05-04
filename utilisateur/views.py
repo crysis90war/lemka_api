@@ -280,21 +280,16 @@ class AvailableHours(APIView):
         horaire = get_object_or_404(Horaire, jour_semaine=jour_semaine)
 
         available_hours = []
-        rdv_existant = []
         heures_dispos = []
 
         if horaire.est_ferme is True:
             message = f'Nous sommes fermés le {date_str}'
-            available_hours = []
-            heures_dispos = available_hours
         elif horaire.sur_rdv is False:
             ouverture = horaire.heure_ouverture
             fermeture = horaire.heure_fermeture
             pause_midi = horaire.pause_debut
             pause_fin = horaire.pause_fin
             message = f'Nous sommes ouvert sans rendez-vous le {date_str} de {ouverture} à {pause_midi} et de {pause_fin} à {fermeture}'
-            available_hours = []
-            heures_dispos = available_hours
 
         else:
             start_time = datetime.strptime(str(horaire.heure_ouverture), '%H:%M:%S')
