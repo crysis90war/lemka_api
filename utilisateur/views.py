@@ -15,7 +15,7 @@ from lemka.models import (
 from lemka.permissions import UserGetPostPermission
 from utilisateur.serializers import (
     UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, UserMensurationSerializer,
-    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisAccepterSerializer
+    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisAccepterSerializer, AnnulerRendezVousSerializer
 )
 
 
@@ -186,7 +186,7 @@ class ArticleLikeAPIView(views.APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class RendezVousViewSet(generics.ListCreateAPIView):
+class RendezVousListCreateAPIView(generics.ListCreateAPIView):
     queryset = RendezVous.objects.all()
     lookup_field = "pk"
     serializer_class = UserRendezVousSerializer
@@ -269,7 +269,35 @@ class RendezVousViewSet(generics.ListCreateAPIView):
             serializer.save(ref_user=request_user, end=kwarg_end)
 
 
-class AvailableHours(APIView):
+class RendezVousUpdateAPIView(generics.UpdateAPIView):
+    queryset = RendezVous.objects.all()
+    serializer_class = AnnulerRendezVousSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_update(self, serializer):
+        kward_user = self.request.user
+        obj = self.get_object()
+        if obj.ref_user == kward_user:
+            if obj.est_annule is True:
+                raise ValidationError(
+                    detail={'detail': "Le rendez-vous est annulé. Veuillez demander un nouveau !"},
+                    code=status.HTTP_400_BAD_REQUEST
+                )
+            elif obj.date < datetime.now().date():
+                raise ValidationError(
+                    detail={'detail': "Vous ne pouvez pas annuler les rendez-vous antérieur à la date d'aujourd'hui !"},
+                    code=status.HTTP_400_BAD_REQUEST
+                )
+            else:
+                serializer.save()
+        else:
+            raise ValidationError(
+                detail={'detail': "Vous n'avez pas le droit d'accès aux données autres que les vôtres !"},
+                code=status.HTTP_400_BAD_REQUEST
+            )
+
+
+class AvailableHoursAPIView(APIView):
     permission_classes = [IsAuthenticated, ]
 
     def get(self, request, *args, **kwargs):

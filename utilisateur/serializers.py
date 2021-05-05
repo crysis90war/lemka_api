@@ -104,6 +104,33 @@ class RendezVousExistantSerializer(serializers.ModelSerializer):
         fields = ['start', 'end']
 
 
+class AnnulerRendezVousSerializer(serializers.ModelSerializer):
+    type_service = serializers.SerializerMethodField(read_only=True)
+    devis = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = RendezVous
+        exclude = ['ref_user', 'ref_devis', 'ref_type_service']
+        extra_kwargs = {
+            'date': {'read_only': True},
+            'start': {'read_only': True},
+            'end': {'read_only': True}
+        }
+
+    # noinspection PyMethodMayBeStatic
+    def get_type_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_type_service)
+        return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_devis(self, instance):
+        if instance.ref_devis:
+            serializer = UserDevisSerializer(instance.ref_devis)
+            return serializer.data
+        else:
+            return None
+
+
 class UserRendezVousSerializer(serializers.ModelSerializer):
     type_service = serializers.SerializerMethodField(read_only=True)
     devis = serializers.SerializerMethodField(read_only=True)

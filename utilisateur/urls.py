@@ -21,8 +21,9 @@ urlpatterns = [
     path('devis/<int:pk>/', UserDevisUpdateAPIView.as_view()),
     # path('profil/devis/<str:devis_numero>/details/<int:pk>/'),
 
-    path('rendez-vous/', RendezVousViewSet.as_view()),
+    path('rendez-vous/', RendezVousListCreateAPIView.as_view()),
+    path('rendez-vous/<int:pk>/', RendezVousUpdateAPIView.as_view()),
     # TODO - UPDATE RENDEZ-VOUS pour annuler (est_annule = False)
 
-    path('available-hours/<str:date>/', AvailableHours.as_view())
+    path('available-hours/<str:date>/', AvailableHoursAPIView.as_view())
 ]

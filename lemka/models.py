@@ -445,6 +445,6 @@ class RendezVous(models.Model):
         debut_rdv = self.start
         fin_rdv = self.end
         if annule is True:
-            return f'[V] {utilisateur} | {jour_rdv} de {debut_rdv} à {fin_rdv}'
+            return f'[V] {self.pk} - {utilisateur} | {jour_rdv} de {debut_rdv} à {fin_rdv}'
         else:
-            return f'[X] {utilisateur} | {jour_rdv} de {debut_rdv} à {fin_rdv}'
+            return f'[X] {self.pk} - {utilisateur} | {jour_rdv} de {debut_rdv} à {fin_rdv}'
