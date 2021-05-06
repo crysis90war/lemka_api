@@ -180,20 +180,20 @@ class AdresseSerializer(serializers.ModelSerializer):
 
 class ProfilSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
-    email = serializers.StringRelatedField(read_only=True)
-    last_login = serializers.StringRelatedField(read_only=True)
-    created_at = serializers.DateTimeField(read_only=True)
-    updated_at = serializers.DateTimeField(read_only=True)
-    is_verified = serializers.StringRelatedField(read_only=True)
-    is_active = serializers.StringRelatedField(read_only=True)
-    is_staff = serializers.StringRelatedField(read_only=True)
     genre = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
-        exclude = ['id', 'groups', 'user_permissions', 'auth_provider', 'is_superuser']
+        exclude = ['id', 'groups', 'user_permissions', 'auth_provider', 'last_login']
         extra_kwargs = {
-            'ref_genre': {'write_only': True}
+            'created_at': {'read_only': True},
+            'updated_at': {'read_only': True},
+            'is_superuser': {'read_only': True},
+            'is_staff': {'read_only': True},
+            'is_verified': {'read_only': True},
+            'is_active': {'read_only': True},
+            'email': {'read_only': True},
+            'ref_genre': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
