@@ -221,7 +221,7 @@ class Article(models.Model):
     likes = models.ManyToManyField(User, blank=True, related_name='likes')
 
     def __str__(self):
-        return f'{self.titre}'
+        return f'{self.slug} - {self.titre}'
 
 
 class ArticleImage(models.Model):

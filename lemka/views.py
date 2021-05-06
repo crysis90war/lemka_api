@@ -71,8 +71,8 @@ class ArticleLikeAPIView(APIView):
     serializer_class = GlobalArticleSerializer
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request, pk):
-        article = get_object_or_404(Article, pk=pk)
+    def delete(self, request, slug):
+        article = get_object_or_404(Article, slug=slug)
         user = request.user
         article.likes.remove(user)
         article.save()
@@ -82,8 +82,8 @@ class ArticleLikeAPIView(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request, pk):
-        article = get_object_or_404(Article, pk=pk)
+    def post(self, request, slug):
+        article = get_object_or_404(Article, slug=slug)
         user = request.user
         article.likes.add(user)
         article.save()
