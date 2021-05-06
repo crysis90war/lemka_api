@@ -3,7 +3,7 @@ from rest_framework import serializers
 from lemka.models import (
     Pays, Ville, EntrepriseLemka, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
     Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieImage, MercerieCaracteristique,
-    UserMensuration, UserMensurationMesure
+    UserMensuration, UserMensurationMesure, RendezVous
 )
 
 
@@ -475,3 +475,36 @@ class MercerieCaracteristiqueSerializer(serializers.ModelSerializer):
         serializer = CaracteristiqueSerializer(instance.ref_caracteristique)
         data = serializer.data
         return data
+
+
+class AdminRendezVousSerializer(serializers.ModelSerializer):
+    type_service = serializers.SerializerMethodField(read_only=True)
+    devis = serializers.SerializerMethodField(read_only=True)
+    user = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = RendezVous
+        fields = '__all__'
+        extra_kwargs = {
+            'ref_type_service': {'write_only': True},
+            'ref_devis': {'write_only': True},
+        }
+
+    # noinspection PyMethodMayBeStatic
+    def get_type_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_type_service)
+        return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_devis(self, instance):
+        if instance.ref_devis:
+            serializer = AdminDevisSerializer(instance.ref_devis)
+            return serializer.data
+        else:
+            return None
+
+    # noinspection PyMethodMayBeStatic
+    def get_user(self, instance):
+        if instance.ref_user:
+            serializer = UserSerializer(instance.ref_user)
+            return serializer.data

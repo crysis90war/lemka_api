@@ -1,9 +1,12 @@
-from rest_framework import generics, filters
-from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import generics, filters, status
+from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.views import APIView
 
 from administrateur.serializers import ArticleSerializer
 from lemka.models import Article, Mercerie
-from lemka.serializers import GlobalMercerieSerializer
+from lemka.serializers import GlobalMercerieSerializer, GlobalArticleSerializer
 
 
 class ArticleServiceListAPIView(generics.ListAPIView):
@@ -52,3 +55,40 @@ class GlobalMercerieListApiView(generics.ListAPIView):
     serializer_class = GlobalMercerieSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['reference', 'description', 'nom', 'ref_couleur__nom', 'ref_categorie__nom']
+
+
+class GlobalArticlesListApiView(generics.ListCreateAPIView):
+    queryset = Article.objects.all()
+    serializer_class = GlobalArticleSerializer
+
+    def get_queryset(self):
+        query = self.queryset.filter(est_active=True)
+
+        return query
+
+
+class ArticleLikeAPIView(APIView):
+    serializer_class = GlobalArticleSerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        article = get_object_or_404(Article, pk=pk)
+        user = request.user
+        article.likes.remove(user)
+        article.save()
+
+        serializer_context = {'request': request}
+        serializer = self.serializer_class(article, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, pk):
+        article = get_object_or_404(Article, pk=pk)
+        user = request.user
+        article.likes.add(user)
+        article.save()
+
+        serializer_context = {'request': request}
+        serializer = self.serializer_class(article, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

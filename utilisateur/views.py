@@ -369,7 +369,6 @@ class AvailableHoursAPIView(APIView):
                         available_hours.remove(dispo)
                         available_hours.remove(heure_existant)
 
-            heures_dispos = []
             for heure in available_hours:
                 hour = datetime.strptime(str(heure['start']), '%H:%M:%S')
                 heures_dispos.append(hour.time())

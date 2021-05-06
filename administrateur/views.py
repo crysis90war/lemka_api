@@ -10,7 +10,7 @@ from administrateur.serializers import (
     TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer, SectionSerializer,
     TypeProduitSerializer, CatalogueSerializer, CouleurSerializer, CategorieSerializer, HoraireSerializer, DetailSerialiser, TvaSertializer,
     MensurationSerializer, ArticleSerializer, ArticleImageSerializer, MercerieImageSerializer,
-    MercerieCaracteristiqueSerializer, MercerieSerializer
+    MercerieCaracteristiqueSerializer, MercerieSerializer, AdminRendezVousSerializer
 )
 from lemka.models import (
     Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, Catalogue, User, Article, Mercerie, DemandeDevis, Devis,
@@ -337,6 +337,13 @@ class DemandeDevisViewSet(viewsets.ModelViewSet):
     lookup_field = "pk"
     serializer_class = AdminDemandeDevisSerializer
     permission_classes = [IsAdminUser]
+
+
+class RendezVousViewSet(viewsets.ModelViewSet):
+    queryset = RendezVous.objects.all()
+    lookup_field = "pk"
+    serializer_class = AdminRendezVousSerializer
+    # permission_classes = [IsAdminUser]
 
 
 class Dashboard(APIView):
