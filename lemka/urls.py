@@ -13,6 +13,4 @@ urlpatterns = [
 
     path('merceries/', GlobalMercerieListApiView.as_view(), name='global-merceries'),
     path('articles/', GlobalArticlesListApiView.as_view(), name='global-articles'),
-    path('articles/<slug:slug>/like/', ArticleLikeAPIView.as_view(), name='article-like'),
-
 ]

@@ -161,29 +161,29 @@ class UserDevisUpdateAPIView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated, ]
 
 
-class ArticleLikeAPIView(views.APIView):
-    serializer_class = ArticleSerializer
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request, slug):
-        article = get_object_or_404(Article, slug=slug)
-        user = request.user
-        article.likes.remove(user)
-        article.save()
-
-        serializer_context = {'request': request}
-        serializer = self.serializer_class(article, context=serializer_context)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request, slug):
-        article = get_object_or_404(Article, slug=slug)
-        user = request.user
-        article.likes.add(user)
-        article.save()
-
-        serializer_context = {'request': request}
-        serializer = self.serializer_class(article, context=serializer_context)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+# class ArticleLikeAPIView(views.APIView):
+#     serializer_class = ArticleSerializer
+#     permission_classes = [IsAuthenticated]
+#
+#     def delete(self, request, slug):
+#         article = get_object_or_404(Article, slug=slug)
+#         user = request.user
+#         article.likes.remove(user)
+#         article.save()
+#
+#         serializer_context = {'request': request}
+#         serializer = self.serializer_class(article, context=serializer_context)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+#
+#     def post(self, request, slug):
+#         article = get_object_or_404(Article, slug=slug)
+#         user = request.user
+#         article.likes.add(user)
+#         article.save()
+#
+#         serializer_context = {'request': request}
+#         serializer = self.serializer_class(article, context=serializer_context)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class RendezVousListCreateAPIView(generics.ListCreateAPIView):

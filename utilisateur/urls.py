@@ -1,5 +1,6 @@
 from django.urls import path
 
+from lemka.views import ArticleLikeAPIView
 from utilisateur.views import *
 
 urlpatterns = [
@@ -25,5 +26,6 @@ urlpatterns = [
     path('rendez-vous/<int:pk>/', RendezVousUpdateAPIView.as_view()),
     # TODO - UPDATE RENDEZ-VOUS pour annuler (est_annule = False)
 
-    path('available-hours/<str:date>/', AvailableHoursAPIView.as_view())
+    path('available-hours/<str:date>/', AvailableHoursAPIView.as_view()),
+    path('articles/<slug:slug>/like/', ArticleLikeAPIView.as_view(), name='article-like'),
 ]
