@@ -4,7 +4,7 @@ from administrateur.serializers import (
     GenreSerializer, VilleSerializer, TypeServiceSerializer, CatalogueSerializer, ArticleImageSerializer, MercerieSerializer
 )
 from lemka.models import (
-    DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMensurationMesure, Devis, Article, ArticleImage
+    DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMesure, Devis, Article, ArticleImage
 )
 
 
@@ -214,7 +214,7 @@ class UserMensurationSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_mesures(self, instance):
-        queryset = UserMensurationMesure.objects.filter(ref_user_mensuration=instance)
+        queryset = UserMesure.objects.filter(ref_user_mensuration=instance)
         serializer = UserMensurationMesureSerializer(queryset, many=True)
         return serializer.data
 
@@ -223,7 +223,7 @@ class UserMensurationMesureSerializer(serializers.ModelSerializer):
     mensuration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = UserMensurationMesure
+        model = UserMesure
         exclude = ['ref_user_mensuration', 'ref_mensuration']
 
     # noinspection PyMethodMayBeStatic

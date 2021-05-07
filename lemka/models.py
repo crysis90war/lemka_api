@@ -135,7 +135,7 @@ class UserMensuration(models.Model):
             return f'{self.pk} | {self.ref_user.username} - Secondaire | {self.titre}'
 
 
-class UserMensurationMesure(models.Model):
+class UserMesure(models.Model):
     mesure = models.FloatField(default=0.0, validators=[MinValueValidator(0.00), MaxValueValidator(260.00)])
 
     ref_user_mensuration = models.ForeignKey(UserMensuration, on_delete=models.CASCADE)

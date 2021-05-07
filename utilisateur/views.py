@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from administrateur.serializers import ArticleSerializer, AdminDevisSerializer
 from lemka.models import (
-    User, UserMensuration, UserMensurationMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire, Devis
+    User, UserMensuration, UserMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire, Devis
 )
 from lemka.permissions import UserGetPostPermission
 from utilisateur.serializers import (
@@ -69,24 +69,24 @@ class UserMensurationRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class UserMensurationMesureListApiView(generics.ListAPIView):
-    queryset = UserMensurationMesure.objects.all()
+    queryset = UserMesure.objects.all()
     serializer_class = UserMensurationMesureSerializer
     permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
         kwarg_user = self.request.user
         kwarg_id = self.kwargs.get('ref_user_mensuration_id')
-        return UserMensurationMesure.objects.filter(ref_user_mensuration=kwarg_id, ref_user_mensuration__ref_user=kwarg_user)
+        return UserMesure.objects.filter(ref_user_mensuration=kwarg_id, ref_user_mensuration__ref_user=kwarg_user)
 
 
 class UserMensurationMesureRUApiView(generics.RetrieveUpdateAPIView):
-    queryset = UserMensurationMesure.objects.all()
+    queryset = UserMesure.objects.all()
     serializer_class = UserMensurationMesureSerializer
     permission_classes = [AllowAny, ]
 
     def get_queryset(self):
         kwarg_ref_user_mensuration_id = self.kwargs.get('ref_user_mensuration_id')
-        return UserMensurationMesure.objects.filter(ref_user_mensuration_id=kwarg_ref_user_mensuration_id)
+        return UserMesure.objects.filter(ref_user_mensuration_id=kwarg_ref_user_mensuration_id)
 
 
 class AdresseCreateAPIView(generics.CreateAPIView):
