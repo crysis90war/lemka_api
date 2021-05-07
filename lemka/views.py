@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework import generics, filters, status
 from rest_framework.generics import get_object_or_404
@@ -64,6 +65,16 @@ class GlobalArticlesListApiView(generics.ListAPIView):
     def get_queryset(self):
         query = self.queryset.filter(est_active=True).order_by('created_at')
         return query
+
+
+class LastArticleListAPIView(generics.ListAPIView):
+    queryset = Article.objects.filter(est_active=True).order_by('-created_at')[:10]
+    serializer_class = GlobalArticleSerializer
+
+
+class GlobalPopularArticleListAPIView(generics.ListAPIView):
+    queryset = Article.objects.filter(est_active=True).annotate(likes_count=Count('likes')).order_by('-likes_count')[:10]
+    serializer_class = GlobalArticleSerializer
 
 
 class ArticleLikeAPIView(APIView):

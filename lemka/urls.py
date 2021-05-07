@@ -13,4 +13,6 @@ urlpatterns = [
 
     path('merceries/', GlobalMercerieListApiView.as_view(), name='global-merceries'),
     path('articles/', GlobalArticlesListApiView.as_view(), name='global-articles'),
+    path('popular/', GlobalPopularArticleListAPIView.as_view(), name='popular-articles'),
+    path('last/', LastArticleListAPIView.as_view(), name='last-articles'),
 ]
