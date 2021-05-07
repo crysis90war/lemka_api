@@ -57,13 +57,12 @@ class GlobalMercerieListApiView(generics.ListAPIView):
     search_fields = ['reference', 'description', 'nom', 'ref_couleur__nom', 'ref_categorie__nom']
 
 
-class GlobalArticlesListApiView(generics.ListCreateAPIView):
+class GlobalArticlesListApiView(generics.ListAPIView):
     queryset = Article.objects.all()
     serializer_class = GlobalArticleSerializer
 
     def get_queryset(self):
-        query = self.queryset.filter(est_active=True)
-
+        query = self.queryset.filter(est_active=True).order_by('created_at')
         return query
 
 

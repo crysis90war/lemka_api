@@ -396,6 +396,10 @@ class EntrepriseLemka(models.Model):
     mail_contact = models.EmailField()
     numero_tel = models.CharField(max_length=255)
     site_web = models.CharField(max_length=255)
+    facebook_link = models.CharField(max_length=255, blank=True)
+    instagram_link = models.CharField(max_length=255, blank=True)
+    twitter_link = models.CharField(max_length=255, blank=True)
+    linkedin_link = models.CharField(max_length=255, blank=True)
 
     ref_ville = models.ForeignKey(Ville, on_delete=models.CASCADE)
 
