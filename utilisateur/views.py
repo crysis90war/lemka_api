@@ -15,7 +15,7 @@ from lemka.models import (
 from lemka.permissions import UserGetPostPermission
 from utilisateur.serializers import (
     UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, UserMensurationSerializer,
-    UserMensurationMesureSerializer, UserAdresseSerializer, UserDevisAccepterSerializer, AnnulerRendezVousSerializer
+    UserMesureSerializer, UserAdresseSerializer, UserDevisAccepterSerializer, AnnulerRendezVousSerializer
 )
 
 
@@ -68,9 +68,9 @@ class UserMensurationRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserMensurationSerializer
 
 
-class UserMensurationMesureListApiView(generics.ListAPIView):
+class UserMesureListApiView(generics.ListAPIView):
     queryset = UserMesure.objects.all()
-    serializer_class = UserMensurationMesureSerializer
+    serializer_class = UserMesureSerializer
     permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
@@ -79,9 +79,9 @@ class UserMensurationMesureListApiView(generics.ListAPIView):
         return UserMesure.objects.filter(ref_user_mensuration=kwarg_id, ref_user_mensuration__ref_user=kwarg_user)
 
 
-class UserMensurationMesureRUApiView(generics.RetrieveUpdateAPIView):
+class UserMesureRUApiView(generics.RetrieveUpdateAPIView):
     queryset = UserMesure.objects.all()
-    serializer_class = UserMensurationMesureSerializer
+    serializer_class = UserMesureSerializer
     permission_classes = [AllowAny, ]
 
     def get_queryset(self):

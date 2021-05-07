@@ -80,7 +80,7 @@ class UserSerializer(serializers.ModelSerializer):
             return None
 
 
-class AdminUserMensurationMesureSerializer(serializers.ModelSerializer):
+class AdminUserMesureSerializer(serializers.ModelSerializer):
     mensuration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -102,7 +102,7 @@ class AdminUserMensurationSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_mesures(self, instance):
         queryset = UserMesure.objects.filter(ref_user_mensuration=instance)
-        serializer = AdminUserMensurationMesureSerializer(queryset, many=True)
+        serializer = AdminUserMesureSerializer(queryset, many=True)
         return serializer.data
 
 

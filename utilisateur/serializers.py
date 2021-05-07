@@ -215,11 +215,11 @@ class UserMensurationSerializer(serializers.ModelSerializer):
     # noinspection PyMethodMayBeStatic
     def get_mesures(self, instance):
         queryset = UserMesure.objects.filter(ref_user_mensuration=instance)
-        serializer = UserMensurationMesureSerializer(queryset, many=True)
+        serializer = UserMesureSerializer(queryset, many=True)
         return serializer.data
 
 
-class UserMensurationMesureSerializer(serializers.ModelSerializer):
+class UserMesureSerializer(serializers.ModelSerializer):
     mensuration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:

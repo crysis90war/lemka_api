@@ -12,8 +12,8 @@ urlpatterns = [
 
     path('mensurations/', UserMensurationListCreateAPIView.as_view()),
     path('mensurations/<int:pk>/', UserMensurationRUDApiView.as_view()),
-    path('mensurations/<int:ref_user_mensuration_id>/mesures/', UserMensurationMesureListApiView.as_view()),
-    path('mensurations/<int:ref_user_mensuration_id>/mesures/<int:pk>/', UserMensurationMesureRUApiView.as_view()),
+    path('mensurations/<int:ref_user_mensuration_id>/mesures/', UserMesureListApiView.as_view()),
+    path('mensurations/<int:ref_user_mensuration_id>/mesures/<int:pk>/', UserMesureRUApiView.as_view()),
 
     path('demandes_devis/', UserDemandeDevisListCreateApiView.as_view()),
     path('demandes_devis/<int:pk>/', UserDemandeDevisRUApiView.as_view()),
