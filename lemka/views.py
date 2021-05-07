@@ -59,12 +59,8 @@ class GlobalMercerieListApiView(generics.ListAPIView):
 
 
 class GlobalArticlesListApiView(generics.ListAPIView):
-    queryset = Article.objects.all()
+    queryset = Article.objects.filter(est_active=True)
     serializer_class = GlobalArticleSerializer
-
-    def get_queryset(self):
-        query = self.queryset.filter(est_active=True).order_by('created_at')
-        return query
 
 
 class LastArticleListAPIView(generics.ListAPIView):
