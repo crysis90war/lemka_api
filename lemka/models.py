@@ -120,6 +120,7 @@ class Mensuration(models.Model):
 
 class UserMensuration(models.Model):
     titre = models.CharField(max_length=255)
+    remarque = models.TextField(blank=True)
     is_main = models.BooleanField(default=False)
 
     ref_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mensurations')
