@@ -1,11 +1,14 @@
 from django.db.models import Count
-from rest_framework.response import Response
-from rest_framework import generics, filters, status
+from django_filters import rest_framework as df_filters
+from rest_framework import filters as drf_filters
+from rest_framework import generics, status
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from administrateur.serializers import ArticleSerializer
+from lemka.filters import GlobalArticleFilter
 from lemka.models import Article, Mercerie
 from lemka.serializers import GlobalMercerieSerializer, GlobalArticleSerializer
 
@@ -54,13 +57,15 @@ class ArticleTypeProduitListAPIView(ArticleServiceListAPIView):
 class GlobalMercerieListApiView(generics.ListAPIView):
     queryset = Mercerie.objects.all().filter(est_publie=True)
     serializer_class = GlobalMercerieSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [drf_filters.SearchFilter]
     search_fields = ['reference', 'description', 'nom', 'ref_couleur__nom', 'ref_categorie__nom']
 
 
 class GlobalArticlesListApiView(generics.ListAPIView):
     queryset = Article.objects.filter(est_active=True)
     serializer_class = GlobalArticleSerializer
+    filter_backends = [df_filters.DjangoFilterBackend, drf_filters.SearchFilter]
+    filterset_class = GlobalArticleFilter
 
 
 class LastArticleListAPIView(generics.ListAPIView):

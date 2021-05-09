@@ -343,7 +343,7 @@ class RendezVousViewSet(viewsets.ModelViewSet):
     queryset = RendezVous.objects.all()
     lookup_field = "pk"
     serializer_class = AdminRendezVousSerializer
-    # permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
 
 
 class Dashboard(APIView):

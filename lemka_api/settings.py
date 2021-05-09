@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'corsheaders',
+    'django_filters',
 
     'lemka.apps.LemkaConfig',
     'authentication.apps.AuthenticationConfig',
