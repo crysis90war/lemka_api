@@ -57,14 +57,14 @@ class ArticleTypeProduitListAPIView(ArticleServiceListAPIView):
 class GlobalMercerieListApiView(generics.ListAPIView):
     queryset = Mercerie.objects.all().filter(est_publie=True)
     serializer_class = GlobalMercerieSerializer
-    filter_backends = [df_filters.DjangoFilterBackend, drf_filters.SearchFilter]
+    filter_backends = [df_filters.DjangoFilterBackend]
     filterset_class = GlobalMercerieFilter
 
 
 class GlobalArticlesListApiView(generics.ListAPIView):
     queryset = Article.objects.filter(est_active=True)
     serializer_class = GlobalArticleSerializer
-    filter_backends = [df_filters.DjangoFilterBackend, drf_filters.SearchFilter]
+    filter_backends = [df_filters.DjangoFilterBackend]
     filterset_class = GlobalArticleFilter
 
 

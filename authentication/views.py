@@ -4,7 +4,9 @@ from rest_framework import generics, status, views
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from authentication.serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from authentication.serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, MyTokenObtainPairSerializer
 from lemka_api.utils import Utils
 import jwt
 from django.conf import settings
@@ -81,3 +83,7 @@ class LoginAPIView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
