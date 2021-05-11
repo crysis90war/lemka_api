@@ -292,6 +292,7 @@ class MercerieCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
 
     def get_queryset(self):
         return User.objects.filter(is_superuser=False)
@@ -301,6 +302,7 @@ class UserRetrieveAPIView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = "username"
+    permission_classes = [IsAdminUser]
 
     def get_object(self):
         queryset = self.get_queryset()
@@ -312,6 +314,7 @@ class UserRetrieveAPIView(generics.RetrieveUpdateAPIView):
 class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
     queryset = Adresse.objects.all()
     serializer_class = AdminAdresseSerializer
+    permission_classes = [IsAdminUser]
 
     def get_object(self):
         queryset = self.get_queryset()
@@ -323,6 +326,7 @@ class UserAdresseRUDApiView(generics.RetrieveUpdateAPIView):
 class UserMensurationsListApiView(generics.ListAPIView):
     queryset = UserMensuration.objects.all()
     serializer_class = UserMensurationSerializer
+    permission_classes = [IsAdminUser]
 
     def get_queryset(self):
         kwarg_username = self.kwargs.get('username')
@@ -347,6 +351,7 @@ class RendezVousViewSet(viewsets.ModelViewSet):
 
 
 class Dashboard(APIView):
+    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_staff:
@@ -380,6 +385,7 @@ class Dashboard(APIView):
 
 
 class CheckUserAPIView(APIView):
+    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         message = 'message'
@@ -393,3 +399,10 @@ class CheckUserAPIView(APIView):
                 return Response(data={message: False})
         else:
             return Response(data={message: 'Admins only allowed'})
+
+
+class IsAdmin(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        return Response(data={'detail': 'Welcome'})

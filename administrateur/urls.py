@@ -59,5 +59,6 @@ urlpatterns = [
     path('utilisateurs/<str:username>/mensurations/', UserMensurationsListApiView.as_view()),
 
     path('check/<str:username>/', CheckUserAPIView.as_view()),
-    path('admin-dashboard/', Dashboard.as_view())
+    path('admin-dashboard/', Dashboard.as_view()),
+    path('is-admin/', IsAdmin.as_view())
 ]
