@@ -6,7 +6,7 @@ app_name = 'users-auth-api'
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
-    path('login/', LoginAPIView.as_view(), name='login'),
+    path('test/', LoginAPIView.as_view()),
     path('email-verify/', VerifyEmailView.as_view(), name='email-verify'),
-    path('test/', MyTokenObtainPairView.as_view())
+    path('login/', MyTokenObtainPairView.as_view(), name='login')
 ]
