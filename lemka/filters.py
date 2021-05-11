@@ -7,7 +7,6 @@ from lemka.models import Article
 
 class GlobalArticleFilter(df_filters.FilterSet):
     titre = df_filters.CharFilter(lookup_expr='icontains')
-    description = df_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = Article
