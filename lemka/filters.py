@@ -1,23 +1,40 @@
 import coreapi
+from django.db.models import Q
 from django_filters import rest_framework as df_filters
 from rest_framework.filters import BaseFilterBackend
 
-from lemka.models import Article
+from lemka.models import Article, Mercerie
 
 
 class GlobalArticleFilter(df_filters.FilterSet):
-    titre = df_filters.CharFilter(lookup_expr='icontains')
+    search = df_filters.CharFilter(method='search_query', label='Search')
 
     class Meta:
         model = Article
         fields = [
-            'titre',
             'ref_type_service',
             'ref_catalogue__ref_rayon',
             'ref_catalogue__ref_section',
             'ref_catalogue__ref_type_produit',
             'ref_tags'
         ]
+
+    def search_query(self, queryset, name, value):
+        return queryset.filter(Q(titre__icontains=value) | Q(description__icontains=value))
+
+
+class GlobalMercerieFilter(df_filters.FilterSet):
+    search = df_filters.Filter(method='search_query', label='Search')
+
+    class Meta:
+        model = Mercerie
+        fields = [
+            'ref_categorie',
+            'ref_couleur'
+        ]
+
+    def search_query(self, queryset, name, value):
+        return queryset.filter(Q(reference__icontains=value) | Q(description__icontains=value))
 
 
 class GlobalArticleSimpleFilter(BaseFilterBackend):

@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from administrateur.serializers import ArticleSerializer
-from lemka.filters import GlobalArticleFilter
+from lemka.filters import GlobalArticleFilter, GlobalMercerieFilter
 from lemka.models import Article, Mercerie
 from lemka.serializers import GlobalMercerieSerializer, GlobalArticleSerializer
 
@@ -57,8 +57,8 @@ class ArticleTypeProduitListAPIView(ArticleServiceListAPIView):
 class GlobalMercerieListApiView(generics.ListAPIView):
     queryset = Mercerie.objects.all().filter(est_publie=True)
     serializer_class = GlobalMercerieSerializer
-    filter_backends = [drf_filters.SearchFilter]
-    search_fields = ['reference', 'description', 'nom', 'ref_couleur__nom', 'ref_categorie__nom']
+    filter_backends = [df_filters.DjangoFilterBackend, drf_filters.SearchFilter]
+    filterset_class = GlobalMercerieFilter
 
 
 class GlobalArticlesListApiView(generics.ListAPIView):
