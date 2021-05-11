@@ -110,7 +110,7 @@ class CategorieViewSet(viewsets.ModelViewSet):
     queryset = Categorie.objects.all()
     serializer_class = CategorieSerializer
     lookup_field = 'pk'
-    permission_classes = [IsAdminUser, ]
+    permission_classes = [IsAdminOrReadOnly, ]
 
 
 class DevisViewSet(viewsets.ModelViewSet):
