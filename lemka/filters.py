@@ -11,13 +11,14 @@ class GlobalArticleFilter(df_filters.FilterSet):
 
     class Meta:
         model = Article
-        fields = (
+        fields = [
             'titre',
-            'description',
+            'ref_type_service',
             'ref_catalogue__ref_rayon',
             'ref_catalogue__ref_section',
             'ref_catalogue__ref_type_produit',
-        )
+            'ref_tags'
+        ]
 
 
 class GlobalArticleSimpleFilter(BaseFilterBackend):
