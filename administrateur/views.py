@@ -353,40 +353,6 @@ class RendezVousViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
 
 
-class Dashboard(APIView):
-    permission_classes = [IsAdminUser]
-
-    def get(self, request, *args, **kwargs):
-        if self.request.user.is_staff:
-            users_count = User.objects.count()
-            articles_counts = Article.objects.count()
-            merceries_count = Mercerie.objects.count()
-            demandes_de_devis_count = DemandeDevis.objects.count()
-            devis_count = Devis.objects.count()
-            rendez_vous_count = RendezVous.objects.count()
-
-            admin_dashboard = {
-                'user_count': users_count,
-                'articles_count': articles_counts,
-                'merceries_count': merceries_count,
-                'demandes_de_devis_count': demandes_de_devis_count,
-                'devis_count': devis_count,
-                'rendez_vous_count': rendez_vous_count,
-            }
-
-            return Response(data=admin_dashboard)
-        elif self.request.user.is_anonymous:
-            raise ValidationError(
-                detail={"detail": "Veuillez vous connecter !"},
-                code=status.HTTP_400_BAD_REQUEST
-            )
-        else:
-            raise ValidationError(
-                detail={"detail": "Vous n'avez pas l'autorisation"},
-                code=status.HTTP_400_BAD_REQUEST
-            )
-
-
 class CheckUserAPIView(APIView):
     permission_classes = [IsAdminUser]
 
