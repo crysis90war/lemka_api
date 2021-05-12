@@ -2,12 +2,20 @@ import os
 import django_heroku
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv, dotenv_values
+
+load_dotenv()
+config = {
+    **dotenv_values(".env.shared"),  # load shared development variables
+    **dotenv_values(".env.secret"),  # load sensitive variables
+    **os.environ,  # override loaded values with environment variables
+}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'i^xxb@4_h)v*-r8glygukiutpjw=v(%_4wj0wntgi0w4&46jaj'
+SECRET_KEY = config.get('SECRET_KEY')
 # SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -187,25 +195,36 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'shatsijev@gmail.com'
-EMAIL_HOST_PASSWORD = 'itfgfdzultduxkde'
+EMAIL_HOST_USER = config.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'Lemka - Atelier de couture'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-AWS_ACCESS_KEY_ID = 'AKIATBNTZDJFD5K2X76S'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'lemka-assets'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+USE_S3 = config.get('USE_S3', 'False')
+if USE_S3 and USE_S3 == 'True':
+    AWS_ACCESS_KEY_ID = config.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-AWS_DEFAULT_ACL = None
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
+    AWS_DEFAULT_ACL = None
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
 
-STATIC_URL = '/static/'
-DEFAULT_FILE_STORAGE = 'lemka_api.storages.MediaStore'
+    STATIC_URL = '/static/'
+    DEFAULT_FILE_STORAGE = 'lemka_api.storages.MediaStore'
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = '/static/'
+
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
+    MEDIAFILES_DIRS = (
+        os.path.join(BASE_DIR, 'media')
+    )
 
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = 'media'
