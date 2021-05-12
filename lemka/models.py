@@ -396,6 +396,8 @@ class EntrepriseLemka(models.Model):
     numero_tva = models.CharField(max_length=255)
     mail_contact = models.EmailField()
     numero_tel = models.CharField(max_length=255)
+    a_propos_resume = models.CharField(blank=True, max_length=255)
+    a_propos_complet = models.TextField(blank=True)
     site_web = models.CharField(max_length=255)
     facebook_link = models.CharField(max_length=255, blank=True)
     instagram_link = models.CharField(max_length=255, blank=True)
