@@ -251,11 +251,13 @@ class MercerieListCreateApiView(generics.ListCreateAPIView):
 class MercerieRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Mercerie.objects.all()
     serializer_class = MercerieSerializer
+    permission_classes = [IsAdminUser]
 
 
 class MercerieImageCreateApiView(generics.CreateAPIView):
     queryset = MercerieImage.objects.all()
     serializer_class = MercerieImageSerializer
+    permission_classes = [IsAdminUser]
 
     def perform_create(self, serializer):
         kwarg_mercerie_id = self.kwargs.get('mercerie_id')
@@ -266,6 +268,7 @@ class MercerieImageCreateApiView(generics.CreateAPIView):
 class MercerieImageDestroyAPIView(generics.DestroyAPIView):
     queryset = MercerieImage.objects.all()
     serializer_class = MercerieImageSerializer
+    permission_classes = [IsAdminUser]
 
 
 class MercerieCaracteristiqueCreateApiView(generics.CreateAPIView):
