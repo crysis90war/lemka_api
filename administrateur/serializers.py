@@ -285,6 +285,10 @@ class HoraireSerializer(serializers.ModelSerializer):
     class Meta:
         model = Horaire
         fields = "__all__"
+        extra_kwargs = {
+            'jour': {'read_only': True},
+            'jour_semaine': {'read_only': True},
+        }
 
 
 class CouleurSerializer(serializers.ModelSerializer):
