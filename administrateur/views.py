@@ -136,7 +136,7 @@ class EntrepriseLemkaViewSet(viewsets.ModelViewSet):
 
 
 class HoraireViewSet(viewsets.ModelViewSet):
-    queryset = Horaire.objects.all()
+    queryset = Horaire.objects.all().order_by('jour_semaine')
     serializer_class = HoraireSerializer
     permission_classes = [IsAdminOrReadOnly]
 

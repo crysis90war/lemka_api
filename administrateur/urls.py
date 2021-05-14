@@ -25,7 +25,7 @@ router.register('demandes_devis', DemandeDevisViewSet)
 router.register('devis', DevisViewSet)
 router.register('details', DetailViewSet)
 router.register('rendezvous', RendezVousViewSet)
-router.register('horaire', HoraireViewSet)
+router.register('horaires', HoraireViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -57,6 +57,8 @@ urlpatterns = [
 
     path('utilisateurs/<str:username>/adresse/', UserAdresseRUDApiView.as_view()),
     path('utilisateurs/<str:username>/mensurations/', UserMensurationsListApiView.as_view()),
+
+    # TODO - Rendez-vous
 
     path('check/<str:username>/', CheckUserAPIView.as_view()),
     path('is-admin/', IsAdmin.as_view())
