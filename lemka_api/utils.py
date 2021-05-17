@@ -1,11 +1,21 @@
 import random
 import string
+import threading
 
-# from PIL import Image
 from django.core.mail import EmailMessage
 
 ALPHANUMERIC_CHARS = string.ascii_lowercase + string.digits
 STRING_LENGTH = 6
+
+
+class EmailThread(threading.Thread):
+
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send()
 
 
 class Utils:
@@ -21,11 +31,4 @@ class Utils:
     @staticmethod
     def send_email(data):
         email = EmailMessage(subject=data['email_subject'], body=data['email_body'], to=[data['to_email']])
-        email.send()
-
-    # @staticmethod
-    # def resize_image(img_path, img_size):
-    #     img = Image.open(img_path)
-    #     if img.width > img_size[0] or img.height > img_size[1]:
-    #         img.thumbnail(img_size)
-    #         img.save(img_path)
+        EmailThread(email).start()

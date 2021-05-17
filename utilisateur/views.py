@@ -12,7 +12,7 @@ from administrateur.serializers import ArticleSerializer, AdminDevisSerializer
 from lemka.models import (
     User, UserMensuration, UserMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire, Devis
 )
-from lemka.permissions import UserGetPostPermission
+from lemka.permissions import UserGetPostPermission, IsOwner
 from utilisateur.serializers import (
     UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, UserMensurationSerializer,
     UserMesureSerializer, UserAdresseSerializer, UserDevisAccepterSerializer, AnnulerRendezVousSerializer
@@ -82,11 +82,11 @@ class UserMesureListApiView(generics.ListAPIView):
 class UserMesureRUApiView(generics.RetrieveUpdateAPIView):
     queryset = UserMesure.objects.all()
     serializer_class = UserMesureSerializer
-    permission_classes = [AllowAny, ]
+    permission_classes = [IsAuthenticated, IsOwner]
 
-    def get_queryset(self):
-        kwarg_ref_user_mensuration_id = self.kwargs.get('ref_user_mensuration_id')
-        return UserMesure.objects.filter(ref_user_mensuration_id=kwarg_ref_user_mensuration_id)
+    # def get_queryset(self):
+    #     kwarg_ref_user_mensuration_id = self.kwargs.get('ref_user_mensuration_id')
+    #     return UserMesure.objects.filter(ref_user_mensuration_id=kwarg_ref_user_mensuration_id)
 
 
 class AdresseCreateAPIView(generics.CreateAPIView):
