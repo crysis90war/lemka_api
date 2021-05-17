@@ -3,6 +3,8 @@ import os
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponsePermanentRedirect
+from django.template import Context
+from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.encoding import smart_bytes, smart_str, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -49,9 +51,14 @@ class RegisterView(generics.GenericAPIView):
         relative_link = reverse('users-auth-api:email-verify')
 
         absurl = 'https://' + current_site + relative_link + '?token=' + str(token)
+        email_body_html = get_template('authentication/register_template.html').render(dict({
+            'username': user.username,
+            'url': absurl
+        }))
         email_body = f'Bonjour {user.username}, cliquez sur le lien suivant pour activer votre compte ... {absurl}'
         data = {
-            'email_body': email_body,
+            # 'email_body': email_body,
+            'email_body': email_body_html,
             'to_email': user.email,
             'email_subject': "Vérification d'email"
         }
