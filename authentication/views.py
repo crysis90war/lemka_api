@@ -1,13 +1,16 @@
 import os
 
+import jwt
+from django.conf import settings
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponsePermanentRedirect
-from django.template import Context
 from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.encoding import smart_bytes, smart_str, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status, views
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -18,13 +21,8 @@ from authentication.serializers import (
     RegisterSerializer, EmailVerificationSerializer, LoginSerializer, MyTokenObtainPairSerializer, ResetPasswordEmailRequestSerializer,
     SetNewPasswordSerializer
 )
-from lemka_api.utils import Utils
-import jwt
-from django.conf import settings
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
-
 from lemka.models import User
+from lemka_api.utils import Utils
 
 
 class CustomRedirect(HttpResponsePermanentRedirect):

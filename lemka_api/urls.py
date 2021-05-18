@@ -12,16 +12,16 @@ from rest_framework_simplejwt.views import (
 from . import views
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Lemka API",
-      default_version='v1',
-      description="Ceci est l'API pour le site web https://www.lemka.be/",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@lemka.local"),
-      license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+        title="Lemka API",
+        default_version='v1',
+        description="Ceci est l'API pour le site web https://www.lemka.be/",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@lemka.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/', include('administrateur.urls')),
     path('api/profil/', include('utilisateur.urls')),
     path('api/', include('authentication.urls')),
+    path('social_auth/', include(('social_auth.urls', 'social_auth'), namespace="social_auth")),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
