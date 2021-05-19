@@ -8,6 +8,7 @@ from lemka.models import User
 
 
 def generate_username(name):
+
     username = "".join(name.split(' ')).lower()
     if not User.objects.filter(username=username).exists():
         return username
@@ -24,12 +25,15 @@ def register_social_user(provider, user_id, email, name):
         if provider == filtered_user_by_email[0].auth_provider:
 
             registered_user = authenticate(
-                email=email, password=os.environ.get('SOCIAL_SECRET'))
+                email=email,
+                password=os.environ.get('SOCIAL_SECRET')
+            )
 
             return {
                 'username': registered_user.username,
                 'email': registered_user.email,
-                'tokens': registered_user.tokens()}
+                'tokens': registered_user.tokens()
+            }
 
         else:
             raise AuthenticationFailed(
@@ -45,7 +49,10 @@ def register_social_user(provider, user_id, email, name):
         user.auth_provider = provider
         user.save()
 
-        new_user = authenticate(email=email, password=os.environ.get('SOCIAL_SECRET'))
+        new_user = authenticate(
+            email=email,
+            password=os.environ.get('SOCIAL_SECRET')
+        )
         return {
             'email': new_user.email,
             'username': new_user.username,

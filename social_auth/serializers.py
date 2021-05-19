@@ -44,8 +44,10 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
                 'The token is invalid or expired. Please login again.'
             )
 
-        if user_data['aud'] != os.environ.get('GOOGLE_CLIENT_ID'):
-            raise AuthenticationFailed('oops, who are you?')
+        google_client_id = os.environ.get('GOOGLE_CLIENT_ID')
+        user_aud = user_data['aud']
+        # if user_aud != google_client_id:
+        #     raise AuthenticationFailed('oops, who are you?')
 
         user_id = user_data['sub']
         email = user_data['email']
@@ -53,4 +55,8 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
         provider = 'google'
 
         return register_social_user(
-            provider=provider, user_id=user_id, email=email, name=name)
+            provider=provider,
+            user_id=user_id,
+            email=email,
+            name=name
+        )

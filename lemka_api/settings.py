@@ -198,6 +198,11 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = config.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'Lemka - Atelier de couture'
+SOCIAL_SECRET = config.get('SOCIAL_SECRET')
+GOOGLE_CLIENT_ID = config.get('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = config.get('GOOGLE_CLIENT_SECRET')
+FRONTEND_URL = config.get('FRONTEND_URL')
+APP_SCHEME = config.get('APP_SCHEME')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

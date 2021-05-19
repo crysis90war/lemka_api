@@ -10,10 +10,12 @@ from lemka.manager import UserManager
 from lemka.utils import *
 
 locale.setlocale(locale.LC_TIME, '')
-AUTH_PROVIDERS = {'facebook': 'facebook',
-                  'google': 'google',
-                  'twitter': 'twitter',
-                  'email': 'email'}
+AUTH_PROVIDERS = {
+    'facebook': 'facebook',
+    'google': 'google',
+    'twitter': 'twitter',
+    'email': 'email'
+}
 
 
 class Genre(models.Model):
@@ -140,9 +142,6 @@ class UserMesure(models.Model):
 
     ref_user_mensuration = models.ForeignKey(UserMensuration, on_delete=models.CASCADE)
     ref_mensuration = models.ForeignKey(Mensuration, on_delete=models.CASCADE, related_name='Mensuration')
-
-    class Meta:
-        ordering = ['ref_user_mensuration__ref_user__username', '-ref_user_mensuration__is_main', 'ref_mensuration__id']
 
     def __str__(self):
         username = self.ref_user_mensuration.ref_user.username
