@@ -29,7 +29,7 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
     path('api/public/', include('lemka.urls')),
-    path('api/admin/', include('administrateur.urls')),
+    path('api/', include('administrateur.urls')),
     path('api/profil/', include('utilisateur.urls')),
     path('api/auth/', include('authentication.urls')),
     path('api/auth-social/', include(('social_auth.urls', 'social_auth'), namespace="social_auth"))

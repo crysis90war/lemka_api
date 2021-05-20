@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.apps import apps
-from .models import User, Horaire, UserMensuration, Catalogue, UserMesure
+from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse
 
 
 @admin.register(User)
@@ -55,6 +55,17 @@ class UserMesureAdmin(admin.ModelAdmin):
 
     def user(self, obj):
         return obj.ref_user_mensuration.ref_user.email
+
+
+@admin.register(Adresse)
+class AdresseAdmin(admin.ModelAdmin):
+    list_display = ['id', 'rue', 'numero', 'boite', 'ville', 'user']
+
+    def ville(self, obj):
+        return obj.ref_ville.ville
+
+    def user(self, obj):
+        return obj.ref_user.email
 
 
 models = apps.get_models()
