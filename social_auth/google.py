@@ -3,7 +3,7 @@ from google.oauth2 import id_token
 
 
 class Google:
-    """Google class to fetch the user info and return it"""
+    """Classe Google pour récupérer les informations de l'utilisateur et les renvoyer"""
 
     @staticmethod
     def validate(auth_token):
@@ -18,4 +18,4 @@ class Google:
                 return idinfo
 
         except:
-            return "The token is either invalid or has expired"
+            return "Le jeton est invalide ou a expiré"

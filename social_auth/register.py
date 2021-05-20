@@ -3,12 +3,12 @@ import random
 
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from lemka.models import User
 
 
 def generate_username(name):
-
     username = "".join(name.split(' ')).lower()
     if not User.objects.filter(username=username).exists():
         return username
@@ -29,15 +29,11 @@ def register_social_user(provider, user_id, email, name):
                 password=os.environ.get('SOCIAL_SECRET')
             )
 
-            return {
-                'username': registered_user.username,
-                'email': registered_user.email,
-                'tokens': registered_user.tokens()
-            }
+            return get_tokens(registered_user)
 
         else:
             raise AuthenticationFailed(
-                detail='Please continue your login using ' + filtered_user_by_email[0].auth_provider)
+                detail='Veuillez continuer votre connexion en utilisant ' + filtered_user_by_email[0].auth_provider)
 
     else:
         user = {
@@ -53,8 +49,17 @@ def register_social_user(provider, user_id, email, name):
             email=email,
             password=os.environ.get('SOCIAL_SECRET')
         )
-        return {
-            'email': new_user.email,
-            'username': new_user.username,
-            'tokens': new_user.tokens()
-        }
+        return get_tokens(new_user)
+
+
+def get_tokens(user):
+    serializer = TokenObtainPairSerializer()
+    token = serializer.get_token(user)
+    token['is_staff'] = user.is_staff
+    token['email'] = user.email
+    token['username'] = user.username
+
+    return {
+        'refresh': str(token),
+        'access': str(token.access_token)
+    }

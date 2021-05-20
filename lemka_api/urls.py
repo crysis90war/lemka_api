@@ -28,15 +28,12 @@ urlpatterns = [
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    # path('api/', views.api_root),
     path('api/public/', include('lemka.urls')),
-    path('api/', include('administrateur.urls')),
+    path('api/admin/', include('administrateur.urls')),
     path('api/profil/', include('utilisateur.urls')),
-    path('api/', include('authentication.urls')),
-    path('social_auth/', include(('social_auth.urls', 'social_auth'), namespace="social_auth")),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/auth/', include('authentication.urls')),
+    path('api/auth-social/', include(('social_auth.urls', 'social_auth'), namespace="social_auth"))
+    # path('api/', views.api_root),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
