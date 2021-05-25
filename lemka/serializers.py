@@ -98,15 +98,15 @@ class GlobalArticleSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_rayon(self, instance):
-        return instance.ref_catalogue.ref_rayon.rayon
+        return instance.ref_catalogue.ref_rayon.nom
 
     # noinspection PyMethodMayBeStatic
     def get_section(self, instance):
-        return instance.ref_catalogue.ref_section.section
+        return instance.ref_catalogue.ref_section.nom
 
     # noinspection PyMethodMayBeStatic
     def get_type_produit(self, instance):
-        return instance.ref_catalogue.ref_type_produit.type_produit
+        return instance.ref_catalogue.ref_type_produit.nom
 
     # noinspection PyMethodMayBeStatic
     def get_images(self, instance):
