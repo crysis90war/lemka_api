@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.apps import apps
-from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse
+from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, Ville
 
 
 @admin.register(User)
@@ -66,6 +66,13 @@ class AdresseAdmin(admin.ModelAdmin):
 
     def user(self, obj):
         return obj.ref_user.email
+
+
+@admin.register(Ville)
+class VilleAdmin(admin.ModelAdmin):
+    list_display = ['ville', 'code_postale']
+    ordering = ['code_postale']
+    search_fields = ['ville', 'code_postale']
 
 
 models = apps.get_models()
