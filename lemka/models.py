@@ -65,15 +65,8 @@ class Tva(models.Model):
     taux = models.FloatField(unique=True)
     applicable = models.BooleanField(default=True)
 
-    class Meta:
-        ordering = ['taux']
-
     def __str__(self):
-        taux_en_pct = self.taux * 100
-        if self.applicable is True:
-            return f'[V]{taux_en_pct} %'
-        else:
-            return f'[X]{taux_en_pct} %'
+        return f'{self.taux}'
 
 
 class User(AbstractBaseUser, PermissionsMixin):

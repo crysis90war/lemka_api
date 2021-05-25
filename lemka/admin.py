@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.apps import apps
-from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService
+from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService, Tva
 
 
 @admin.register(User)
@@ -71,6 +71,12 @@ class AdresseAdmin(admin.ModelAdmin):
 @admin.register(TypeService)
 class TypeServiceAdmin(admin.ModelAdmin):
     list_display = ['nom', 'duree_minute']
+
+
+@admin.register(Tva)
+class TvaAdmin(admin.ModelAdmin):
+    list_display = ['id', 'taux', 'applicable']
+    ordering = ['taux']
 
 
 models = apps.get_models()
