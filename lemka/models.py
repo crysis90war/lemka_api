@@ -18,11 +18,47 @@ AUTH_PROVIDERS = {
 }
 
 
-class Genre(models.Model):
-    genre = models.CharField(max_length=255)
+class CommonInfo(models.Model):
+    nom = models.CharField(max_length=255, blank=False, null=False, unique=True)
+
+    class Meta:
+        abstract = True
+        ordering = ['nom']
 
     def __str__(self):
-        return f'{self.genre}'
+        return self.nom
+
+
+class Categorie(CommonInfo):
+    pass
+
+
+class Couleur(CommonInfo):
+    pass
+
+
+class Genre(CommonInfo):
+    pass
+
+
+class Rayon(CommonInfo):
+    pass
+
+
+class Section(CommonInfo):
+    pass
+
+
+class TypeProduit(CommonInfo):
+    pass
+
+
+class Caracteristique(CommonInfo):
+    pass
+
+
+class Tag(CommonInfo):
+    pass
 
 
 class Tva(models.Model):
@@ -151,27 +187,6 @@ class UserMesure(models.Model):
         return f'{username} | {titre} - {nom} - {mesure} cm'
 
 
-class Rayon(models.Model):
-    nom = models.CharField(max_length=255, blank=False, null=False, unique=True)
-
-    def __str__(self):
-        return f'{self.nom}'
-
-
-class Section(models.Model):
-    nom = models.CharField(max_length=255, blank=False, null=False, unique=True)
-
-    def __str__(self):
-        return f'{self.nom}'
-
-
-class TypeProduit(models.Model):
-    nom = models.CharField(max_length=255, blank=False, null=False, unique=True)
-
-    def __str__(self):
-        return self.nom
-
-
 class Catalogue(models.Model):
     ref_rayon = models.ForeignKey(Rayon, on_delete=models.CASCADE)
     ref_section = models.ForeignKey(Section, on_delete=models.CASCADE)
@@ -184,19 +199,8 @@ class Catalogue(models.Model):
         return f'{self.id} - {self.ref_rayon} - {self.ref_section} - {self.ref_type_produit}'
 
 
-class TypeService(models.Model):
-    nom = models.CharField(max_length=255, unique=True, null=False, blank=False)
+class TypeService(CommonInfo):
     duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False, null=False)
-
-    def __str__(self):
-        return self.nom
-
-
-class Tag(models.Model):
-    tag = models.CharField(max_length=255, unique=True, null=False, blank=False)
-
-    def __str__(self):
-        return f'{self.id} {self.tag}'
 
 
 class Article(models.Model):
@@ -236,23 +240,6 @@ class ArticleImage(models.Model):
             return f'Secondaire - {self.ref_article.slug}'
 
 
-class Categorie(models.Model):
-    nom = models.CharField(max_length=255, null=False, blank=False, unique=True)
-
-    class Meta:
-        ordering = ['nom']
-
-    def __str__(self):
-        return f'{self.nom}'
-
-
-class Couleur(models.Model):
-    nom = models.CharField(max_length=255, null=False, blank=False, unique=True)
-
-    def __str__(self):
-        return f'{self.nom}'
-
-
 class Mercerie(models.Model):
     reference = models.CharField(max_length=255, unique=True)
     nom = models.CharField(max_length=255, null=False, blank=False)
@@ -269,13 +256,6 @@ class Mercerie(models.Model):
 
     def __str__(self):
         return f'{self.reference} | {self.nom} - {self.ref_couleur.nom}'
-
-
-class Caracteristique(models.Model):
-    nom = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.nom
 
 
 class MercerieCaracteristique(models.Model):

@@ -44,7 +44,7 @@ class CaracteristiqueViewSet(viewsets.ModelViewSet):
 
 
 class GenreViewSet(viewsets.ModelViewSet):
-    queryset = Genre.objects.all().order_by("genre")
+    queryset = Genre.objects.all().order_by("nom")
     serializer_class = GenreSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
@@ -91,7 +91,7 @@ class CatalogueViewSet(viewsets.ModelViewSet):
 
 
 class TagViewSet(viewsets.ModelViewSet):
-    queryset = Tag.objects.all().order_by("tag")
+    queryset = Tag.objects.all().order_by("nom")
     serializer_class = TagSerializer
     lookup_field = 'pk'
     filter_backends = [filters.SearchFilter]
