@@ -50,25 +50,25 @@ class GenreViewSet(viewsets.ModelViewSet):
 
 
 class TypeServiceViewSet(viewsets.ModelViewSet):
-    queryset = TypeService.objects.all().order_by("type_service")
+    queryset = TypeService.objects.all().order_by("nom")
     serializer_class = TypeServiceSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
 
 class RayonViewSet(viewsets.ModelViewSet):
-    queryset = Rayon.objects.all().order_by("rayon")
+    queryset = Rayon.objects.all().order_by("nom")
     serializer_class = RayonSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
 
 class SectionViewSet(viewsets.ModelViewSet):
-    queryset = Section.objects.all().order_by("section")
+    queryset = Section.objects.all().order_by("nom")
     serializer_class = SectionSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
 
 class TypeProduitViewSet(viewsets.ModelViewSet):
-    queryset = TypeProduit.objects.all().order_by("type_produit")
+    queryset = TypeProduit.objects.all().order_by("nom")
     serializer_class = TypeProduitSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 

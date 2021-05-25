@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.apps import apps
-from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse
+from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService
 
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username', 'email', 'auth_provider', 'is_superuser', 'is_staff', 'is_verified', 'created_at']
+    list_display = ['username', 'email', 'auth_provider', 'is_superuser', 'is_staff', 'is_active', 'is_verified', 'created_at']
     list_filter = ['is_verified', 'auth_provider', 'is_staff', 'is_superuser']
     ordering = ['-created_at']
 
@@ -29,17 +29,17 @@ class UserMensurationAdmin(admin.ModelAdmin):
 @admin.register(Catalogue)
 class CatalogueAdmin(admin.ModelAdmin):
     list_display = ['id', 'rayon', 'section', 'type_produit']
-    list_filter = ['ref_rayon__rayon', 'ref_section__section', 'ref_type_produit__type_produit']
-    ordering = ['ref_rayon__rayon', 'ref_section__section', 'ref_type_produit__type_produit']
+    list_filter = ['ref_rayon__nom', 'ref_section__nom', 'ref_type_produit__nom']
+    ordering = ['ref_rayon__nom', 'ref_section__nom', 'ref_type_produit__nom']
 
     def rayon(self, obj):
-        return obj.ref_rayon.rayon
+        return obj.ref_rayon.nom
 
     def section(self, obj):
-        return obj.ref_section.section
+        return obj.ref_section.nom
 
     def type_produit(self, obj):
-        return obj.ref_type_produit.type_produit
+        return obj.ref_type_produit.nom
 
 
 @admin.register(UserMesure)
@@ -66,6 +66,11 @@ class AdresseAdmin(admin.ModelAdmin):
 
     def user(self, obj):
         return obj.ref_user.email
+
+
+@admin.register(TypeService)
+class TypeServiceAdmin(admin.ModelAdmin):
+    list_display = ['nom', 'duree_minute']
 
 
 models = apps.get_models()

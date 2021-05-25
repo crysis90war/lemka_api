@@ -152,30 +152,24 @@ class UserMesure(models.Model):
 
 
 class Rayon(models.Model):
-    rayon = models.CharField(max_length=255, blank=False, null=False, unique=True)
+    nom = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
     def __str__(self):
-        return f'{self.rayon}'
+        return f'{self.nom}'
 
 
 class Section(models.Model):
-    section = models.CharField(max_length=255, blank=False, null=False, unique=True)
-
-    class Meta:
-        ordering = ['section']
+    nom = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
     def __str__(self):
-        return f'{self.section}'
+        return f'{self.nom}'
 
 
 class TypeProduit(models.Model):
-    type_produit = models.CharField(max_length=255, blank=False, null=False, unique=True)
-
-    class Meta:
-        ordering = ['type_produit']
+    nom = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
     def __str__(self):
-        return self.type_produit
+        return self.nom
 
 
 class Catalogue(models.Model):
@@ -191,12 +185,11 @@ class Catalogue(models.Model):
 
 
 class TypeService(models.Model):
-    type_service = models.CharField(max_length=255, unique=True, null=False, blank=False)
-    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False,
-                                               null=False)
+    nom = models.CharField(max_length=255, unique=True, null=False, blank=False)
+    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False, null=False)
 
     def __str__(self):
-        return f'{self.type_service} - {self.duree_minute}'
+        return self.nom
 
 
 class Tag(models.Model):
