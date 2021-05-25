@@ -95,7 +95,7 @@ class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
     lookup_field = 'pk'
     filter_backends = [filters.SearchFilter]
-    search_fields = ['tag']
+    search_fields = ['nom']
     pagination_class = SmallSetPagination
     permission_classes = [IsAdminOrReadOnly, ]
 
