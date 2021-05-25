@@ -46,8 +46,8 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
 
         google_client_id = os.environ.get('GOOGLE_CLIENT_ID')
         user_aud = user_data['aud']
-        # if user_aud != google_client_id:
-        #     raise AuthenticationFailed('oops, who are you?')
+        if user_aud != google_client_id:
+            raise AuthenticationFailed('oops, who are you?')
 
         user_id = user_data['sub']
         email = user_data['email']

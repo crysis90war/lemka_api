@@ -44,31 +44,31 @@ class CaracteristiqueViewSet(viewsets.ModelViewSet):
 
 
 class GenreViewSet(viewsets.ModelViewSet):
-    queryset = Genre.objects.all().order_by("genre")
+    queryset = Genre.objects.all().order_by("nom")
     serializer_class = GenreSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
 
 class TypeServiceViewSet(viewsets.ModelViewSet):
-    queryset = TypeService.objects.all().order_by("type_service")
+    queryset = TypeService.objects.all().order_by("nom")
     serializer_class = TypeServiceSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
 
 class RayonViewSet(viewsets.ModelViewSet):
-    queryset = Rayon.objects.all().order_by("rayon")
+    queryset = Rayon.objects.all().order_by("nom")
     serializer_class = RayonSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
 
 class SectionViewSet(viewsets.ModelViewSet):
-    queryset = Section.objects.all().order_by("section")
+    queryset = Section.objects.all().order_by("nom")
     serializer_class = SectionSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
 
 class TypeProduitViewSet(viewsets.ModelViewSet):
-    queryset = TypeProduit.objects.all().order_by("type_produit")
+    queryset = TypeProduit.objects.all().order_by("nom")
     serializer_class = TypeProduitSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
@@ -91,11 +91,11 @@ class CatalogueViewSet(viewsets.ModelViewSet):
 
 
 class TagViewSet(viewsets.ModelViewSet):
-    queryset = Tag.objects.all().order_by("tag")
+    queryset = Tag.objects.all().order_by("nom")
     serializer_class = TagSerializer
     lookup_field = 'pk'
     filter_backends = [filters.SearchFilter]
-    search_fields = ['tag']
+    search_fields = ['nom']
     pagination_class = SmallSetPagination
     permission_classes = [IsAdminOrReadOnly, ]
 
