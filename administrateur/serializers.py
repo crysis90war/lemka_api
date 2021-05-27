@@ -255,6 +255,7 @@ class CatalogueSerializer(serializers.ModelSerializer):
     rayon = serializers.SerializerMethodField(read_only=True)
     section = serializers.SerializerMethodField(read_only=True)
     type_produit = serializers.SerializerMethodField(read_only=True)
+    articles = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Catalogue
@@ -279,6 +280,10 @@ class CatalogueSerializer(serializers.ModelSerializer):
     def get_type_produit(self, instance):
         serializer = TypeProduitSerializer(instance.ref_type_produit)
         return serializer.data
+
+    def get_articles(self, instance):
+        count = Article.objects.filter(ref_catalogue=instance).count()
+        return count
 
 
 class HoraireSerializer(serializers.ModelSerializer):

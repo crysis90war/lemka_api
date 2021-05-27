@@ -111,18 +111,19 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
         email = request.data.get('email', '')
 
-        if User.objects.filter(email=email).exists():
+        if User.objects.filter(email=email, auth_provider='email').exists():
             user = User.objects.get(email=email)
             uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
-            current_site = get_current_site(request=request).domain
+            current_site = get_current_site(request).domain
             relative_link = reverse('users-auth-api:password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})
 
             redirect_url = request.data.get('redirect_url', '')
             absurl = 'https://' + current_site + relative_link
             email_body_html = get_template('authentication/reset_password_template.html').render(dict({
                 'username': user.username,
-                'url': absurl
+                'absurl': absurl,
+                'redirect_url': redirect_url
             }))
             email_body = 'Hello, \n Use link below to reset your password  \n' + absurl + "?redirect_url=" + redirect_url
             data = {
@@ -132,7 +133,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
                 'email_subject': 'Reset your passsword'
             }
             Utils.send_email(data)
-        return Response({'success': 'We have sent you a link to reset your password'}, status=status.HTTP_200_OK)
+        return Response({'success': 'Nous vous avons envoyé un lien pour réinitialiser votre mot de passe'}, status=status.HTTP_200_OK)
 
 
 class PasswordTokenCheckAPI(generics.GenericAPIView):
@@ -153,7 +154,7 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
                     return CustomRedirect(os.environ.get('FRONTEND_URL', '') + '?token_valid=False')
 
             if redirect_url and len(redirect_url) > 3:
-                return CustomRedirect(redirect_url + '?token_valid=True&message=Credentials Valid&uidb64=' + uidb64 + '&token=' + token)
+                return CustomRedirect(redirect_url + '?token_valid=True&message=Identifiants Valides&uidb64=' + uidb64 + '&token=' + token)
             else:
                 return CustomRedirect(os.environ.get('FRONTEND_URL', '') + '?token_valid=False')
 
@@ -163,7 +164,7 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
                     return CustomRedirect(redirect_url + '?token_valid=False')
 
             except UnboundLocalError as e:
-                return Response({'error': 'Token is not valid, please request a new one'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': "Le jeton n'est pas valide, veuillez en demander un nouveau"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SetNewPasswordAPIView(generics.GenericAPIView):
