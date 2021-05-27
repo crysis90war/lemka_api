@@ -101,7 +101,6 @@ class LoginSerializer(serializers.ModelSerializer):
 
 class ResetPasswordEmailRequestSerializer(serializers.Serializer):
     email = serializers.EmailField(min_length=2)
-
     redirect_url = serializers.CharField(max_length=500, required=False)
 
     class Meta:
@@ -109,14 +108,10 @@ class ResetPasswordEmailRequestSerializer(serializers.Serializer):
 
 
 class SetNewPasswordSerializer(serializers.Serializer):
-    password = serializers.CharField(
-        min_length=6, max_length=68, write_only=True)
-    password2 = serializers.CharField(
-        max_length=68, min_length=6, write_only=True)
-    token = serializers.CharField(
-        min_length=1, write_only=True)
-    uidb64 = serializers.CharField(
-        min_length=1, write_only=True)
+    password = serializers.CharField(min_length=5, max_length=68, write_only=True)
+    password2 = serializers.CharField(min_length=5, max_length=68, write_only=True)
+    token = serializers.CharField(min_length=1, write_only=True)
+    uidb64 = serializers.CharField(min_length=1, write_only=True)
 
     class Meta:
         fields = ['password', 'password2', 'token', 'uidb64']
@@ -134,7 +129,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
             user_id = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(id=user_id)
             if not PasswordResetTokenGenerator().check_token(user, token):
-                raise AuthenticationFailed('The reset link is invalid', 401)
+                raise AuthenticationFailed("Le lien de réinitialisation n'est pas valide", 401)
 
             user.set_password(password)
             user.save()
@@ -142,7 +137,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
             return user
 
         except Exception as e:
-            raise AuthenticationFailed('The reset link is invalid', 401)
+            raise AuthenticationFailed("Le lien de réinitialisation n'est pas valide", 401)
         return super().validate(attrs)
 
 

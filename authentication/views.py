@@ -29,6 +29,16 @@ class CustomRedirect(HttpResponsePermanentRedirect):
     allowed_schemes = [os.environ.get('APP_SCHEME'), 'http', 'https']
 
 
+class LoginAPIView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    permission_classes = [AllowAny, ]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
@@ -41,16 +51,14 @@ class RegisterView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         user_data = serializer.data
-        user = User.objects.get(email=user_data['email'])
 
+        user = User.objects.get(email=user_data['email'])
         token = RefreshToken.for_user(user).access_token
 
-        current_site = os.environ.get('FRONTEND_URL')
+        current_site = get_current_site(request).domain
         relative_link = reverse('users-auth-api:email-verify')
-        # current_site = get_current_site(request).domain
-        # absurl = 'https://' + current_site + relative_link + '?token=' + str(token)
-        absurl = current_site + relative_link + '?token=' + str(token)
 
+        absurl = 'https://' + current_site + relative_link + '?token=' + str(token)
         email_body_html = get_template('authentication/register_template.html').render(dict({
             'username': user.username,
             'url': absurl
@@ -66,7 +74,7 @@ class RegisterView(generics.GenericAPIView):
         return Response(user_data, status=status.HTTP_201_CREATED)
 
 
-class VerifyEmailView(views.APIView):
+class VerifyEmailView(generics.GenericAPIView):
     serializer_class = EmailVerificationSerializer
     token_param_config = openapi.Parameter(
         'token',
@@ -74,35 +82,26 @@ class VerifyEmailView(views.APIView):
         description='Description',
         type=openapi.TYPE_STRING
     )
-    permission_classes = [AllowAny]
 
     # noinspection PyMethodMayBeStatic
     @swagger_auto_schema(manual_parameters=[token_param_config])
     def get(self, request):
         token = request.GET.get('token')
+        redirect_url = request.GET.get('redirect_url', 'http://localhost:8080/email-verify/')
         try:
             payload = jwt.decode(token, settings.SECRET_KEY)
             user = User.objects.get(id=payload['user_id'])
             if not user.is_verified:
                 user.is_verified = True
                 user.save()
-
-            return Response({'email': 'Activé avec succès'}, status=status.HTTP_201_CREATED)
-
+            return CustomRedirect(redirect_url + '?token_valid=True&message=Votre compte a été activé avec succès&token=' + token)
+            # return Response({'email': 'Activé avec succès'}, status=status.HTTP_201_CREATED)
         except jwt.ExpiredSignatureError as identifier:
-            return Response({'error': 'Activtaion expiré'}, status=status.HTTP_400_BAD_REQUEST)
+            return CustomRedirect(redirect_url + '?token_valid=False&message=Activtaion expiré&token=' + token)
+            # return Response({'error': 'Activtaion expiré'}, status=status.HTTP_400_BAD_REQUEST)
         except jwt.exceptions.DecodeError as identifier:
-            return Response({'error': 'Jeton invalide'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class LoginAPIView(generics.GenericAPIView):
-    serializer_class = LoginSerializer
-    permission_classes = [AllowAny, ]
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            return CustomRedirect(redirect_url + '?token_valid=False&message=Jeton invalide&token=' + token)
+            # return Response({'error': 'Jeton invalide'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RequestPasswordResetEmail(generics.GenericAPIView):
