@@ -45,10 +45,12 @@ class RegisterView(generics.GenericAPIView):
 
         token = RefreshToken.for_user(user).access_token
 
-        current_site = get_current_site(request).domain
+        current_site = os.environ.get('FRONTEND_URL')
         relative_link = reverse('users-auth-api:email-verify')
+        # current_site = get_current_site(request).domain
+        # absurl = 'https://' + current_site + relative_link + '?token=' + str(token)
+        absurl = current_site + relative_link + '?token=' + str(token)
 
-        absurl = 'https://' + current_site + relative_link + '?token=' + str(token)
         email_body_html = get_template('authentication/register_template.html').render(dict({
             'username': user.username,
             'url': absurl
