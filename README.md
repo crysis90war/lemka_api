@@ -16,6 +16,7 @@
 - [Introduction](#introduction)
 - [Diagramme](#diagramme)
 - [Requirements](#requirements)
+- [Analyse de la base de donnée](#analyse-de-la-base-de-donnée)
 - [Installation](#installation)
 - [Autres](#autres)
 
@@ -42,6 +43,26 @@
 |           [**django-rest-auth**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
 |           [**django-webpack-loader**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
 |           [**djangorestframework**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
+
+# Analyse de la base de donnée
+
+<details><summary>Article</summary><br>
+
+  | **Champ**        | **Type Variable**    |
+  |------------------|----------------------|
+  | id               | int, pk              |
+  | slug             | varchar(255), unique |
+  | est_active       | boolean              |
+  | titre            | varchar(60)          |
+  | description      | text                 |
+  | ref_catalogue    | int, fk              |
+  | ref_type_service | int, fk              |
+  | ref_tags         | int, fk              |
+  | likes            | text                 |
+  | created_at       | timestamp            |
+  | updated_at       | timestamp            |
+
+</details>
 
 # Installation
 
