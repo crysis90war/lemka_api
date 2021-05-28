@@ -14,6 +14,7 @@
 ## Table des matières
 
 - [Introduction](#introduction)
+- [Diagramme](#diagramme)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Autres](#autres)
