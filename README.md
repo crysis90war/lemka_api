@@ -50,27 +50,36 @@
 
 <details><summary>Type Service</summary><br>
   
-  | **Colonne**  | **Type**          | **Null** | **Unique** | **Par défaut** | **Description**                        |
-  |--------------|-------------------|----------|------------|----------------|----------------------------------------|
-  | id           | integer           | False    | True       | auto_increment | Identifiant unique du type service     |
-  | nom          | varchar(255)      | False    | True       |                | Nom du type service                    |
-  | duree_minute | integer(unsigned) | False    | False      |                | Durée représentée en minute du service |
+  | **Colonne**  | **Type**          | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                        |
+  |--------------|-------------------|------------|----------|-----------|----------------|----------------------------------------|
+  | id           | integer           | True       | False    | False     | auto_increment | Identifiant unique du type service     |
+  | nom          | varchar(255)      | True       | False    | False     |                | Nom du type service                    |
+  | duree_minute | integer(unsigned) | False      | False    | False     |                | Durée représentée en minute du service |
   
 </details>
 
 <details><summary>Article</summary><br>
 
-| **Colonne**      | **Type**     | **Null** | **Unique** | **Par défaut** | **Description**                            |
-|------------------|--------------|----------|------------|----------------|--------------------------------------------|
-| id               | integer      | False    | True       | auto_increment | Identifiant unique de l'article            |
-| slug             | varchar(255) | False    | True       |                | Slug unique de l'article                   |
-| est_active       | bool         | False    | False      | False          | État de publication de l'article           |
-| titre            | varchar(255) | False    | False      |                | Titre de l'article                         |
-| description      | text         | False    | False      |                | Description de l'article                   |
-| created_at       | datetime     | False    | False      |                | Date et heure de création de l'article     |
-| updated_at       | datetime     | False    | False      |                | Date et heure de modification de l'article |
-| ref_type_service | integer      | False    | False      |                | Clé étrangère liée au TypeService          |
-| ref_catalogue    | integer      | False    | False      |                | Clé étrangère liée au Catalogue            |
+| **Colonne**      | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                            |
+|------------------|--------------|------------|----------|-----------|----------------|--------------------------------------------|
+| id               | integer      | True       | False    | False     | auto_increment | Identifiant unique de l'article            |
+| slug             | varchar(255) | True       | False    | False     |                | Slug unique de l'article                   |
+| est_active       | bool         | False      | False    | False     | False          | État de publication de l'article           |
+| titre            | varchar(255) | False      | False    | False     |                | Titre de l'article                         |
+| description      | text         | False      | False    | True      |                | Description de l'article                   |
+| created_at       | datetime     | False      | False    | False     |                | Date et heure de création de l'article     |
+| updated_at       | datetime     | False      | False    | False     |                | Date et heure de modification de l'article |
+| ref_type_service | integer      | False      | False    | False     |                | Clé étrangère liée au TypeService          |
+| ref_catalogue    | integer      | False      | False    | False     |                | Clé étrangère liée au Catalogue            |
+
+</details>
+
+<details><summary>Tag</summary><br>
+
+| **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**            |
+|-------------|--------------|------------|----------|-----------|----------------|----------------------------|
+| id          | integer      | True       | False    | False     | auto_increment | Identifiant unique du tag  |
+| nom         | varchar(255) | True       | False    | False     |                | Nom unique attribué au tag |
 
 </details>
 
