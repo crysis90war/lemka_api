@@ -60,7 +60,7 @@ class UserMesureAdmin(admin.ModelAdmin):
 
 @admin.register(Adresse)
 class AdresseAdmin(admin.ModelAdmin):
-    list_display = ['id', 'rue', 'numero', 'boite', 'ville', 'user']
+    list_display = ['user', 'ville', 'rue', 'numero', 'boite']
 
     def ville(self, obj):
         return obj.ref_ville.ville
