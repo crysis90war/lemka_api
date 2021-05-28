@@ -46,12 +46,24 @@
 
 # Analyse de la base de données
 
+## Les tables principales
+
+<details><summary>Type Service</summary><br>
+  
+  | **Colonne**  | **Type**          | **Null** | **Unique** | **Par défaut** | **Description**                        |
+  |--------------|-------------------|----------|------------|----------------|----------------------------------------|
+  | id           | integer           | False    | True       | auto_increment | Identifiant unique du type service     |
+  | nom          | varchar(255)      | False    | True       |                | Nom du type service                    |
+  | duree_minute | integer(unsigned) | False    | False      |                | Durée représentée en minute du service |
+  
+</details>
+
 <details><summary>Article</summary><br>
 
 | **Colonne**      | **Type**     | **Null** | **Unique** | **Par défaut** | **Description**                            |
 |------------------|--------------|----------|------------|----------------|--------------------------------------------|
-| id               | integer      | True     | True       | auto_increment | Identifiant unique de l'article            |
-| slug             | varchar(255) | True     | True       |                | Slug unique de l'article                   |
+| id               | integer      | False    | True       | auto_increment | Identifiant unique de l'article            |
+| slug             | varchar(255) | False    | True       |                | Slug unique de l'article                   |
 | est_active       | bool         | False    | False      | False          | État de publication de l'article           |
 | titre            | varchar(255) | False    | False      |                | Titre de l'article                         |
 | description      | text         | False    | False      |                | Description de l'article                   |
@@ -59,9 +71,12 @@
 | updated_at       | datetime     | False    | False      |                | Date et heure de modification de l'article |
 | ref_type_service | integer      | False    | False      |                | Clé étrangère liée au TypeService          |
 | ref_catalogue    | integer      | False    | False      |                | Clé étrangère liée au Catalogue            |
-|                  |              |          |            |                |                                            |
 
 </details>
+
+## Les tables associatives
+
+
 
 # Installation
 
