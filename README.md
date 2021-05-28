@@ -48,19 +48,18 @@
 
 <details><summary>Article</summary><br>
 
-  | **Champ**        | **Type Variable**    |
-  |------------------|----------------------|
-  | id               | int, pk              |
-  | slug             | varchar(255), unique |
-  | est_active       | boolean              |
-  | titre            | varchar(60)          |
-  | description      | text                 |
-  | ref_catalogue    | int, fk              |
-  | ref_type_service | int, fk              |
-  | ref_tags         | int, fk              |
-  | likes            | text                 |
-  | created_at       | timestamp            |
-  | updated_at       | timestamp            |
+| **Colonne**      | **Type**     | **Null** | **Unique** | **Par défaut** | **Description**                            |
+|------------------|--------------|----------|------------|----------------|--------------------------------------------|
+| id               | integer      | True     | True       | auto_increment | Identifiant unique de l'article            |
+| slug             | varchar(255) | True     | True       |                | Slug unique de l'article                   |
+| est_active       | bool         | False    | False      | False          | État de publication de l'article           |
+| titre            | varchar(255) | False    | False      |                | Titre de l'article                         |
+| description      | text         | False    | False      |                | Description de l'article                   |
+| created_at       | datetime     | False    | False      |                | Date et heure de création de l'article     |
+| updated_at       | datetime     | False    | False      |                | Date et heure de modification de l'article |
+| ref_type_service | integer      | False    | False      |                | Clé étrangère liée au TypeService          |
+| ref_catalogue    | integer      | False    | False      |                | Clé étrangère liée au Catalogue            |
+|                  |              |          |            |                |                                            |
 
 </details>
 
