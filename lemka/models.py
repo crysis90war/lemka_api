@@ -197,15 +197,15 @@ class TypeService(CommonInfo):
 
 
 class Article(models.Model):
-    titre = models.CharField(max_length=255)
-    description = models.TextField()
     slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
     est_active = models.BooleanField(default=False)
+    titre = models.CharField(max_length=255)
+    description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     ref_type_service = models.ForeignKey(TypeService, on_delete=models.CASCADE)
-    ref_catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE, default=None)
+    ref_catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE)
 
     ref_tags = models.ManyToManyField(Tag, blank=True, related_name='tags')
     likes = models.ManyToManyField(User, blank=True, related_name='likes')
