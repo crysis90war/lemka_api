@@ -200,7 +200,7 @@ class Article(models.Model):
     slug = models.SlugField(max_length=255, unique=True, null=False, blank=True, editable=False)
     est_active = models.BooleanField(default=False)
     titre = models.CharField(max_length=255, blank=False)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
