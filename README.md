@@ -17,6 +17,8 @@
 - [Diagramme](#diagramme)
 - [Requirements](#requirements)
 - [Analyse de la base de données](#analyse-de-la-base-de-données)
+  - [Les tables principales](#les-tables-principales)
+  - [Les tables associatives](#les-tables-associatives)
 - [Installation](#installation)
 - [Autres](#autres)
 
@@ -30,19 +32,7 @@
 
 # Requirements
 
-|                          Technology                          |      Version       | Technology | Version |
-| :----------------------------------------------------------: | :----------------: |:---: | :---: |
-|           [**Python**](https://docs.python.org/3/)           |      **3.x**       | [**django-cors-headers**](https://docs.python.org/3/) | **3.x** |
-|           [**Django**](https://docs.djangoproject.com/en/3.1/)           |      **3.1.2**       | [**Python**](https://docs.python.org/3/) | **3.x** |
-|           [**asgiref**](https://asgi.readthedocs.io/en/latest/)           |      **3.2.10**       | [**Python**](https://docs.python.org/3/) | **3.x** |
-|           [**boto3**](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.16.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
-|           [**botocore**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
-|           [**django-allauth**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
-|           [**django-crispy-forms**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
-|           [**django-registration**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
-|           [**django-rest-auth**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
-|           [**django-webpack-loader**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
-|           [**djangorestframework**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
+[Requirements](lemka_api/requirements.txt)
 
 # Analyse de la base de données
 
