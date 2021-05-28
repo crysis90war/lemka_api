@@ -211,7 +211,7 @@ class Article(models.Model):
     likes = models.ManyToManyField(User, blank=True, related_name='likes')
 
     def __str__(self):
-        return f'{self.slug} - {self.titre}'
+        return self.slug
 
 
 class ArticleImage(models.Model):
@@ -234,7 +234,7 @@ class ArticleImage(models.Model):
 
 
 class Mercerie(models.Model):
-    reference = models.CharField(max_length=255, unique=True)
+    reference = models.CharField(max_length=255, blank=False, unique=True)
     nom = models.CharField(max_length=255, null=False, blank=False)
     est_publie = models.BooleanField(default=False)
     description = models.TextField(default="")
@@ -309,14 +309,7 @@ class DemandeDevis(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        numero = self.numero_demande_devis
-        email = self.ref_user.email
-        titre = self.titre
-        date = self.created_at.strftime("%D %H:%M:%S")
-        if self.est_soumis is True:
-            return f'[V] {numero} | {email} - {titre} ({date})'
-        else:
-            return f'[X] {numero} | {email} - {titre} ({date})'
+        return f'{self.numero_demande_devis}'
 
 
 class Devis(models.Model):
