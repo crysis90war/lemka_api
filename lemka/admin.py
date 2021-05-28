@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.apps import apps
-from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService, Tva, Ville
+from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService, Tva, Ville, Article, \
+    ArticleImage, DemandeDevis, MercerieCaracteristique, RendezVous
 
 
 @admin.register(User)
@@ -12,13 +13,13 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Horaire)
 class HoraireAdmin(admin.ModelAdmin):
-    list_display = ['jour_semaine', 'jour', 'heure_ouverture', 'pause_debut', 'pause_fin', 'heure_fermeture', 'sur_rdv', 'est_ferme']
+    list_display = ['jour', 'heure_ouverture', 'pause_debut', 'pause_fin', 'heure_fermeture', 'sur_rdv', 'est_ferme']
     ordering = ['jour_semaine']
 
 
 @admin.register(UserMensuration)
 class UserMensurationAdmin(admin.ModelAdmin):
-    list_display = ['titre', 'is_main', 'user']
+    list_display = ['titre', 'user', 'is_main']
     list_filter = ['is_main']
     ordering = ['ref_user__email', 'is_main']
 
@@ -84,6 +85,63 @@ class VilleAdmin(admin.ModelAdmin):
     list_display = ['ville', 'code_postale']
     ordering = ['code_postale']
     search_fields = ['ville', 'code_postale']
+
+
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ['slug', 'titre', 'service', 'est_active']
+    list_filter = ['est_active', 'ref_type_service']
+    search_fields = ['titre', 'description']
+
+    def service(self, obj):
+        return obj.ref_type_service.nom
+
+
+@admin.register(ArticleImage)
+class ArticleImageAdmin(admin.ModelAdmin):
+    list_display = ['id', 'article', 'image', 'is_main']
+    ordering = ['ref_article__titre', 'is_main']
+    list_filter = ['is_main']
+    search_fields = ['ref_article__titre']
+
+    def article(self, obj):
+        return obj.ref_article.slug
+
+
+@admin.register(DemandeDevis)
+class DemandeDevisAdmin(admin.ModelAdmin):
+    list_display = ['numero_demande_devis', 'titre', 'est_urgent', 'est_soumis', 'en_cours', 'est_traite', 'created_at']
+    list_filter = ['est_urgent', 'est_soumis', 'en_cours', 'est_traite']
+    search_fields = ['numero_demande_devis', 'titre']
+
+
+@admin.register(MercerieCaracteristique)
+class MercerieCaracteristiqueAdmin(admin.ModelAdmin):
+    list_display = ['reference', 'mercerie', 'caracteristique', 'valeur']
+    ordering = ['ref_mercerie__reference', 'ref_caracteristique__nom']
+    search_fields = ['ref_mercerie__reference', 'ref_caracteristique__nom']
+
+    def reference(self, obj):
+        return obj.ref_mercerie.reference
+
+    def mercerie(self, obj):
+        return obj.ref_mercerie.nom
+
+    def caracteristique(self, obj):
+        return obj.ref_caracteristique.nom
+
+
+@admin.register(RendezVous)
+class search_fieldsAdmin(admin.ModelAdmin):
+    list_display = ['utilisateur', 'service', 'date', 'start', 'end', 'est_annule']
+    ordering = ['-date', '-start']
+    list_filter = ['est_annule']
+
+    def utilisateur(self, obj):
+        return obj.ref_user.email
+
+    def service(self, obj):
+        return obj.ref_type_service.nom
 
 
 models = apps.get_models()
