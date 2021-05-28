@@ -16,7 +16,7 @@
 - [Introduction](#introduction)
 - [Diagramme](#diagramme)
 - [Requirements](#requirements)
-- [Analyse de la base de donnée](#analyse-de-la-base-de-donnée)
+- [Analyse de la base de données](#analyse-de-la-base-de-données)
 - [Installation](#installation)
 - [Autres](#autres)
 
@@ -44,7 +44,7 @@
 |           [**django-webpack-loader**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
 |           [**djangorestframework**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
 
-# Analyse de la base de donnée
+# Analyse de la base de données
 
 <details><summary>Article</summary><br>
 
