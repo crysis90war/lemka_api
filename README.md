@@ -1,12 +1,27 @@
-# LEMKA - Atelier de couture
+#
 
-Travail de fin d’études en vue de l’obtention du Diplôme de bachelier en Informatique de Gestion dans l'Enseignement de Promotion Sociale à EIC Ecaussinnes 2020-2021.
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/32033245/119997358-eec5ad80-bfcf-11eb-84a6-84583263b944.png" width="50%">
+  
+  <h1>Bienvenue dans le dépôt "Lemka Api"</h1>
+  
+  <p>
+    Travail de fin d’études en vue de l’obtention du diplôme de bachelier en informatique de gestion dans l'Enseignement de promotion sociale à EIC Ecaussinnes, 2020-2021.
+  </p>
 
-## Diagramme
+</div>
+
+<br/>
+
+# Introduction
+
+...
+
+# Diagramme
 
 ![alt text](https://github.com/crysis90war/lemka_api/blob/main/diagram.png?raw=true)
 
-## Requirements
+# Requirements
 
 |                          Technology                          |      Version       | Technology | Version |
 | :----------------------------------------------------------: | :----------------: |:---: | :---: |
@@ -22,7 +37,7 @@ Travail de fin d’études en vue de l’obtention du Diplôme de bachelier en I
 |           [**django-webpack-loader**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
 |           [**djangorestframework**](https://botocore.amazonaws.com/v1/documentation/api/latest/index.html)           |      **1.19.60**       | [**Python**](https://docs.python.org/3/) | **3.x** |
 
-## Installation
+# Installation
 
 Assurez-vous que Python 3.x est installé et que la dernière version de pip est installée avant d'exécuter ces étapes.
 
@@ -76,7 +91,7 @@ Exécutez le serveur de développement
 python manage.py runserver
 ```
 
-## Autres
+# Autres
 
   <details><summary><b>Commande(s) :</b></summary><br>
 
