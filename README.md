@@ -66,7 +66,7 @@
 | created_at    | datetime     | False      | False    | False     | auto_now_add   | La date et heure de création de l'utilisateur                                    |
 | updated_at    | datetime     | False      | False    | False     | auto_add       | La date et heure du modification de l'utilisateur                                |
 | auth_provider | varchar(255) | False      | False    | False     | email          | Fournisseur d'authentification                                                   |
-| ref_genre_id  | integer      | False      | True     | True      |                | Le genre de l'utilisateur                                                        |
+| ref_genre_id  | integer      | False      | True     | True      |                | Clé étrangère liée au genre                                                      |
 
 </details>
 
