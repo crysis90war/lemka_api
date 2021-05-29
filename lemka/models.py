@@ -341,13 +341,10 @@ class Detail(models.Model):
     ref_tva = models.ForeignKey(Tva, on_delete=models.CASCADE)
 
     def __str__(self):
-        email = self.ref_devis.ref_demande_devis.ref_user.email
-        numero_devis = self.ref_devis.numero_devis
-        demande_devis_titre = self.ref_devis.ref_demande_devis.titre
-        return f'{numero_devis} | {email} - {demande_devis_titre}'
+        return self.designation
 
 
-class EntrepriseLemka(models.Model):
+class Entreprise(models.Model):
     nom_societe = models.CharField(max_length=255)
     rue = models.CharField(max_length=255)
     numero = models.CharField(max_length=255)

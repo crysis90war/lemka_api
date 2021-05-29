@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from lemka.models import (
-    Pays, Ville, EntrepriseLemka, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
+    Pays, Ville, Entreprise, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
     Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieImage, MercerieCaracteristique,
     UserMensuration, UserMesure, RendezVous
 )
@@ -33,7 +33,7 @@ class EntrepriseLemkaSerializer(serializers.ModelSerializer):
     ville = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = EntrepriseLemka
+        model = Entreprise
         fields = "__all__"
         extra_kwargs = {
             'ref_ville': {'write_only': True}

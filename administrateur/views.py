@@ -14,7 +14,7 @@ from administrateur.serializers import (
 )
 from lemka.models import (
     Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, Catalogue, User, Article, Mercerie, DemandeDevis, Devis,
-    RendezVous, Tag, Couleur, Categorie, EntrepriseLemka, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse, MercerieCaracteristique,
+    RendezVous, Tag, Couleur, Categorie, Entreprise, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse, MercerieCaracteristique,
     MercerieImage, UserMensuration
 )
 from lemka.pagination import SmallSetPagination
@@ -130,7 +130,7 @@ class DevisViewSet(viewsets.ModelViewSet):
 
 
 class EntrepriseLemkaViewSet(viewsets.ModelViewSet):
-    queryset = EntrepriseLemka.objects.all()
+    queryset = Entreprise.objects.all()
     serializer_class = EntrepriseLemkaSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
