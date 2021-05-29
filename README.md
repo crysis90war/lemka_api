@@ -70,6 +70,15 @@
 
 </details>
 
+<details><summary>Mensuration</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**            |
+  |-------------|--------------|------------|----------|-----------|----------------|----------------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique         |
+  | nom         | varchar(255) | True       | False    | False     |                | Le nom unique de la mesure |
+
+</details>
+
 <details><summary>User_Mensuration</summary><br>
 
   | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                                          |
@@ -167,6 +176,17 @@
 </details>
 
 ## Les tables associatives
+
+<details><summary>User_Mesure</summary><br>
+
+  | **Colonne**             | **Type** | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                              |
+  |-------------------------|----------|------------|----------|-----------|----------------|----------------------------------------------|
+  | id                      | integer  | True       | False    | False     | auto_increment | Identifiant unique                           |
+  | ref_mensuration_id      | integer  | False      | False    | False     |                | Clé étrangère liée à la mensuration          |
+  | ref_user_mensuration_id | integer  | False      | False    | False     |                | Clé étrangère liée à user mensuration        |
+  | mesure                  | float    | False      | False    | False     | 0.00           | La mesure de la mensuration de l'utilisateur |
+
+</details>
 
 <details><summary>Article_Ref_Tags</summary><br>
 
