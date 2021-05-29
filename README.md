@@ -70,6 +70,18 @@
 
 </details>
 
+<details><summary>User_Mensuration</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                                          |
+  |-------------|--------------|------------|----------|-----------|----------------|----------------------------------------------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique                                       |
+  | titre       | varchar(255) | False      | False    | False     |                | Le titre de la mensuration d'utilisateur                 |
+  | is_main     | bool         | False      | False    | False     |                | Identifie si la mensuration est principale ou secondaire |
+  | ref_user_id | integer      | False      | False    | False     |                | Clé étrangère liée à l'utilisateur                       |
+  | remarque    | text         | False      | False    | True      |                | Remarque spécifique dont l'utilisateur va mentionner     |
+
+</details>
+
 <details><summary>Rayon</summary><br>
 
   | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**              |
