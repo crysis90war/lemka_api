@@ -231,7 +231,7 @@
 
 </details>
 
-<details><summary>Tag</summary><br>
+<details><summary>Demande_Devis</summary><br>
 
   | **Colonne**          | **Type**        | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                                                    |
   |----------------------|-----------------|------------|----------|-----------|----------------|--------------------------------------------------------------------|
@@ -248,6 +248,21 @@
   | ref_mensuration_id   | integer         | False      | False    | False     |                | Clé étrangère liée à la mensuration de l'utilisateur               |
   | ref_type_service     | integer         | False      | False    | False     |                | Clé étrangère liée au type service                                 |
   | ref_user_id          | integer         | False      | False    | False     |                | Clé étrangère liée à l'utilisateur                                 |
+
+</details>
+
+<details><summary>Devis</summary><br>
+
+  | **Colonne**          | **Type**        | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                                            |
+  |----------------------|-----------------|------------|----------|-----------|----------------|------------------------------------------------------------|
+  | id                   | integer         | True       | False    | False     | auto_increment | Identifiant unique                                         |
+  | numero_devis         | bigint unsinged | True       | False    | False     |                | Numéro de devis unique généré automatiquement              |
+  | created_at           | datetime        | False      | False    | False     | auto_add_now   | Date et heure de création du devis                         |
+  | updated_at           | datetime        | False      | False    | False     | auto_add       | Date et heure de la modification du devis                  |
+  | remarque             | text            | False      | False    | True      |                | Remarque de la gérante si nécessaire                       |
+  | est_accepte          | bool            | False      | True     | False     |                | Décision de l'utilisateur à l'égard du devis               |
+  | est_soumis           | bool            | False      | False    | False     | False          | Devis est soumis à l'utilisateur pour qu'il puisse le voir |
+  | ref_demande_devis_id | integer         | True       | False    | False     |                | Clé étrangère liée à la demande de devis                   |
 
 </details>
 
