@@ -134,6 +134,17 @@
 
 </details>
 
+<details><summary>Article_Image</summary><br>
+  
+  | **Colonne**    | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                             |
+  |----------------|--------------|------------|----------|-----------|----------------|---------------------------------------------|
+  | id             | integer      | True       | False    | False     | auto_increment | Identifiant unique                          |
+  | image          | varchar(255) | False      | False    | False     |                | L'url de l'image ou il sera stocké (AWS S3) |
+  | is_main        | bool         | False      | False    | False     | True           | Première image sera vrai                    |
+  | ref_article_id | integer      | False      | False    | False     |                | Clé étrangère liée à l'article              |
+  
+</details>
+
 <details><summary>Tag</summary><br>
 
   | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**            |
