@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.apps import apps
 from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService, Tva, Ville, Article, \
-    ArticleImage, DemandeDevis, MercerieCaracteristique, RendezVous
+    ArticleImage, DemandeDevis, MercerieCaracteristique, RendezVous, Detail
 
 
 @admin.register(User)
@@ -132,7 +132,7 @@ class MercerieCaracteristiqueAdmin(admin.ModelAdmin):
 
 
 @admin.register(RendezVous)
-class search_fieldsAdmin(admin.ModelAdmin):
+class RendezVousAdmin(admin.ModelAdmin):
     list_display = ['utilisateur', 'service', 'date', 'start', 'end', 'est_annule']
     ordering = ['-date', '-start']
     list_filter = ['est_annule']
@@ -142,6 +142,19 @@ class search_fieldsAdmin(admin.ModelAdmin):
 
     def service(self, obj):
         return obj.ref_type_service.nom
+
+
+@admin.register(Detail)
+class DetailAdmin(admin.ModelAdmin):
+    list_display = ['designation', 'prix_u_ht', 'quantite', 'devis', 'tva']
+    list_filter = ['ref_devis__numero_devis']
+    search_fields = ['ref_devis__numero_devis']
+
+    def devis(self, obj):
+        return obj.ref_devis.numero_devis
+
+    def tva(self, obj):
+        return obj.ref_tva.taux
 
 
 models = apps.get_models()
