@@ -266,6 +266,16 @@
 
 </details>
 
+<details><summary>TVA</summary><br>
+
+  | **Colonne** | **Type** | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                          |
+  |-------------|----------|------------|----------|-----------|----------------|------------------------------------------|
+  | id          | integer  | True       | False    | False     | auto_increment | Identifiant unique                       |
+  | taux        | float    | False      | False    | False     |                | Taux de TVA entre 0 et 1                 |
+  | applicable  | bool     | False      | False    | False     | True           | Précise si le taux de TVA est applicable |
+
+</details>
+
 ## Les tables associatives
 
 <details><summary>User_Mesure</summary><br>
