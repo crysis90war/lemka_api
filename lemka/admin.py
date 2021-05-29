@@ -1,7 +1,23 @@
 from django.contrib import admin
 from django.apps import apps
-from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService, Tva, Ville, Article, \
-    ArticleImage, DemandeDevis, MercerieCaracteristique, RendezVous, Detail, Entreprise
+from django.contrib.admin import AdminSite
+from django.utils.translation import ugettext_lazy
+
+from .models import (
+    User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService, Tva, Ville, Article, ArticleImage,
+    DemandeDevis, MercerieCaracteristique, RendezVous, Detail, Entreprise
+)
+
+
+class MyAdminSite(AdminSite):
+    # Text to put at the end of each page's <title>.
+    site_title = ugettext_lazy('Lemka - Atelier de couture')
+
+    # Text to put in each page's <h1> (and above login form).
+    site_header = ugettext_lazy('Lemka - Atelier de couture')
+
+    # Text to put at the top of the admin index page.
+    index_title = ugettext_lazy('Administration de "Lemka - Atelier de couture"')
 
 
 @admin.register(User)
@@ -192,6 +208,7 @@ class EntrepriseAdmin(admin.ModelAdmin):
 
 
 models = apps.get_models()
+admin.site = MyAdminSite()
 
 for model in models:
     try:
