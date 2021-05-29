@@ -59,6 +59,28 @@
 
 </details>
 
+<details><summary>Entreprise_Lemka</summary><br>
+
+  | **Colonne**      | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                                  |
+  |------------------|--------------|------------|----------|-----------|----------------|--------------------------------------------------|
+  | id               | integer      | True       | False    | False     | auto_increment | Identifiant unique                               |
+  | nom_societe      | varchar(255) | False      | False    | False     |                | Le nom de l'entreprise                           |
+  | ref_ville_id     | integer      | False      | False    | False     |                | Clé étrangère liée à la ville/commune            |
+  | rue              | varchar(255) | False      | False    | False     |                | La rue où l'entreprise                           |
+  | numero           | varchar(255) | False      | False    | False     |                | Le numéro d'adresse de l'entreprise              |
+  | numero_tva       | varchar(254) | False      | False    | False     |                | Le numéro de TVA de l'entreprise                 |
+  | numero_tel       | varchar(255) | False      | False    | False     |                | Le numéro de téléphone pour joindre l'entreprise |
+  | mail_contact     | varchar(255) | False      | False    | False     |                | L'e-mail pour joindre l'entreprise               |
+  | site_web         | varchar(255) | False      | False    | True      |                | Le site web de l'entreprise                      |
+  | facebook_link    | varchar(255) | False      | False    | True      |                | Le lien vers la page facebook de l'entreprise    |
+  | instagram_link   | varchar(255) | False      | False    | True      |                | Le lien vers la page instagram de l'entreprise   |
+  | twitter_link     | varchar(255) | False      | False    | True      |                | Le lien vers la page twitter de l'entreprise     |
+  | linkedin_link    | varchar(255) | False      | False    | True      |                | Le lien vers la page linkedin de l'entreprise    |
+  | a_propos_resume  | varchar(255) | False      | False    | True      |                | Un petite description de l'entreprise            |
+  | a_propos_complet | text         | False      | False    | True      |                | Une description complète de l'entreprise         |
+
+</details>
+
 <details><summary>Genre</summary><br>
 
   | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**             |
