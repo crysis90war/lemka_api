@@ -38,6 +38,38 @@
 
 ## Les tables principales
 
+<details><summary>Genre</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**             |
+  |-------------|--------------|------------|----------|-----------|----------------|-----------------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique du genre |
+  | nom         | varchar(255) | True       | False    | False     |                | Nom unique du genre         |
+
+</details>
+
+<details><summary>User</summary><br>
+
+| **Colonne**   | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                                                                  |
+|---------------|--------------|------------|----------|-----------|----------------|----------------------------------------------------------------------------------|
+| id            | integer      | True       | False    | False     | auto_increment | Identifiant unique de l'utilisateur                                              |
+| password      | varchar(128) | False      | False    | False     |                | Mot de passe de l'utilisateur hashé et salé                                      |
+| last_login    | datetime     | False      | False    | True      |                | La date et l'heure de la dernière connexion de l'utilisateur (non-utilisée)      |
+| is_superuser  | bool         | False      | False    | False     | False          | L'utilisateur qui a la plus haute hiérarchie                                     |
+| username      | varchar(255) | True       | False    | False     |                | Le pseudo unique de l'utilisateur (modifiable)                                   |
+| email         | varchar(255) | True       | False    | False     |                | L'e-mail unique de l'utilisateur                                                 |
+| image         | varchar(255) | False      | False    | False     | default.jpg    | Image de l'utilisateur. Image prédéfinie lors de la création du compte           |
+| first_name    | varchar(255) | False      | False    | True      |                | Le prénom de l'utilisateur                                                       |
+| last_name     | varchar(255) | False      | False    | True      |                | Le nom de l'utilisateur                                                          |
+| numero_tel    | varchar(255) | False      | False    | True      |                | Le numéro de téléphone de l'utilisateur                                          |
+| is_verified   | bool         | False      | False    | False     | False          | Le jeton généré sera envoyé par mail à l'utilisateur pour l'activation du compte |
+| is_active     | bool         | False      | False    | False     | True           | Permet de bannir ou débannir l'utilisateur                                       |
+| created_at    | datetime     | False      | False    | False     | auto_now_add   | La date et heure de création de l'utilisateur                                    |
+| updated_at    | datetime     | False      | False    | False     | auto_add       | La date et heure du modification de l'utilisateur                                |
+| auth_provider | varchar(255) | False      | False    | False     | email          | Fournisseur d'authentification                                                   |
+| ref_genre_id  | integer      | False      | True     | True      |                | Le genre de l'utilisateur                                                        |
+
+</details>
+
 <details><summary>Rayon</summary><br>
 
   | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**              |
