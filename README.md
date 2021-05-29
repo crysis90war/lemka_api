@@ -123,6 +123,16 @@
 
 </details>
 
+<details><summary>Article_Likes</summary><br>
+
+  | **Colonne** | **Type** | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                    |
+  |-------------|----------|------------|----------|-----------|----------------|------------------------------------|
+  | id          | integer  | True       | False    | False     | auto_increment | Identifiant unique du like         |
+  | article_id  | integer  | False      | False    | False     |                | Clé étrangère liée à l'article     |
+  | user_id     | integer  | False      | False    | False     |                | Clé étrangère liée à l'utilisateur |
+
+</details>
+
 # Installation
 
 Assurez-vous que Python 3.x est installé et que la dernière version de pip est installée avant d'exécuter ces étapes.
