@@ -276,6 +276,19 @@
 
 </details>
 
+<details><summary>Detail</summary><br>
+
+  | **Colonne**  | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                     |
+  |--------------|--------------|------------|----------|-----------|----------------|-------------------------------------|
+  | id           | integer      | True       | False    | False     | auto_increment | Identifiant unique                  |
+  | designation  | varchar(255) | False      | False    | False     |                | Désignation du détail pour le devis |
+  | prix_u_ht    | decimal      | False      | False    | False     |                | Prix unitaire hors tva              |
+  | quantite     | float        | False      | False    | False     |                | Quantité en heure, poids, ...       |
+  | ref_devis_id | integer      | False      | False    | False     |                | Clé étrangère liée au devis         |
+  | ref_tva_id   | integer      | False      | False    | False     |                | Clé étrangère liée au tva           |
+
+</details>
+
 ## Les tables associatives
 
 <details><summary>User_Mesure</summary><br>
