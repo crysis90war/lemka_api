@@ -362,7 +362,7 @@ class Entreprise(models.Model):
     ref_ville = models.ForeignKey(Ville, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.nom_societe}'
+        return self.nom_societe
 
 
 class Horaire(models.Model):

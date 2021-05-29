@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.apps import apps
 from .models import User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService, Tva, Ville, Article, \
-    ArticleImage, DemandeDevis, MercerieCaracteristique, RendezVous, Detail
+    ArticleImage, DemandeDevis, MercerieCaracteristique, RendezVous, Detail, Entreprise
 
 
 @admin.register(User)
@@ -155,6 +155,40 @@ class DetailAdmin(admin.ModelAdmin):
 
     def tva(self, obj):
         return obj.ref_tva.taux
+
+
+@admin.register(Entreprise)
+class EntrepriseAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nom_societe', 'facebook', 'instagram', 'twitter', 'linkedin']
+
+    def facebook(self, obj):
+        if len(obj.facebook_link) == 0:
+            return False
+        else:
+            return True
+
+    def instagram(self, obj):
+        if len(obj.instagram_link) == 0:
+            return False
+        else:
+            return True
+
+    def twitter(self, obj):
+        if len(obj.twitter_link) == 0:
+            return False
+        else:
+            return True
+
+    def linkedin(self, obj):
+        if len(obj.linkedin_link) == 0:
+            return False
+        else:
+            return True
+
+    facebook.boolean = True
+    instagram.boolean = True
+    twitter.boolean = True
+    linkedin.boolean = True
 
 
 models = apps.get_models()
