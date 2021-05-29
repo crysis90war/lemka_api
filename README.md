@@ -376,6 +376,27 @@
 
 </details>
 
+<details><summary>Demandedevis_Ref_Merceries</summary><br>
+
+  | **Colonne**     | **Type** | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                          |
+  |-----------------|----------|------------|----------|-----------|----------------|------------------------------------------|
+  | id              | integer  | True       | False    | False     | auto_increment | Identifiant unique                       |
+  | demandedevis_id | integer  | False      | False    | False     |                | Clé étrangère liée à la demande de devis |
+  | mercerie_id     | integer  | False      | False    | False     |                | Clé étrangère liée à la mercerie         |
+
+</details>
+
+<details><summary>Mercerie_Caracteristiques</summary><br>
+
+  | **Colonne**            | **Type**       | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                             |
+  |------------------------|----------------|------------|----------|-----------|----------------|---------------------------------------------|
+  | id                     | integer        | True       | False    | False     | auto_increment | Identifiant unique                          |
+  | valeur                 | integerdecimal | False      | False    | False     |                | Valeur de la caractéristique de la mercerie |
+  | ref_caracteristique_id | integer        | False      | False    | False     |                | Clé étrangère liée à la caractéristique     |
+  | ref_mercerie_id        | integer        | False      | False    | False     |                | Clé étrangère liée à la mercerie            |
+
+</details>
+
 # Installation
 
 Assurez-vous que Python 3.x est installé et que la dernière version de pip est installée avant d'exécuter ces étapes.
