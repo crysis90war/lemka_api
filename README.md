@@ -38,6 +38,27 @@
 
 ## Les tables principales
 
+<details><summary>Pays</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                 |
+  |-------------|--------------|------------|----------|-----------|----------------|---------------------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique              |
+  | pays        | varchar(255) | True       | False    | False     |                | Le nom du pays                  |
+  | code        | varchar(50)  | True       | False    | False     |                | Le code en lettres du pays 'BE' |
+
+</details>
+
+<details><summary>Ville</summary><br>
+
+  | **Colonne**  | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**               |
+  |--------------|--------------|------------|----------|-----------|----------------|-------------------------------|
+  | id           | integer      | True       | False    | False     | auto_increment | Identifiant unique            |
+  | ville        | varchar(255) | False      | False    | False     |                | Le nom de la ville            |
+  | code_postale | varchar(255) | False      | False    | False     |                | Le code postal de la ville    |
+  | ref_pays_id  | integer      | False      | False    | False     |                | La clé étrangère liée au pays |
+
+</details>
+
 <details><summary>Genre</summary><br>
 
   | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**             |
@@ -67,6 +88,19 @@
 | updated_at    | datetime     | False      | False    | False     | auto_add       | La date et heure du modification de l'utilisateur                                |
 | auth_provider | varchar(255) | False      | False    | False     | email          | Fournisseur d'authentification                                                   |
 | ref_genre_id  | integer      | False      | True     | True      |                | Clé étrangère liée au genre                                                      |
+
+</details>
+
+<details><summary>Adresse</summary><br>
+
+  | **Colonne**  | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                    |
+  |--------------|--------------|------------|----------|-----------|----------------|------------------------------------|
+  | id           | integer      | True       | False    | False     | auto_increment | Identifiant unique                 |
+  | rue          | varchar(255) | False      | False    | False     |                |                                    |
+  | numero       | varchar(255) | False      | False    | False     |                | Le numéro du lieu de la résidence  |
+  | boite        | varchar(255) | False      | False    | True      |                | La boite, si existe                |
+  | ref_user_id  | integer      | False      | False    | False     |                | Clé étrangère liée à l'utilisateur |
+  | ref_ville_id | integer      | False      | False    | False     |                | Clé étrangère liée à la ville      |
 
 </details>
 
