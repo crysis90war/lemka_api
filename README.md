@@ -38,7 +38,45 @@
 
 ## Les tables principales
 
-<details><summary>Type Service</summary><br>
+<details><summary>Rayon</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**              |
+  |-------------|--------------|------------|----------|-----------|----------------|------------------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique du rayon  |
+  | nom         | varchar(255) | True       | False    | False     |                | Nom unique attribué au rayon |
+
+</details>
+
+<details><summary>Section</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                   |
+  |-------------|--------------|------------|----------|-----------|----------------|-----------------------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique de la section  |
+  | nom         | varchar(255) | True       | False    | False     |                | Nom unique attribué à la section  |
+
+</details>
+
+<details><summary>Type_Produit</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                     |
+  |-------------|--------------|------------|----------|-----------|----------------|-------------------------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique du type produit  |
+  | nom         | varchar(255) | True       | False    | False     |                | Nom unique attribué au type produit |
+
+</details>
+
+<details><summary>Catalogue</summary><br>
+
+| **Colonne**         | **Type** | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                    |
+|---------------------|----------|------------|----------|-----------|----------------|------------------------------------|
+| id                  | integer  | True       | False    | False     | auto_increment | Identifiant unique du catalogue    |
+| ref_rayon_id        | integer  | False      | False    | False     |                | Clé étrangère liée au rayon        |
+| ref_section_id      | integer  | False      | False    | False     |                | Clé étrangère liée à la section    |
+| ref_type_produit_id | integer  | False      | False    | False     |                | Clé étrang!re liée au type produit |
+
+</details>
+
+<details><summary>Type_Service</summary><br>
   
   | **Colonne**  | **Type**          | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                        |
   |--------------|-------------------|------------|----------|-----------|----------------|----------------------------------------|
@@ -50,32 +88,40 @@
 
 <details><summary>Article</summary><br>
 
-| **Colonne**      | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                            |
-|------------------|--------------|------------|----------|-----------|----------------|--------------------------------------------|
-| id               | integer      | True       | False    | False     | auto_increment | Identifiant unique de l'article            |
-| slug             | varchar(255) | True       | False    | False     |                | Slug unique de l'article                   |
-| est_active       | bool         | False      | False    | False     | False          | État de publication de l'article           |
-| titre            | varchar(255) | False      | False    | False     |                | Titre de l'article                         |
-| description      | text         | False      | False    | True      |                | Description de l'article                   |
-| created_at       | datetime     | False      | False    | False     |                | Date et heure de création de l'article     |
-| updated_at       | datetime     | False      | False    | False     |                | Date et heure de modification de l'article |
-| ref_type_service | integer      | False      | False    | False     |                | Clé étrangère liée au TypeService          |
-| ref_catalogue    | integer      | False      | False    | False     |                | Clé étrangère liée au Catalogue            |
+  | **Colonne**         | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                            |
+  |---------------------|--------------|------------|----------|-----------|----------------|--------------------------------------------|
+  | id                  | integer      | True       | False    | False     | auto_increment | Identifiant unique de l'article            |
+  | slug                | varchar(255) | True       | False    | False     |                | Slug unique de l'article                   |
+  | est_active          | bool         | False      | False    | False     | False          | État de publication de l'article           |
+  | titre               | varchar(255) | False      | False    | False     |                | Titre de l'article                         |
+  | description         | text         | False      | False    | True      |                | Description de l'article                   |
+  | created_at          | datetime     | False      | False    | False     |                | Date et heure de création de l'article     |
+  | updated_at          | datetime     | False      | False    | False     |                | Date et heure de modification de l'article |
+  | ref_type_service_id | integer      | False      | False    | False     |                | Clé étrangère liée au TypeService          |
+  | ref_catalogue_id    | integer      | False      | False    | False     |                | Clé étrangère liée au Catalogue            |
 
 </details>
 
 <details><summary>Tag</summary><br>
 
-| **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**            |
-|-------------|--------------|------------|----------|-----------|----------------|----------------------------|
-| id          | integer      | True       | False    | False     | auto_increment | Identifiant unique du tag  |
-| nom         | varchar(255) | True       | False    | False     |                | Nom unique attribué au tag |
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**            |
+  |-------------|--------------|------------|----------|-----------|----------------|----------------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique du tag  |
+  | nom         | varchar(255) | True       | False    | False     |                | Nom unique attribué au tag |
 
 </details>
 
 ## Les tables associatives
 
+<details><summary>Article_Ref_Tags</summary><br>
 
+  | **Colonne** | **Type** | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                |
+  |-------------|----------|------------|----------|-----------|----------------|--------------------------------|
+  | id          | integer  | True       | False    | False     | auto_increment | Identifiant unique du tag      |
+  | article_id  | integer  | False      | False    | False     |                | Clé étrangère liée à l'article |
+  | tag_id      | integer  | False      | False    | False     |                | Clé étrangère liée au tag      |
+
+</details>
 
 # Installation
 
