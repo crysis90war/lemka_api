@@ -289,6 +289,60 @@
 
 </details>
 
+<details><summary>Categorie</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**     |
+  |-------------|--------------|------------|----------|-----------|----------------|---------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique  |
+  | nom         | varchar(255) | True       | False    | False     |                | Nom de la catégorie |
+
+</details>
+
+<details><summary>Couleur</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**    |
+  |-------------|--------------|------------|----------|-----------|----------------|--------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique |
+  | nom         | varchar(255) | True       | False    | False     |                | Nom de la couleur  |
+
+</details>
+
+<details><summary>Caracteristique</summary><br>
+
+  | **Colonne** | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**           |
+  |-------------|--------------|------------|----------|-----------|----------------|---------------------------|
+  | id          | integer      | True       | False    | False     | auto_increment | Identifiant unique        |
+  | nom         | varchar(255) | True       | False    | False     |                | Nom de la caractéristique |
+
+</details>
+
+<details><summary>Mercerie</summary><br>
+
+  | **Colonne**      | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                            |
+  |------------------|--------------|------------|----------|-----------|----------------|--------------------------------------------|
+  | id               | integer      | True       | False    | False     | auto_increment | Identifiant unique                         |
+  | reference        | varchar(255) | True       | False    | False     |                | La référence unique de la mercerie         |
+  | nom              | varchar(255) | False      | False    | False     |                | Le nom de la mercerie                      |
+  | est_publie       | bool         | False      | False    | False     | False          | Spécifie si la mercerie est publiée ou non |
+  | description      | text         | False      | False    | True      |                | La description de la mercerie              |
+  | prix_u_ht        | decimal      | False      | False    | False     |                | Prix unitaire hors TVA de la mercerie      |
+  | ref_categorie_id | integer      | False      | False    | False     |                | Clé étrangère liée à la catégorie          |
+  | ref_couleur_id   | integer      | False      | False    | False     |                | Clé étrangère liée à la couleur            |
+  | ref_tva_id       | integer      | False      | False    | False     |                | Clé étrangère liée au TVA                  |
+
+</details>
+
+<details><summary>Mercerie_Image</summary><br>
+
+  | **Colonne**     | **Type**     | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                                              |
+  |-----------------|--------------|------------|----------|-----------|----------------|--------------------------------------------------------------|
+  | id              | integer      | True       | False    | False     | auto_increment | Identifiant unique                                           |
+  | image           | varchar(100) | False      | False    | False     |                | L'URL de l'image où elle est hébérgée                        |
+  | is_main         | bool         | False      | False    | False     |                | Si image pour mercerie n'existe pas ce sera True sinon False |
+  | ref_mercerie_id | integer      | False      | False    | False     |                | Clé étrangère liée à la mercerie                             |
+
+</details>
+
 ## Les tables associatives
 
 <details><summary>User_Mesure</summary><br>
