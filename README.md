@@ -231,6 +231,26 @@
 
 </details>
 
+<details><summary>Tag</summary><br>
+
+  | **Colonne**          | **Type**        | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                                                    |
+  |----------------------|-----------------|------------|----------|-----------|----------------|--------------------------------------------------------------------|
+  | id                   | integer         | True       | False    | False     | auto_increment | Identifiant unique                                                 |
+  | numero_demande_devis | bigint unsigned | True       | False    | False     |                | Numéro de demande de devis unique généré automatiquement           |
+  | titre                | varchar(255)    | False      | False    | False     |                | Titre donné à la demande par l'utilisateur                         |
+  | remarque             | text            | False      | False    | False     |                | Une marque qui se précisée par l'utilisateur                       |
+  | est_urgent           | bool            | False      | False    | False     | False          | L'utilisateur spécifie si la demande est urgent                    |
+  | en_cours             | bool            | False      | False    | False     | False          | En cours de rédaction par l'utilisateur avant de soumettre         |
+  | est_soumis           | bool            | False      | False    | False     | False          | Demande soumise par l'utilisateur pour le traitement               |
+  | est_traite           | bool            | False      | False    | False     | False          | Demande de devis traité par gérante pour soumettre à l'utilisateur |
+  | created_at           | datetime        | False      | False    | True      | auto_now_add   | Date et heure de création de la demande                            |
+  | ref_article_id       | integer         | False      | True     | True      |                | Clé étrangère liée à l'article                                     |
+  | ref_mensuration_id   | integer         | False      | False    | False     |                | Clé étrangère liée à la mensuration de l'utilisateur               |
+  | ref_type_service     | integer         | False      | False    | False     |                | Clé étrangère liée au type service                                 |
+  | ref_user_id          | integer         | False      | False    | False     |                | Clé étrangère liée à l'utilisateur                                 |
+
+</details>
+
 ## Les tables associatives
 
 <details><summary>User_Mesure</summary><br>
