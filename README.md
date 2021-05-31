@@ -343,6 +343,38 @@
 
 </details>
 
+<details><summary>Rendez_Vous</summary><br>
+
+  | **Colonne**         | **Type** | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                          |
+  |---------------------|----------|------------|----------|-----------|----------------|------------------------------------------|
+  | id                  | integer  | True       | False    | False     | auto_increment | Identifiant unique                       |
+  | date                | date     | False      | False    | False     |                | La date de rendez-vous                   |
+  | start               | time     | False      | False    | False     |                | Heure du début de rendez-vous            |
+  | end                 | time     | False      | False    | False     |                | Heure de fin de rendez-vous              |
+  | created_at          | datetime | False      | False    | False     |                | Date et heure de création de rendez-vous |
+  | est_annule          | bool     | False      | False    | False     | False          | Permet d'annuler le rendez-vous          |
+  | ref_devis_id        | integer  | False      | True     | False     |                | Clé étrangère liée au devis              |
+  | ref_type_service_id | integer  | False      | False    | False     |                | Clé étrangère liée au type service       |
+  | ref_user_id         | integer  | False      | False    | False     |                | Clé étrangère liée à l'utilisateur       |
+
+</details>
+
+<details><summary>Horaire</summary><br>
+
+  | **Colonne**     | **Type**         | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                                      |
+  |-----------------|------------------|------------|----------|-----------|----------------|------------------------------------------------------|
+  | id              | integer          | True       | False    | False     | auto_increment | Identifiant unique                                   |
+  | jour            | varchar(255)     | True       | False    | False     |                | Le jour de la semaine                                |
+  | jour_semaine    | integer unsigned | True       | False    | False     |                | Jour de la semaine de 0 à 6                          |
+  | heure_ouverture | time             | False      | False    | False     |                | Heure d'ouverture                                    |
+  | pause_debut     | time             | False      | False    | False     |                | Heure du début de la pause                           |
+  | pause_fin       | time             | False      | False    | False     |                | Heure de fin de la pause                             |
+  | heure_fermeture | time             | False      | False    | False     |                | Heure de fermeture                                   |
+  | sur_rdv         | bool             | False      | False    | False     |                | Permet de marquer le jour uniquement sur rendez-vous |
+  | est_ferme       | bool             | False      | False    | False     |                | Permet de marquer le jour comme fermé                |
+
+</details>
+
 ## Les tables associatives
 
 <details><summary>User_Mesure</summary><br>
