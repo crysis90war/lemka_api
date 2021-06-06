@@ -61,6 +61,14 @@ class Tag(CommonInfo):
     pass
 
 
+class Mensuration(CommonInfo):
+    pass
+
+
+class TypeService(CommonInfo):
+    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False, null=False)
+
+
 class Tva(models.Model):
     taux = models.FloatField(unique=True)
     applicable = models.BooleanField(default=True)
@@ -142,13 +150,6 @@ class Adresse(models.Model):
         return f'{self.id} | {self.ref_user.email} {self.ref_ville.ville}'
 
 
-class Mensuration(models.Model):
-    nom = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.nom
-
-
 class UserMensuration(models.Model):
     titre = models.CharField(max_length=255)
     remarque = models.TextField(blank=True)
@@ -190,10 +191,6 @@ class Catalogue(models.Model):
 
     def __str__(self):
         return f'{self.id} - {self.ref_rayon} - {self.ref_section} - {self.ref_type_produit}'
-
-
-class TypeService(CommonInfo):
-    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False, null=False)
 
 
 class Article(models.Model):
@@ -252,9 +249,10 @@ class Mercerie(models.Model):
 
 
 class MercerieCaracteristique(models.Model):
+    valeur = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
+
     ref_mercerie = models.ForeignKey(Mercerie, null=False, blank=False, on_delete=models.CASCADE, related_name='catacteristiques')
     ref_caracteristique = models.ForeignKey(Caracteristique, null=False, blank=False, on_delete=models.CASCADE)
-    valeur = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
 
     class Meta:
         ordering = ['ref_mercerie__nom']
@@ -376,14 +374,7 @@ class Horaire(models.Model):
     est_ferme = models.BooleanField()
 
     def __str__(self):
-        if self.est_ferme:
-            return f'{self.jour} | Fermé'
-        elif self.sur_rdv:
-            return f'{self.jour} | Sur Rendez-vous'
-        else:
-            ouverture = self.heure_ouverture.strftime("%H:%M")
-            fermeture = self.heure_fermeture.strftime("%H:%M")
-            return f'{self.jour} | De {ouverture} à {fermeture} heures'
+        return self.jour
 
 
 class RendezVous(models.Model):
