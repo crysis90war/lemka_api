@@ -116,11 +116,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Pays(models.Model):
-    pays = models.CharField(max_length=255)
-    code = models.CharField(max_length=50)
+    pays = models.CharField(max_length=255, unique=True)
+    code = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return f'{self.pays}'
+        return self.pays
 
 
 class Ville(models.Model):
@@ -129,7 +129,7 @@ class Ville(models.Model):
     code_postale = models.CharField(max_length=255)
 
     class Meta:
-        ordering = ['ville']
+        ordering = ['code_postale']
 
     def __str__(self):
         return f'{self.ville} {self.code_postale}'
