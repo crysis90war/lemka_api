@@ -161,10 +161,7 @@ class UserMensuration(models.Model):
         ordering = ['ref_user__username', '-is_main', 'titre']
 
     def __str__(self):
-        if self.is_main is True:
-            return f'{self.pk} | {self.ref_user.username} - Principale | {self.titre}'
-        else:
-            return f'{self.pk} | {self.ref_user.username} - Secondaire | {self.titre}'
+        return f'{self.titre} - {self.ref_user.username}'
 
 
 class UserMesure(models.Model):
