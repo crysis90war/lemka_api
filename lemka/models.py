@@ -19,7 +19,7 @@ AUTH_PROVIDERS = {
 
 
 class CommonInfo(models.Model):
-    nom = models.CharField(max_length=255, blank=False, null=False, unique=True)
+    nom = models.CharField(max_length=255, unique=True)
 
     class Meta:
         abstract = True
