@@ -192,9 +192,9 @@ class Catalogue(models.Model):
 
 class Article(models.Model):
     slug = models.SlugField(max_length=255, unique=True, editable=False)
-    est_active = models.BooleanField(default=False)
-    titre = models.CharField(max_length=255, blank=False)
+    titre = models.CharField(max_length=255)
     description = models.TextField(blank=True)
+    est_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
