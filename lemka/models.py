@@ -361,8 +361,8 @@ class Entreprise(models.Model):
 
 
 class Horaire(models.Model):
-    jour = models.CharField(max_length=255)
-    jour_semaine = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(7)])
+    jour = models.CharField(max_length=255, unique=True)
+    jour_semaine = models.PositiveIntegerField(unique=True, validators=[MinValueValidator(0), MaxValueValidator(7)])
     heure_ouverture = models.TimeField(blank=True, null=True)
     pause_debut = models.TimeField(blank=True, null=True)
     pause_fin = models.TimeField(blank=True, null=True)
