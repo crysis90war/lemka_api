@@ -174,18 +174,7 @@
 
 </details>
 
-<details><summary>Catalogue</summary><br>
-
-| **Colonne**         | **Type** | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                    |
-|---------------------|----------|------------|----------|-----------|----------------|------------------------------------|
-| id                  | integer  | True       | False    | False     | auto_increment | Identifiant unique du catalogue    |
-| ref_rayon_id        | integer  | False      | False    | False     |                | Clé étrangère liée au rayon        |
-| ref_section_id      | integer  | False      | False    | False     |                | Clé étrangère liée à la section    |
-| ref_type_produit_id | integer  | False      | False    | False     |                | Clé étrang!re liée au type produit |
-
-</details>
-
-<details><summary>Type_Service</summary><br>
+<details><summary>Service</summary><br>
   
   | **Colonne**  | **Type**          | **Unique** | **Null** | **Blank** | **Par défaut** | **Description**                        |
   |--------------|-------------------|------------|----------|-----------|----------------|----------------------------------------|
@@ -206,8 +195,7 @@
   | description         | text         | False      | False    | True      |                | Description de l'article                   |
   | created_at          | datetime     | False      | False    | False     |                | Date et heure de création de l'article     |
   | updated_at          | datetime     | False      | False    | False     |                | Date et heure de modification de l'article |
-  | ref_type_service_id | integer      | False      | False    | False     |                | Clé étrangère liée au TypeService          |
-  | ref_catalogue_id    | integer      | False      | False    | False     |                | Clé étrangère liée au Catalogue            |
+  | ref_service_id | integer      | False      | False    | False     |                | Clé étrangère liée au TypeService          |
 
 </details>
 
@@ -246,7 +234,7 @@
   | created_at           | datetime        | False      | False    | True      | auto_now_add   | Date et heure de création de la demande                            |
   | ref_article_id       | integer         | False      | True     | True      |                | Clé étrangère liée à l'article                                     |
   | ref_mensuration_id   | integer         | False      | False    | False     |                | Clé étrangère liée à la mensuration de l'utilisateur               |
-  | ref_type_service     | integer         | False      | False    | False     |                | Clé étrangère liée au type service                                 |
+  | ref_service     | integer         | False      | False    | False     |                | Clé étrangère liée au type service                                 |
   | ref_user_id          | integer         | False      | False    | False     |                | Clé étrangère liée à l'utilisateur                                 |
 
 </details>
@@ -354,7 +342,7 @@
   | created_at          | datetime | False      | False    | False     |                | Date et heure de création de rendez-vous |
   | est_annule          | bool     | False      | False    | False     | False          | Permet d'annuler le rendez-vous          |
   | ref_devis_id        | integer  | False      | True     | False     |                | Clé étrangère liée au devis              |
-  | ref_type_service_id | integer  | False      | False    | False     |                | Clé étrangère liée au type service       |
+  | ref_service_id | integer  | False      | False    | False     |                | Clé étrangère liée au type service       |
   | ref_user_id         | integer  | False      | False    | False     |                | Clé étrangère liée à l'utilisateur       |
 
 </details>
