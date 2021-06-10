@@ -88,7 +88,7 @@ class ArticleAdmin(admin.ModelAdmin):
 class ArticleImageAdmin(admin.ModelAdmin):
     list_display = ['article', 'image', 'is_main']
     ordering = ['ref_article__titre', 'is_main']
-    list_filter = ['is_main']
+    list_filter = ['ref_article__titre','is_main']
     search_fields = ['ref_article__titre']
 
     def article(self, obj):
