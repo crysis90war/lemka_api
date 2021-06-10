@@ -66,7 +66,7 @@ class Mensuration(CommonInfo):
 
 
 class Service(CommonInfo):
-    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False, null=False)
+    duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)])
 
 
 class Tva(models.Model):
@@ -81,15 +81,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     image = models.ImageField(default='default.jpg', upload_to=path_and_rename_user_image)
-    first_name = models.CharField(max_length=255, blank=True, null=False, default='')
-    last_name = models.CharField(max_length=255, blank=True, null=False, default='')
-    numero_tel = models.CharField(max_length=255, blank=True, null=False, default='')
+    first_name = models.CharField(max_length=255, blank=True, default='')
+    last_name = models.CharField(max_length=255, blank=True, default='')
+    numero_tel = models.CharField(max_length=255, blank=True, default='')
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    auth_provider = models.CharField(max_length=255, blank=False, null=False, default=AUTH_PROVIDERS.get('email'))
+    auth_provider = models.CharField(max_length=255, default=AUTH_PROVIDERS.get('email'))
 
     ref_genre = models.ForeignKey(Genre, blank=True, null=True, on_delete=models.SET_NULL)
 
@@ -219,7 +219,7 @@ class ArticleImage(models.Model):
 
 class Mercerie(models.Model):
     reference = models.CharField(max_length=255, blank=False, unique=True)
-    nom = models.CharField(max_length=255, null=False, blank=False)
+    nom = models.CharField(max_length=255)
     est_publie = models.BooleanField(default=False)
     description = models.TextField(default="")
     prix_u_ht = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
@@ -238,8 +238,8 @@ class Mercerie(models.Model):
 class MercerieCaracteristique(models.Model):
     valeur = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
 
-    ref_mercerie = models.ForeignKey(Mercerie, null=False, blank=False, on_delete=models.CASCADE, related_name='caracteristiques')
-    ref_caracteristique = models.ForeignKey(Caracteristique, null=False, blank=False, on_delete=models.CASCADE)
+    ref_mercerie = models.ForeignKey(Mercerie, on_delete=models.CASCADE, related_name='caracteristiques')
+    ref_caracteristique = models.ForeignKey(Caracteristique, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['ref_mercerie__nom']
@@ -372,7 +372,7 @@ class RendezVous(models.Model):
     est_annule = models.BooleanField(default=False)
 
     ref_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    ref_service = models.ForeignKey(Service, null=False, blank=False, on_delete=models.CASCADE)
+    ref_service = models.ForeignKey(Service, on_delete=models.CASCADE)
     ref_devis = models.ForeignKey(Devis, null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
