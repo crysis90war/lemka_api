@@ -311,9 +311,6 @@ class ArticleSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
     service = serializers.SerializerMethodField(read_only=True)
-    rayon = serializers.SerializerMethodField(read_only=True)
-    section = serializers.SerializerMethodField(read_only=True)
-    type_produit = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
     tags = serializers.SerializerMethodField(read_only=True)
 
