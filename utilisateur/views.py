@@ -1,21 +1,22 @@
 from datetime import datetime, timedelta
 
 from django.db.models import Q
-from rest_framework import generics, status, views
+from rest_framework import generics, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from administrateur.serializers import ArticleSerializer, AdminDevisSerializer
+from administrateur.serializers import AdminDevisSerializer
 from lemka.models import (
-    User, UserMensuration, UserMesure, Adresse, DemandeDevis, Article, RendezVous, TypeService, Horaire, Devis
+    User, UserMensuration, UserMesure, Adresse, DemandeDevis, RendezVous, Service, Horaire, Devis
 )
 from lemka.permissions import UserGetPostPermission, IsOwner
 from utilisateur.serializers import (
-    UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer, UserMensurationSerializer,
-    UserMesureSerializer, UserAdresseSerializer, UserDevisAccepterSerializer, AnnulerRendezVousSerializer
+    UserDemandeDevisSerializer, UserRendezVousSerializer, AdresseSerializer, ProfilSerializer,
+    UserMensurationSerializer, UserMesureSerializer, UserAdresseSerializer, UserDevisAccepterSerializer,
+    AnnulerRendezVousSerializer
 )
 
 
@@ -201,21 +202,21 @@ class RendezVousListCreateAPIView(generics.ListCreateAPIView):
         kwarg_date = datetime.strptime(str(serializer.validated_data["date"]), "%Y-%m-%d").date()
         now = datetime.now().date()
         kwarg_start = serializer.validated_data["start"]
-        ref_type_service = serializer.validated_data["ref_type_service"]
-        type_service = TypeService.objects.get(pk=ref_type_service.id)
+        ref_service = serializer.validated_data["ref_service"]
+        service = Service.objects.get(pk=ref_service.id)
 
         for debut in range(0, 240, 60):
             fin = debut + 60
-            if debut < type_service.duree_minute <= fin:
-                type_service.duree_minute = fin
+            if debut < service.duree_minute <= fin:
+                service.duree_minute = fin
                 break
-            elif type_service.duree_minute > 240:
-                type_service.duree_minute = 240
+            elif service.duree_minute > 240:
+                service.duree_minute = 240
                 break
             else:
                 fin += debut
 
-        result = datetime.strptime(str(kwarg_start), "%H:%M:%S") + timedelta(minutes=type_service.duree_minute)
+        result = datetime.strptime(str(kwarg_start), "%H:%M:%S") + timedelta(minutes=service.duree_minute)
         kwarg_end = result.time()
         day = datetime.strptime(str(kwarg_date), "%Y-%m-%d").weekday()
         horaire = Horaire.objects.get(jour_semaine=day)
@@ -226,10 +227,12 @@ class RendezVousListCreateAPIView(generics.ListCreateAPIView):
             )
         elif RendezVous.objects.filter(date=kwarg_date, start=kwarg_start, est_annule=False):
             raise ValidationError(
-                detail={'detail': "Il y a déja une réservation pour cette heure, veillez choisir une heure disponible !"},
+                detail={
+                    'detail': "Il y a déja une réservation pour cette heure, veillez choisir une heure disponible !"},
                 code=status.HTTP_400_BAD_REQUEST
             )
-        elif RendezVous.objects.filter(date=kwarg_date, est_annule=False).filter(Q(start__gt=kwarg_start) & Q(end__lte=kwarg_end)):
+        elif RendezVous.objects.filter(date=kwarg_date, est_annule=False).filter(
+                Q(start__gt=kwarg_start) & Q(end__lte=kwarg_end)):
             raise ValidationError(
                 detail={'detail': "Cette tranche pour ce service n'est pas possible !"},
                 code=status.HTTP_400_BAD_REQUEST
@@ -255,7 +258,8 @@ class RendezVousListCreateAPIView(generics.ListCreateAPIView):
             pause_debut = horaire.pause_debut
             pause_fin = horaire.pause_fin
             raise ValidationError(
-                detail={'detail': f'Veuillez choisir une heure de {ouvert} à {pause_debut} et de {pause_fin} à {ferme}'},
+                detail={
+                    'detail': f'Veuillez choisir une heure de {ouvert} à {pause_debut} et de {pause_fin} à {ferme}'},
                 code=status.HTTP_400_BAD_REQUEST
             )
         elif horaire.sur_rdv is True and (horaire.pause_debut < kwarg_end <= horaire.pause_fin):

@@ -19,8 +19,8 @@ class ArticleServiceListAPIView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        kwarg_type_service = self.kwargs.get("pk")
-        return Article.objects.filter(ref_type_service__id=kwarg_type_service, est_active=True)
+        kwarg_service = self.kwargs.get("pk")
+        return Article.objects.filter(ref_service__id=kwarg_service, est_active=True)
 
 
 class ArticleRayonListAPIView(ArticleServiceListAPIView):

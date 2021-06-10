@@ -13,7 +13,7 @@ class GlobalArticleFilter(df_filters.FilterSet):
     class Meta:
         model = Article
         fields = [
-            'ref_type_service',
+            'ref_service',
             'ref_tags'
         ]
 

@@ -15,7 +15,7 @@ from administrateur.serializers import (
     MercerieCaracteristiqueSerializer, MercerieSerializer, AdminRendezVousSerializer
 )
 from lemka.models import (
-    Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, User, Article, Mercerie,
+    Pays, Ville, Caracteristique, Genre, Service, Rayon, Section, TypeProduit, User, Article, Mercerie,
     DemandeDevis, Devis,
     RendezVous, Tag, Couleur, Categorie, Entreprise, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse,
     MercerieCaracteristique,
@@ -54,7 +54,7 @@ class GenreViewSet(viewsets.ModelViewSet):
 
 
 class TypeServiceViewSet(viewsets.ModelViewSet):
-    queryset = TypeService.objects.all().order_by("nom")
+    queryset = Service.objects.all().order_by("nom")
     serializer_class = TypeServiceSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 

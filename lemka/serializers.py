@@ -53,7 +53,7 @@ class GlobalArticleSerializer(serializers.ModelSerializer):
     user_liked = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
-    type_service = serializers.SerializerMethodField(read_only=True)
+    service = serializers.SerializerMethodField(read_only=True)
     rayon = serializers.SerializerMethodField(read_only=True)
     section = serializers.SerializerMethodField(read_only=True)
     type_produit = serializers.SerializerMethodField(read_only=True)
@@ -62,7 +62,7 @@ class GlobalArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        exclude = ['likes', 'ref_type_service', 'ref_tags']
+        exclude = ['likes', 'ref_service', 'ref_tags']
         extra_kwargs = {
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
@@ -86,8 +86,8 @@ class GlobalArticleSerializer(serializers.ModelSerializer):
         return images.count()
 
     # noinspection PyMethodMayBeStatic
-    def get_type_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_type_service)
+    def get_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic

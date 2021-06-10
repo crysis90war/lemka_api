@@ -2,7 +2,7 @@ from django.apps import apps
 from django.contrib import admin
 
 from .models import (
-    User, Horaire, UserMensuration, UserMesure, Adresse, TypeService, Tva, Ville, Article, ArticleImage,
+    User, Horaire, UserMensuration, UserMesure, Adresse, Service, Tva, Ville, Article, ArticleImage,
     DemandeDevis, MercerieCaracteristique, RendezVous, Detail, Entreprise
 )
 
@@ -56,7 +56,7 @@ class AdresseAdmin(admin.ModelAdmin):
         return obj.ref_user.email
 
 
-@admin.register(TypeService)
+@admin.register(Service)
 class TypeServiceAdmin(admin.ModelAdmin):
     list_display = ['nom', 'duree_minute']
 
@@ -77,11 +77,11 @@ class VilleAdmin(admin.ModelAdmin):
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ['slug', 'titre', 'service', 'est_active']
-    list_filter = ['est_active', 'ref_type_service']
+    list_filter = ['est_active', 'ref_service']
     search_fields = ['titre', 'description']
 
     def service(self, obj):
-        return obj.ref_type_service.nom
+        return obj.ref_service.nom
 
 
 @admin.register(ArticleImage)
@@ -128,7 +128,7 @@ class RendezVousAdmin(admin.ModelAdmin):
         return obj.ref_user.email
 
     def service(self, obj):
-        return obj.ref_type_service.nom
+        return obj.ref_service.nom
 
 
 @admin.register(Detail)

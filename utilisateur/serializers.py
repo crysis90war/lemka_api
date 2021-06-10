@@ -9,19 +9,19 @@ from lemka.models import (
 
 
 class UserArticleSerializer(serializers.ModelSerializer):
-    type_service = serializers.SerializerMethodField(read_only=True)
+    service = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Article
         exclude = ['ref_tags', 'likes']
         extra_kwargs = {
-            'ref_type_service': {'write_only': True},
+            'ref_service': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
-    def get_type_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_type_service)
+    def get_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -35,7 +35,7 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
     est_urgent = serializers.BooleanField(default=False)
     est_soumis = serializers.BooleanField(default=False)
     en_cours = serializers.BooleanField(default=False, read_only=True)
-    type_service = serializers.SerializerMethodField(read_only=True)
+    service = serializers.SerializerMethodField(read_only=True)
     article = serializers.SerializerMethodField(read_only=True)
     mensuration = serializers.SerializerMethodField(read_only=True)
     merceries = serializers.SerializerMethodField(read_only=True)
@@ -46,15 +46,15 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'numero_demande_devis': {'read_only': True},
             'est_traite': {'read_only': True, 'default': False},
-            'ref_type_service': {'write_only': True},
+            'ref_service': {'write_only': True},
             'ref_article': {'write_only': True},
             'ref_mensuration': {'write_only': True},
             'ref_merceries': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
-    def get_type_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_type_service)
+    def get_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -98,12 +98,12 @@ class RendezVousExistantSerializer(serializers.ModelSerializer):
 
 
 class AnnulerRendezVousSerializer(serializers.ModelSerializer):
-    type_service = serializers.SerializerMethodField(read_only=True)
+    service = serializers.SerializerMethodField(read_only=True)
     devis = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = RendezVous
-        exclude = ['ref_user', 'ref_devis', 'ref_type_service']
+        exclude = ['ref_user', 'ref_devis', 'ref_service']
         extra_kwargs = {
             'date': {'read_only': True},
             'start': {'read_only': True},
@@ -111,8 +111,8 @@ class AnnulerRendezVousSerializer(serializers.ModelSerializer):
         }
 
     # noinspection PyMethodMayBeStatic
-    def get_type_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_type_service)
+    def get_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -125,7 +125,7 @@ class AnnulerRendezVousSerializer(serializers.ModelSerializer):
 
 
 class UserRendezVousSerializer(serializers.ModelSerializer):
-    type_service = serializers.SerializerMethodField(read_only=True)
+    service = serializers.SerializerMethodField(read_only=True)
     devis = serializers.SerializerMethodField(read_only=True)
     est_annule = serializers.BooleanField(default=False)
 
@@ -134,13 +134,13 @@ class UserRendezVousSerializer(serializers.ModelSerializer):
         exclude = ['ref_user']
         extra_kwargs = {
             'end': {'read_only': True},
-            'ref_type_service': {'write_only': True},
+            'ref_service': {'write_only': True},
             'ref_devis': {'write_only': True},
         }
 
     # noinspection PyMethodMayBeStatic
-    def get_type_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_type_service)
+    def get_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic

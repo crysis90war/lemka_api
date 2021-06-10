@@ -65,7 +65,7 @@ class Mensuration(CommonInfo):
     pass
 
 
-class TypeService(CommonInfo):
+class Service(CommonInfo):
     duree_minute = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(180)], blank=False, null=False)
 
 
@@ -186,7 +186,7 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    ref_type_service = models.ForeignKey(TypeService, on_delete=models.RESTRICT)
+    ref_service = models.ForeignKey(Service, on_delete=models.RESTRICT)
     # ref_rayon = models.ForeignKey(Rayon, on_delete=models.RESTRICT)
     # ref_section = models.ForeignKey(Section, on_delete=models.RESTRICT)
     # ref_type_produit = models.ForeignKey(TypeProduit, on_delete=models.RESTRICT)
@@ -284,7 +284,7 @@ class DemandeDevis(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     ref_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    ref_type_service = models.ForeignKey(TypeService, on_delete=models.CASCADE)
+    ref_service = models.ForeignKey(Service, on_delete=models.CASCADE)
     ref_article = models.ForeignKey(Article, blank=True, null=True, on_delete=models.SET_NULL)
     ref_mensuration = models.ForeignKey(UserMensuration, blank=True, null=True, on_delete=models.SET_NULL)
 
@@ -372,7 +372,7 @@ class RendezVous(models.Model):
     est_annule = models.BooleanField(default=False)
 
     ref_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    ref_type_service = models.ForeignKey(TypeService, null=False, blank=False, on_delete=models.CASCADE)
+    ref_service = models.ForeignKey(Service, null=False, blank=False, on_delete=models.CASCADE)
     ref_devis = models.ForeignKey(Devis, null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
