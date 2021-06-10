@@ -187,9 +187,9 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     ref_service = models.ForeignKey(Service, on_delete=models.RESTRICT)
-    # ref_rayon = models.ForeignKey(Rayon, on_delete=models.RESTRICT)
-    # ref_section = models.ForeignKey(Section, on_delete=models.RESTRICT)
-    # ref_type_produit = models.ForeignKey(TypeProduit, on_delete=models.RESTRICT)
+    ref_rayon = models.ForeignKey(Rayon, on_delete=models.RESTRICT)
+    ref_section = models.ForeignKey(Section, on_delete=models.RESTRICT)
+    ref_type_produit = models.ForeignKey(TypeProduit, on_delete=models.RESTRICT)
 
     ref_tags = models.ManyToManyField(Tag, blank=True, related_name='tags')
     likes = models.ManyToManyField(User, blank=True, related_name='likes')
