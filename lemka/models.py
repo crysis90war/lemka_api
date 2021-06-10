@@ -238,7 +238,7 @@ class Mercerie(models.Model):
 class MercerieCaracteristique(models.Model):
     valeur = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(999999999.99)])
 
-    ref_mercerie = models.ForeignKey(Mercerie, null=False, blank=False, on_delete=models.CASCADE, related_name='catacteristiques')
+    ref_mercerie = models.ForeignKey(Mercerie, null=False, blank=False, on_delete=models.CASCADE, related_name='caracteristiques')
     ref_caracteristique = models.ForeignKey(Caracteristique, null=False, blank=False, on_delete=models.CASCADE)
 
     class Meta:

@@ -23,7 +23,7 @@ class GlobalMercerieSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_caracteristiques(self, instance):
-        data = instance.catacteristiques.filter(ref_mercerie=instance)
+        data = instance.caracteristiques.filter(ref_mercerie=instance)
         serializer = MercerieCaracteristiqueSerializer(data, many=True)
         return serializer.data
 
