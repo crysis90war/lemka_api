@@ -7,19 +7,16 @@ from rest_framework.views import APIView
 
 from administrateur.serializers import (
     GenreSerializer, VilleSerializer, PaysSerializer, EntrepriseLemkaSerializer, UserSerializer,
-    AdminDemandeDevisSerializer, AdminDevisSerializer,
-    TagSerializer, ServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer,
-    SectionSerializer,
-    TypeProduitSerializer, CouleurSerializer, CategorieSerializer, HoraireSerializer, DetailSerialiser, TvaSertializer,
-    MensurationSerializer, ArticleSerializer, ArticleImageSerializer, MercerieImageSerializer,
-    MercerieCaracteristiqueSerializer, MercerieSerializer, AdminRendezVousSerializer
+    AdminDemandeDevisSerializer, AdminDevisSerializer, TagSerializer, ServiceSerializer, AdminAdresseSerializer,
+    CaracteristiqueSerializer, RayonSerializer, SectionSerializer, TypeProduitSerializer, CouleurSerializer,
+    CategorieSerializer, HoraireSerializer, DetailSerialiser, TvaSertializer, MensurationSerializer, ArticleSerializer,
+    ArticleImageSerializer, MercerieImageSerializer, MercerieCaracteristiqueSerializer, MercerieSerializer,
+    AdminRendezVousSerializer
 )
 from lemka.models import (
-    Pays, Ville, Caracteristique, Genre, Service, Rayon, Section, TypeProduit, User, Article, Mercerie,
-    DemandeDevis, Devis,
-    RendezVous, Tag, Couleur, Categorie, Entreprise, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse,
-    MercerieCaracteristique,
-    MercerieImage, UserMensuration
+    Pays, Ville, Caracteristique, Genre, Service, Rayon, Section, TypeProduit, User, Article, Mercerie, DemandeDevis,
+    Devis, RendezVous, Tag, Couleur, Categorie, Entreprise, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse,
+    MercerieCaracteristique, MercerieImage, UserMensuration
 )
 from lemka.pagination import SmallSetPagination
 from lemka.permissions import IsAdminOrReadOnly
@@ -224,6 +221,7 @@ class ArticleImageRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ArticleImageSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
+
 # endregion
 
 
@@ -274,6 +272,7 @@ class MercerieCaracteristiqueRUDApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MercerieCaracteristiqueSerializer
     permission_classes = [IsAdminUser, ]
 
+
 # endregion
 
 
@@ -322,6 +321,7 @@ class UserMensurationsListApiView(generics.ListAPIView):
         kwarg_username = self.kwargs.get('username')
         queryset = UserMensuration.objects.filter(ref_user__username=kwarg_username).order_by('-is_main')
         return queryset
+
 
 # endregion
 

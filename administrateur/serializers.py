@@ -308,10 +308,13 @@ class ArticleImageSerializer(serializers.ModelSerializer):
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    service = serializers.SerializerMethodField(read_only=True)
+    rayon = serializers.SerializerMethodField(read_only=True)
+    section = serializers.SerializerMethodField(read_only=True)
+    type_produit = serializers.SerializerMethodField(read_only=True)
     likes_count = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
-    service = serializers.SerializerMethodField(read_only=True)
     tags = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -322,8 +325,31 @@ class ArticleSerializer(serializers.ModelSerializer):
             'updated_at': {'read_only': True},
             'slug': {'read_only': True},
             'ref_service': {'write_only': True},
+            'ref_rayon': {'write_only': True},
+            'ref_section': {'write_only': True},
+            'ref_type_produit': {'write_only': True},
             'ref_tags': {'write_only': True},
         }
+
+    # noinspection PyMethodMayBeStatic
+    def get_service(self, instance):
+        serializer = ServiceSerializer(instance.ref_service)
+        return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_rayon(self, instance):
+        serializer = RayonSerializer(instance.ref_rayon)
+        return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_section(self, instance):
+        serializer = SectionSerializer(instance.ref_section)
+        return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_type_produit(self, instance):
+        serializer = TypeProduitSerializer(instance.ref_type_produit)
+        return serializer.data
 
     # noinspection PyMethodMayBeStatic
     def get_likes_count(self, instance):
@@ -338,11 +364,6 @@ class ArticleSerializer(serializers.ModelSerializer):
     def get_images(self, instance):
         data = ArticleImage.objects.filter(ref_article=instance).order_by('-is_main')
         serializer = ArticleImageSerializer(data, many=True)
-        return serializer.data
-
-    # noinspection PyMethodMayBeStatic
-    def get_service(self, instance):
-        serializer = ServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
