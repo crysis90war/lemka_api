@@ -7,10 +7,6 @@ app_name = 'public-api'
 urlpatterns = [
     path('<int:pk>/articles/', ArticleServiceListAPIView.as_view(), name='articles-service'),
 
-    path('catalogues/<rayon_slug>/', ArticleRayonListAPIView.as_view(), name='articles-rayon'),
-    path('catalogues/<rayon_slug>/<section_slug>/', ArticleSectionListAPIView.as_view(), name='articles-section'),
-    path('catalogues/<rayon_slug>/<section_slug>/<type_produit_slug>/', ArticleTypeProduitListAPIView.as_view(), name='articles-type-produit'),
-
     path('merceries/', GlobalMercerieListApiView.as_view(), name='global-merceries'),
     path('articles/', GlobalArticlesListApiView.as_view(), name='global-articles'),
     path('popular/', GlobalPopularArticleListAPIView.as_view(), name='popular-articles'),

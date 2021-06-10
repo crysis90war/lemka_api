@@ -2,7 +2,7 @@ from django.apps import apps
 from django.contrib import admin
 
 from .models import (
-    User, Horaire, UserMensuration, Catalogue, UserMesure, Adresse, TypeService, Tva, Ville, Article, ArticleImage,
+    User, Horaire, UserMensuration, UserMesure, Adresse, TypeService, Tva, Ville, Article, ArticleImage,
     DemandeDevis, MercerieCaracteristique, RendezVous, Detail, Entreprise
 )
 
@@ -28,22 +28,6 @@ class UserMensurationAdmin(admin.ModelAdmin):
 
     def user(self, obj):
         return obj.ref_user.email
-
-
-@admin.register(Catalogue)
-class CatalogueAdmin(admin.ModelAdmin):
-    list_display = ['id', 'rayon', 'section', 'type_produit']
-    list_filter = ['ref_rayon__nom', 'ref_section__nom', 'ref_type_produit__nom']
-    ordering = ['ref_rayon__nom', 'ref_section__nom', 'ref_type_produit__nom']
-
-    def rayon(self, obj):
-        return obj.ref_rayon.nom
-
-    def section(self, obj):
-        return obj.ref_section.nom
-
-    def type_produit(self, obj):
-        return obj.ref_type_produit.nom
 
 
 @admin.register(UserMesure)

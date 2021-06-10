@@ -6,15 +6,19 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from administrateur.serializers import (
-    GenreSerializer, VilleSerializer, PaysSerializer, EntrepriseLemkaSerializer, UserSerializer, AdminDemandeDevisSerializer, AdminDevisSerializer,
-    TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer, SectionSerializer,
-    TypeProduitSerializer, CatalogueSerializer, CouleurSerializer, CategorieSerializer, HoraireSerializer, DetailSerialiser, TvaSertializer,
+    GenreSerializer, VilleSerializer, PaysSerializer, EntrepriseLemkaSerializer, UserSerializer,
+    AdminDemandeDevisSerializer, AdminDevisSerializer,
+    TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer,
+    SectionSerializer,
+    TypeProduitSerializer, CouleurSerializer, CategorieSerializer, HoraireSerializer, DetailSerialiser, TvaSertializer,
     MensurationSerializer, ArticleSerializer, ArticleImageSerializer, MercerieImageSerializer,
     MercerieCaracteristiqueSerializer, MercerieSerializer, AdminRendezVousSerializer
 )
 from lemka.models import (
-    Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, Catalogue, User, Article, Mercerie, DemandeDevis, Devis,
-    RendezVous, Tag, Couleur, Categorie, Entreprise, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse, MercerieCaracteristique,
+    Pays, Ville, Caracteristique, Genre, TypeService, Rayon, Section, TypeProduit, User, Article, Mercerie,
+    DemandeDevis, Devis,
+    RendezVous, Tag, Couleur, Categorie, Entreprise, Horaire, Detail, Tva, Mensuration, ArticleImage, Adresse,
+    MercerieCaracteristique,
     MercerieImage, UserMensuration
 )
 from lemka.pagination import SmallSetPagination
@@ -71,23 +75,6 @@ class TypeProduitViewSet(viewsets.ModelViewSet):
     queryset = TypeProduit.objects.all().order_by("nom")
     serializer_class = TypeProduitSerializer
     permission_classes = [IsAdminOrReadOnly, ]
-
-
-class CatalogueViewSet(viewsets.ModelViewSet):
-    queryset = Catalogue.objects.all().order_by("ref_rayon", "ref_section", "ref_type_produit")
-    serializer_class = CatalogueSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['ref_rayon__rayon', 'ref_section__section', 'ref_type_produit__type_produit']
-    permission_classes = [IsAdminOrReadOnly, ]
-
-    def perform_create(self, serializer):
-        kwarg_rayon = serializer.validated_data['ref_rayon']
-        kwarg_section = serializer.validated_data['ref_section']
-        kwarg_type_produit = serializer.validated_data['ref_type_produit']
-
-        if Catalogue.objects.filter(ref_rayon=kwarg_rayon, ref_section=kwarg_section, ref_type_produit=kwarg_type_produit).exists():
-            raise ValidationError(detail={"detail": "Ce catalogue existe déja !"})
-        serializer.save(ref_rayon=kwarg_rayon, ref_section=kwarg_section, ref_type_produit=kwarg_type_produit)
 
 
 class TagViewSet(viewsets.ModelViewSet):

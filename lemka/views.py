@@ -27,7 +27,7 @@ class ArticleRayonListAPIView(ArticleServiceListAPIView):
 
     def get_queryset(self):
         kwarg_rayon_slug = self.kwargs.get("rayon_slug")
-        return Article.objects.filter(ref_catalogue__ref_rayon__rayon_slug=kwarg_rayon_slug)
+        return Article.objects.filter()
 
 
 class ArticleSectionListAPIView(ArticleServiceListAPIView):
@@ -35,10 +35,7 @@ class ArticleSectionListAPIView(ArticleServiceListAPIView):
     def get_queryset(self):
         kwarg_rayon_slug = self.kwargs.get("rayon_slug")
         kwarg_section_slug = self.kwargs.get("section_slug")
-        return Article.objects.filter(
-            ref_catalogue__ref_rayon__rayon_slug=kwarg_rayon_slug,
-            ref_catalogue__ref_section__section_slug=kwarg_section_slug
-        )
+        return Article.objects.filter()
 
 
 class ArticleTypeProduitListAPIView(ArticleServiceListAPIView):
@@ -47,11 +44,7 @@ class ArticleTypeProduitListAPIView(ArticleServiceListAPIView):
         kwarg_rayon_slug = self.kwargs.get("rayon_slug")
         kwarg_section_slug = self.kwargs.get("section_slug")
         kwarg_type_produit_slug = self.kwargs.get("type_produit_slug")
-        return Article.objects.filter(
-            ref_catalogue__ref_rayon__rayon_slug=kwarg_rayon_slug,
-            ref_catalogue__ref_section__section_slug=kwarg_section_slug,
-            ref_catalogue__ref_type_produit__type_produit_slug=kwarg_type_produit_slug
-        )
+        return Article.objects.filter()
 
 
 class GlobalMercerieListApiView(generics.ListAPIView):

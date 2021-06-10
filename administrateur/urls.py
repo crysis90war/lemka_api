@@ -20,7 +20,6 @@ router.register('categories', CategorieViewSet)
 router.register('tva', TvaViewSet),
 router.register('entreprises', EntrepriseLemkaViewSet)
 
-router.register('catalogues', CatalogueViewSet)
 router.register('demandes_devis', DemandeDevisViewSet)
 router.register('devis', DevisViewSet)
 router.register('details', DetailViewSet)

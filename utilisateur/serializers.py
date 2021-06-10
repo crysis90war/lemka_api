@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from administrateur.serializers import (
-    GenreSerializer, VilleSerializer, TypeServiceSerializer, CatalogueSerializer, ArticleImageSerializer, MercerieSerializer
+    GenreSerializer, VilleSerializer, TypeServiceSerializer, ArticleImageSerializer, MercerieSerializer
 )
 from lemka.models import (
     DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMesure, Devis, Article, ArticleImage
@@ -9,7 +9,6 @@ from lemka.models import (
 
 
 class UserArticleSerializer(serializers.ModelSerializer):
-    catalogue = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
 
@@ -17,14 +16,8 @@ class UserArticleSerializer(serializers.ModelSerializer):
         model = Article
         exclude = ['ref_tags', 'likes']
         extra_kwargs = {
-            'ref_catalogue': {'write_only': True},
             'ref_type_service': {'write_only': True},
         }
-
-    # noinspection PyMethodMayBeStatic
-    def get_catalogue(self, instance):
-        serializer = CatalogueSerializer(instance.ref_catalogue)
-        return serializer.data
 
     # noinspection PyMethodMayBeStatic
     def get_type_service(self, instance):

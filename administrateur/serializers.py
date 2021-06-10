@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
 from lemka.models import (
-    Pays, Ville, Entreprise, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse, Caracteristique,
-    Catalogue, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie, MercerieImage, MercerieCaracteristique,
-    UserMensuration, UserMesure, RendezVous
+    Pays, Ville, Entreprise, Genre, User, DemandeDevis, Devis, TypeService, Rayon, Section, TypeProduit, Tag, Adresse,
+    Caracteristique, Couleur, Categorie, Horaire, Detail, Tva, Mensuration, ArticleImage, Article, Mercerie,
+    MercerieImage, MercerieCaracteristique, UserMensuration, UserMesure, RendezVous
 )
 
 
@@ -251,41 +251,6 @@ class CaracteristiqueSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CatalogueSerializer(serializers.ModelSerializer):
-    rayon = serializers.SerializerMethodField(read_only=True)
-    section = serializers.SerializerMethodField(read_only=True)
-    type_produit = serializers.SerializerMethodField(read_only=True)
-    articles = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = Catalogue
-        fields = '__all__'
-        extra_kwargs = {
-            'ref_rayon': {'write_only': True},
-            'ref_section': {'write_only': True},
-            'ref_type_produit': {'write_only': True},
-        }
-
-    # noinspection PyMethodMayBeStatic
-    def get_rayon(self, instance):
-        serializer = RayonSerializer(instance.ref_rayon)
-        return serializer.data
-
-    # noinspection PyMethodMayBeStatic
-    def get_section(self, instance):
-        serializer = SectionSerializer(instance.ref_section)
-        return serializer.data
-
-    # noinspection PyMethodMayBeStatic
-    def get_type_produit(self, instance):
-        serializer = TypeProduitSerializer(instance.ref_type_produit)
-        return serializer.data
-
-    def get_articles(self, instance):
-        count = Article.objects.filter(ref_catalogue=instance).count()
-        return count
-
-
 class HoraireSerializer(serializers.ModelSerializer):
     class Meta:
         model = Horaire
@@ -345,7 +310,6 @@ class ArticleImageSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
-    catalogue = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
     rayon = serializers.SerializerMethodField(read_only=True)
     section = serializers.SerializerMethodField(read_only=True)
@@ -360,7 +324,6 @@ class ArticleSerializer(serializers.ModelSerializer):
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
             'slug': {'read_only': True},
-            'ref_catalogue': {'write_only': True},
             'ref_article': {'write_only': True},
             'ref_type_service': {'write_only': True},
             'ref_tags': {'write_only': True},
@@ -376,26 +339,9 @@ class ArticleSerializer(serializers.ModelSerializer):
         return images.count()
 
     # noinspection PyMethodMayBeStatic
-    def get_catalogue(self, instance):
-        serializer = CatalogueSerializer(instance.ref_catalogue)
-        return serializer.data
-
-    # noinspection PyMethodMayBeStatic
     def get_type_service(self, instance):
         serializer = TypeServiceSerializer(instance.ref_type_service)
         return serializer.data
-
-    # noinspection PyMethodMayBeStatic
-    def get_rayon(self, instance):
-        return instance.ref_catalogue.ref_rayon.nom
-
-    # noinspection PyMethodMayBeStatic
-    def get_section(self, instance):
-        return instance.ref_catalogue.ref_section.nom
-
-    # noinspection PyMethodMayBeStatic
-    def get_type_produit(self, instance):
-        return instance.ref_catalogue.ref_type_produit.nom
 
     # noinspection PyMethodMayBeStatic
     def get_images(self, instance):

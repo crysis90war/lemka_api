@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from administrateur.serializers import (
-    MercerieCaracteristiqueSerializer, MercerieImageSerializer, TvaSertializer, CouleurSerializer, CatalogueSerializer, TypeServiceSerializer,
-    ArticleImageSerializer, TagSerializer, CategorieSerializer
+    MercerieCaracteristiqueSerializer, MercerieImageSerializer, TvaSertializer, CouleurSerializer,
+    TypeServiceSerializer, ArticleImageSerializer, TagSerializer, CategorieSerializer
 )
 from lemka.models import (
     Mercerie, MercerieImage, Article, ArticleImage
@@ -53,7 +53,6 @@ class GlobalArticleSerializer(serializers.ModelSerializer):
     user_liked = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
-    catalogue = serializers.SerializerMethodField(read_only=True)
     type_service = serializers.SerializerMethodField(read_only=True)
     rayon = serializers.SerializerMethodField(read_only=True)
     section = serializers.SerializerMethodField(read_only=True)
@@ -63,7 +62,7 @@ class GlobalArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        exclude = ['likes', 'ref_type_service', 'ref_tags', 'ref_catalogue']
+        exclude = ['likes', 'ref_type_service', 'ref_tags']
         extra_kwargs = {
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
@@ -87,26 +86,9 @@ class GlobalArticleSerializer(serializers.ModelSerializer):
         return images.count()
 
     # noinspection PyMethodMayBeStatic
-    def get_catalogue(self, instance):
-        serializer = CatalogueSerializer(instance.ref_catalogue)
-        return serializer.data
-
-    # noinspection PyMethodMayBeStatic
     def get_type_service(self, instance):
         serializer = TypeServiceSerializer(instance.ref_type_service)
         return serializer.data
-
-    # noinspection PyMethodMayBeStatic
-    def get_rayon(self, instance):
-        return instance.ref_catalogue.ref_rayon.nom
-
-    # noinspection PyMethodMayBeStatic
-    def get_section(self, instance):
-        return instance.ref_catalogue.ref_section.nom
-
-    # noinspection PyMethodMayBeStatic
-    def get_type_produit(self, instance):
-        return instance.ref_catalogue.ref_type_produit.nom
 
     # noinspection PyMethodMayBeStatic
     def get_images(self, instance):
