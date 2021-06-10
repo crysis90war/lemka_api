@@ -252,7 +252,7 @@ class MercerieImage(models.Model):
     image = models.ImageField(default='default.jpg', upload_to=path_and_rename_mercerie_image)
     is_main = models.BooleanField(default=False)
 
-    ref_mercerie = models.ForeignKey(Mercerie, null=False, blank=False, on_delete=models.CASCADE, related_name='images')
+    ref_mercerie = models.ForeignKey(Mercerie, on_delete=models.CASCADE, related_name='images')
 
     class Meta:
         ordering = ['ref_mercerie__nom', '-is_main']
