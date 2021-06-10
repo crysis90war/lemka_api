@@ -8,12 +8,14 @@ from lemka.models import Article, Mercerie
 
 class GlobalArticleFilter(df_filters.FilterSet):
     search = df_filters.CharFilter(method='search_query', label='Search')
-    # TODO - Compléter la recherche rayon section typeproduit
 
     class Meta:
         model = Article
         fields = [
             'ref_service',
+            'ref_rayon',
+            'ref_section',
+            'ref_type_produit',
             'ref_tags'
         ]
 
