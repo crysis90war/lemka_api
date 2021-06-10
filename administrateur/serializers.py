@@ -310,8 +310,8 @@ class ArticleImageSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField(read_only=True)
     images_count = serializers.SerializerMethodField(read_only=True)
-    service = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
+    service = serializers.SerializerMethodField(read_only=True)
     tags = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -321,7 +321,6 @@ class ArticleSerializer(serializers.ModelSerializer):
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
             'slug': {'read_only': True},
-            'ref_article': {'write_only': True},
             'ref_service': {'write_only': True},
             'ref_tags': {'write_only': True},
         }
@@ -336,14 +335,14 @@ class ArticleSerializer(serializers.ModelSerializer):
         return images.count()
 
     # noinspection PyMethodMayBeStatic
-    def get_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_service)
-        return serializer.data
-
-    # noinspection PyMethodMayBeStatic
     def get_images(self, instance):
         data = ArticleImage.objects.filter(ref_article=instance).order_by('-is_main')
         serializer = ArticleImageSerializer(data, many=True)
+        return serializer.data
+
+    # noinspection PyMethodMayBeStatic
+    def get_service(self, instance):
+        serializer = TypeServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic

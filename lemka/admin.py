@@ -3,7 +3,7 @@ from django.contrib import admin
 
 from .models import (
     User, Horaire, UserMensuration, UserMesure, Adresse, Service, Tva, Ville, Article, ArticleImage,
-    DemandeDevis, MercerieCaracteristique, RendezVous, Detail, Entreprise
+    DemandeDevis, MercerieCaracteristique, RendezVous, Detail, Entreprise, Mercerie, MercerieImage
 )
 
 
@@ -100,6 +100,25 @@ class DemandeDevisAdmin(admin.ModelAdmin):
     list_display = ['numero_demande_devis', 'titre', 'est_urgent', 'est_soumis', 'en_cours', 'est_traite', 'created_at']
     list_filter = ['est_urgent', 'est_soumis', 'en_cours', 'est_traite']
     search_fields = ['numero_demande_devis', 'titre']
+
+
+@admin.register(Mercerie)
+class MercerieAdmin(admin.ModelAdmin):
+    list_display = ['reference', 'categorie', 'nom', 'est_publie']
+    list_filter = ['est_publie', 'ref_categorie']
+
+    def categorie(self, obj):
+        return obj.ref_categorie.nom
+
+
+@admin.register(MercerieImage)
+class MercerieImageAdmin(admin.ModelAdmin):
+    list_display = ['mercerie', 'image', 'is_main']
+    list_filter = ['is_main', 'ref_mercerie__nom']
+    ordering = ['ref_mercerie__nom', 'is_main']
+
+    def mercerie(self, obj):
+        return obj.ref_mercerie.nom
 
 
 @admin.register(MercerieCaracteristique)
