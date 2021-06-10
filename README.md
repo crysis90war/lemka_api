@@ -195,7 +195,7 @@
   | description         | text         | False      | False    | True      |                | Description de l'article                   |
   | created_at          | datetime     | False      | False    | False     |                | Date et heure de création de l'article     |
   | updated_at          | datetime     | False      | False    | False     |                | Date et heure de modification de l'article |
-  | ref_service_id | integer      | False      | False    | False     |                | Clé étrangère liée au TypeService          |
+  | ref_service_id | integer      | False      | False    | False     |                | Clé étrangère liée au Service          |
 
 </details>
 

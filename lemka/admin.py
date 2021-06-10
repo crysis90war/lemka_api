@@ -57,7 +57,7 @@ class AdresseAdmin(admin.ModelAdmin):
 
 
 @admin.register(Service)
-class TypeServiceAdmin(admin.ModelAdmin):
+class ServiceAdmin(admin.ModelAdmin):
     list_display = ['nom', 'duree_minute']
 
 

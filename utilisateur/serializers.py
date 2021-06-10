@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from administrateur.serializers import (
-    GenreSerializer, VilleSerializer, TypeServiceSerializer, ArticleImageSerializer, MercerieSerializer
+    GenreSerializer, VilleSerializer, ServiceSerializer, ArticleImageSerializer, MercerieSerializer
 )
 from lemka.models import (
     DemandeDevis, RendezVous, Adresse, User, UserMensuration, UserMesure, Devis, Article, ArticleImage
@@ -21,7 +21,7 @@ class UserArticleSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_service)
+        serializer = ServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -54,7 +54,7 @@ class UserDemandeDevisSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_service)
+        serializer = ServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -112,7 +112,7 @@ class AnnulerRendezVousSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_service)
+        serializer = ServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -140,7 +140,7 @@ class UserRendezVousSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_service)
+        serializer = ServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic

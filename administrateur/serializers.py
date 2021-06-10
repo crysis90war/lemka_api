@@ -135,7 +135,7 @@ class AdminDemandeDevisSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_service)
+        serializer = ServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -198,7 +198,7 @@ class AdminDevisSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
-class TypeServiceSerializer(serializers.ModelSerializer):
+class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         fields = "__all__"
@@ -342,7 +342,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_service)
+        serializer = ServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic
@@ -443,7 +443,7 @@ class AdminRendezVousSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_service)
+        serializer = ServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic

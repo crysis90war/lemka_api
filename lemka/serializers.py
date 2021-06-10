@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from administrateur.serializers import (
     MercerieCaracteristiqueSerializer, MercerieImageSerializer, TvaSertializer, CouleurSerializer,
-    TypeServiceSerializer, ArticleImageSerializer, TagSerializer, CategorieSerializer
+    ServiceSerializer, ArticleImageSerializer, TagSerializer, CategorieSerializer
 )
 from lemka.models import (
     Mercerie, MercerieImage, Article, ArticleImage
@@ -84,7 +84,7 @@ class GlobalArticleSerializer(serializers.ModelSerializer):
 
     # noinspection PyMethodMayBeStatic
     def get_service(self, instance):
-        serializer = TypeServiceSerializer(instance.ref_service)
+        serializer = ServiceSerializer(instance.ref_service)
         return serializer.data
 
     # noinspection PyMethodMayBeStatic

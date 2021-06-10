@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from administrateur.serializers import (
     GenreSerializer, VilleSerializer, PaysSerializer, EntrepriseLemkaSerializer, UserSerializer,
     AdminDemandeDevisSerializer, AdminDevisSerializer,
-    TagSerializer, TypeServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer,
+    TagSerializer, ServiceSerializer, AdminAdresseSerializer, CaracteristiqueSerializer, RayonSerializer,
     SectionSerializer,
     TypeProduitSerializer, CouleurSerializer, CategorieSerializer, HoraireSerializer, DetailSerialiser, TvaSertializer,
     MensurationSerializer, ArticleSerializer, ArticleImageSerializer, MercerieImageSerializer,
@@ -53,9 +53,9 @@ class GenreViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, ]
 
 
-class TypeServiceViewSet(viewsets.ModelViewSet):
+class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all().order_by("nom")
-    serializer_class = TypeServiceSerializer
+    serializer_class = ServiceSerializer
     permission_classes = [IsAdminOrReadOnly, ]
 
 
