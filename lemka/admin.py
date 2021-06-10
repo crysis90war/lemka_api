@@ -86,7 +86,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 @admin.register(ArticleImage)
 class ArticleImageAdmin(admin.ModelAdmin):
-    list_display = ['id', 'article', 'image', 'is_main']
+    list_display = ['article', 'image', 'is_main']
     ordering = ['ref_article__titre', 'is_main']
     list_filter = ['is_main']
     search_fields = ['ref_article__titre']
