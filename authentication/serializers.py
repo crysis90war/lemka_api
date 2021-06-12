@@ -63,7 +63,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'username', 'tokens', 'is_staff']
+        fields = ['email', 'password', 'username', 'tokens', 'is_staff', 'auth_provider']
 
     # noinspection PyMethodMayBeStatic
     def get_tokens(self, obj):
