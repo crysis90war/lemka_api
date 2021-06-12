@@ -59,6 +59,7 @@ def get_tokens(user):
     token['is_staff'] = user.is_staff
     token['email'] = user.email
     token['username'] = user.username
+    token['auth_provider'] = user.auth_provider
 
     return {
         'refresh': str(token),
