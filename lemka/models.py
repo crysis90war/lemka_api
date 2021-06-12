@@ -179,7 +179,7 @@ class UserMesure(models.Model):
 
 
 class Article(models.Model):
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True, editable=True)
     titre = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     est_active = models.BooleanField(default=False)
