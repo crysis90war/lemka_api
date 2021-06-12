@@ -95,6 +95,7 @@ class LoginSerializer(serializers.ModelSerializer):
             'email': user.email,
             'username': user.username,
             'is_staff': user.is_staff,
+            'auth_provider': user.auth_provider,
             'tokens': user.tokens
         }
 
@@ -169,5 +170,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['is_staff'] = user.is_staff
         token['email'] = user.email
         token['username'] = user.username
+        token['auth_provider'] = user.auth_provider
 
         return token
