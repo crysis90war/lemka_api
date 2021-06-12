@@ -323,7 +323,7 @@ class Detail(models.Model):
     quantite = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(999999999.0)])
 
     ref_devis = models.ForeignKey(Devis, on_delete=models.CASCADE, related_name='details')
-    ref_tva = models.ForeignKey(Tva, on_delete=models.CASCADE)
+    ref_tva = models.ForeignKey(Tva, on_delete=models.RESTRICT)
 
     def __str__(self):
         return self.designation
