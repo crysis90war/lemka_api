@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from administrateur.serializers import AdminDevisSerializer
 from lemka.models import (
-    User, UserMensuration, UserMesure, Adresse, DemandeDevis, RendezVous, Service, Horaire, Devis
+    User, UserMensuration, UserMesure, Adresse, DemandeDevis, RendezVous, Service, Horaire, Devis, Mensuration
 )
 from lemka.permissions import UserGetPostPermission, IsOwner
 from utilisateur.serializers import (
@@ -72,7 +72,7 @@ class UserMensurationRUDApiView(generics.RetrieveUpdateDestroyAPIView):
 class UserMesureListApiView(generics.ListAPIView):
     queryset = UserMesure.objects.all()
     serializer_class = UserMesureSerializer
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, IsOwner]
 
     def get_queryset(self):
         kwarg_user = self.request.user
@@ -83,11 +83,25 @@ class UserMesureListApiView(generics.ListAPIView):
 class UserMesureRUApiView(generics.RetrieveUpdateAPIView):
     queryset = UserMesure.objects.all()
     serializer_class = UserMesureSerializer
-    permission_classes = [IsAuthenticated, IsOwner]
+    permission_classes = [IsAuthenticated]
 
-    # def get_queryset(self):
-    #     kwarg_ref_user_mensuration_id = self.kwargs.get('ref_user_mensuration_id')
-    #     return UserMesure.objects.filter(ref_user_mensuration_id=kwarg_ref_user_mensuration_id)
+    def get_queryset(self):
+        user = self.request.user
+        ref_mensuration = self.kwargs.get('pk')
+        if UserMesure.objects.filter(id=ref_mensuration).exists():
+            obj2 = UserMesure.objects.get(id=ref_mensuration)
+            owner = obj2.ref_user_mensuration.ref_user
+            if owner == user:
+                return UserMesure.objects.filter(id=ref_mensuration)
+
+    def perform_update(self, serializer):
+        user = self.request.user
+        ref_mensuration = self.kwargs.get('pk')
+        if UserMesure.objects.filter(id=ref_mensuration).exists():
+            obj2 = UserMesure.objects.get(id=ref_mensuration)
+            owner = obj2.ref_user_mensuration.ref_user
+            if owner == user:
+                serializer.save()
 
 
 class AdresseCreateAPIView(generics.CreateAPIView):
