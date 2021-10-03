@@ -98,6 +98,14 @@ def demande_devis_traite(sender, instance, *args, **kwargs):
         demande_devis.save()
 
 
+@receiver(post_save, sender=Mensuration)
+def mensuration_user_mensuration(sender, instance, *args, **kwargs):
+    if instance:
+        user_mensuration = UserMesure.objects.values('ref_user_mensuration').distinct()
+        for mesure in list(user_mensuration):
+            if not UserMesure.objects.filter(ref_user_mensuration_id=mesure['ref_user_mensuration'], ref_mensuration_id=instance.id).exists():
+                UserMesure.objects.create(ref_user_mensuration_id=mesure['ref_user_mensuration'], ref_mensuration_id=instance.id)
+
 # def user_mensuration(sender, instance, *arg, **kwargs):
 #     if instance and instance.is_main is False:
 #         user_mensuration = get_object_or_404(UserMensuration, pk=instance.id)
