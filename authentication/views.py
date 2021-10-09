@@ -18,7 +18,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from authentication.serializers import (
-    RegisterSerializer, EmailVerificationSerializer, LoginSerializer, MyTokenObtainPairSerializer, ResetPasswordEmailRequestSerializer,
+    RegisterSerializer, EmailVerificationSerializer, LoginSerializer, MyTokenObtainPairSerializer,
+    ResetPasswordEmailRequestSerializer,
     SetNewPasswordSerializer
 )
 from lemka.models import User

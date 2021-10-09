@@ -9,7 +9,7 @@ from .models import (
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username', 'email', 'auth_provider', 'is_superuser', 'is_staff', 'is_active', 'is_verified', 'created_at']
+    list_display = ['username', 'email', 'auth_provider', 'is_superuser', 'is_staff', 'is_active', 'is_verified', 'last_login', 'created_at']
     list_filter = ['is_verified', 'auth_provider', 'is_staff', 'is_superuser']
     ordering = ['-created_at']
 
