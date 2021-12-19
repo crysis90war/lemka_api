@@ -95,7 +95,7 @@ class RegisterView(generics.GenericAPIView):
         relative_link = reverse('users-auth-api:email-verify')
 
         absurl = 'https://' + current_site + relative_link + '?token=' + str(token)
-        email_body_html = get_template('authentication/register_template.html').render(dict({
+        email_body_html = get_template('lemka/register_template.html').render(dict({
             'username': user.username,
             'url': absurl
         }))
@@ -158,7 +158,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
             redirect_url = request.data.get('redirect_url', '')
             absurl = 'https://' + current_site + relative_link
-            email_body_html = get_template('authentication/reset_password_template.html').render(dict({
+            email_body_html = get_template('lemka/reset_password_template.html').render(dict({
                 'username': user.username,
                 'absurl': absurl,
                 'redirect_url': redirect_url
