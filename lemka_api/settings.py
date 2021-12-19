@@ -39,9 +39,6 @@ INSTALLED_APPS = [
     'django_filters',
 
     'lemka.apps.LemkaConfig',
-    'authentication.apps.AuthenticationConfig',
-    'utilisateur.apps.UtilisateurConfig',
-    'administrateur.apps.AdministrateurConfig',
 
     'storages',
 ]

@@ -21,15 +21,11 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('', include_docs_urls(title='LemkaApi', description='API for the Lemka.dev'), name='lemka-docs'),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('admin/', admin.site.urls),
-    path('api/public/', include('lemka.urls')),
-    path('api/', include('administrateur.urls')),
-    path('api/profil/', include('utilisateur.urls')),
-    path('api/auth/', include('authentication.urls')),
-    path('api/auth-social/', include(('social_auth.urls', 'social_auth'), namespace="social_auth"))
+    path('doc/', include_docs_urls(title='LemkaApi', description='API for the Lemka.dev'), name='lemka-docs'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('api/', include('lemka.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
